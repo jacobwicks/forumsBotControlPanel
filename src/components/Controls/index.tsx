@@ -3,7 +3,12 @@ import { Button, Input, Message } from 'semantic-ui-react';
 import { BotContext } from '../../services/BotContext';
 import { BotActionTypes } from '../../types';
 
-//next: Add interval, setInterval Input, increase/decrease interval, interval in hrs?
+//add what the bot is doing right now
+//waiting,
+//scanning threads - threadId#
+//processing instructions
+//posting - postAction
+
 const Controls = () => {
     const { dispatch, interval, running } = useContext(BotContext);
 

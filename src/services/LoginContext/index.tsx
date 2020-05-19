@@ -1,5 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import { Action } from '../../types';
+import { creds } from '../../config.json';
+import { login } from '../Api';
+
 //The Dispatch function
 interface LoginDispatch {
     dispatch: (action: Action) => void;
@@ -23,10 +26,12 @@ export type LoginState = LoginType & LoginDispatch;
 let reducer = (state: LoginState, action: Action) => {
     switch (action.type) {
         case 'login': {
+            const { password } = action;
+
             return {
                 ...state,
                 loggingIn: false,
-                isLoggedIn: true,
+                isLoggedIn: password === creds.password,
             };
         }
         case 'logout': {

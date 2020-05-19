@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Header, Icon, Menu } from 'semantic-ui-react';
-import { botName } from '../../config.json';
+//import { botName } from '../../config.json';
 import { LoginContext } from '../../services/LoginContext';
 import LoginModal from '../LoginModal';
+import { getBotName } from '../../services/Api';
 
 const ControlPanelLink = () => {
     const { dispatch } = useContext(LoginContext);
@@ -16,9 +17,22 @@ const ControlPanelLink = () => {
     );
 };
 
-const Title = () => (
-    <Header size="large" content={`${botName}, an SA Forums Bot`} />
-);
+const Title = () => {
+    const [botName, setBotName] = useState('');
+
+    useEffect(() => {
+        if (!botName) {
+            _getBotName();
+        }
+    }, [botName]);
+
+    const _getBotName = async () => {
+        const botName = await getBotName();
+        setBotName(botName);
+    };
+
+    return <Header size="large" content={`${botName}, an SA Forums Bot`} />;
+};
 
 const menuItems = [
     <ControlPanelLink />,
