@@ -4,10 +4,18 @@ const apiUrl = 'http://localhost:3001/';
 
 export const getBotName = async () => {
     const route = 'botName';
-    const botNameUrl = `${apiUrl}${route}`;
-    const res = await fetch(botNameUrl);
-    const { botName } = await res.json();
+    const url = `${apiUrl}${route}`;
+    const res = await fetch(url);
+    const botName = (await res.json())?.botName;
     return botName;
+};
+
+export const getControls = async () => {
+    const route = 'controls';
+    const url = `${apiUrl}${route}`;
+    const res = await fetch(url);
+    const controls = await res.json();
+    return controls;
 };
 
 export const login = async ({
@@ -18,7 +26,12 @@ export const login = async ({
     password: string;
 }) => {
     const route = 'login';
-    const loginUrl = `${apiUrl}${login}`;
+    const loginUrl = `${apiUrl}${route}`;
+
+    const body = JSON.stringify({
+        userName,
+        password,
+    });
 
     const options = {
         //it's a post request
@@ -29,7 +42,7 @@ export const login = async ({
             'Content-Type': 'application/json',
         },
 
-        body: JSON.stringify({ userName, password }),
+        body,
     };
 
     console.log(options);
