@@ -5,6 +5,7 @@ import { LoginContext } from '../../services/LoginContext';
 import LoginModal from '../LoginModal';
 import { getBotName } from '../../services/Api';
 import { LoginActionTypes } from '../../types';
+import { BotContext } from '../../services/BotContext';
 
 const ControlPanelLink = () => {
     const { dispatch } = useContext(LoginContext);
@@ -19,17 +20,25 @@ const ControlPanelLink = () => {
 };
 
 const Title = () => {
+    const { fetching, settings } = useContext(BotContext);
     const [botName, setBotName] = useState('');
+    const [botNameFetching, setBotNameFetching] = useState(false);
+    const [hasFailed, setHasFailed] = useState(false);
 
     useEffect(() => {
-        if (!botName) {
+        if (settings) {
+            setBotName(settings.botName);
+        } else if (!botName && !fetching && !botNameFetching && !hasFailed) {
             _getBotName();
         }
-    }, [botName]);
+    }, [botName, fetching, botNameFetching, hasFailed, settings]);
 
     const _getBotName = async () => {
+        setBotNameFetching(true);
         const botName = await getBotName();
-        setBotName(botName);
+        setBotNameFetching(false);
+
+        botName ? setBotName(botName) : setHasFailed(true);
     };
 
     return <Header size="large" content={`${botName}, an SA Forums Bot`} />;

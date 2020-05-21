@@ -50,6 +50,7 @@ interface BotDispatch {
 }
 
 export interface BotSettings {
+    botName: string;
     interval: number;
     running: boolean;
 }

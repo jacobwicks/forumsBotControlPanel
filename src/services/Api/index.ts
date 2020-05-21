@@ -1,7 +1,23 @@
 import fetch, { Response } from 'node-fetch';
 import { BotAction, BotActionTypes, BotSettings } from '../../types';
+import { getHeaders } from './services/Headers';
 
 export const apiUrl = 'http://localhost:3001/api/v1/';
+
+const authFetch = (url: string, post?: boolean, body?: string) => {
+    //wtf typescript https://stackoverflow.com/questions/47754183/typescript-cannot-add-headers-to-a-fetch-api-using-react-native
+    const headers: any = getHeaders();
+    if (headers) {
+        const options = {
+            method: post ? 'POST' : 'GET',
+            headers,
+        };
+        //@ts-ignore
+        body && (options.body = body);
+
+        return fetch(url, options);
+    }
+};
 
 export const getBotName = async () => {
     const route = 'botName';
@@ -11,7 +27,8 @@ export const getBotName = async () => {
     return botName;
 };
 
-const expectJSON = async (responsePromise: Promise<Response>) => {
+const expectJSON = async (responsePromise: Promise<Response> | undefined) => {
+    if (!responsePromise) return undefined;
     const response = await responsePromise;
     try {
         const json = await response.json();
@@ -21,10 +38,11 @@ const expectJSON = async (responsePromise: Promise<Response>) => {
     }
 };
 
+//gets the current settings for the bot
 export const getSettings = async () => {
     const route = 'settings';
     const url = `${apiUrl}${route}`;
-    const response = await expectJSON(fetch(url));
+    const response = await expectJSON(authFetch(url));
     const settings: BotSettings | undefined = response?.settings;
     return settings;
 };
@@ -36,4 +54,4 @@ export const loadSettings = async (dispatch: React.Dispatch<BotAction>) => {
         dispatch({ type: BotActionTypes.fetchSettingsSuccess, settings });
     } else dispatch({ type: BotActionTypes.fetchSettingsFailure });
 };
-export { default as login } from './Login';
+export { default as login } from './services/Login';

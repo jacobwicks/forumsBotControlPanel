@@ -1,5 +1,5 @@
-import { apiUrl } from '../index';
-import { LoginAction, LoginActionTypes } from '../../../types';
+import { apiUrl } from '../../index';
+import { LoginAction, LoginActionTypes } from '../../../../types';
 
 const login = async ({
     dispatch,
