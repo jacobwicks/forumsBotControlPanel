@@ -3,7 +3,7 @@ import { Tab } from 'semantic-ui-react';
 import ApiKeys from '../ApiKeys';
 import SACredentials from '../SACredentials';
 import Albums from '../Albums';
-import Controls from '../Controls';
+import Settings from '../Settings';
 
 // edit the config.json file that the bot accesses
 // input api keys and secrets to config.json file
@@ -23,10 +23,10 @@ import Controls from '../Controls';
 
 const tabs = [
     {
-        menuItem: 'Controls',
+        menuItem: 'Settings',
         render: () => (
             <Tab.Pane>
-                <Controls />
+                <Settings />
             </Tab.Pane>
         ),
     },

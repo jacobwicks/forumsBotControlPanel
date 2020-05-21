@@ -1,5 +1,8 @@
 import React from 'react';
-import { albums } from '../../config.json';
+
+const albums = {
+    a: 'foo',
+};
 
 const Albums = () => (
     <div>

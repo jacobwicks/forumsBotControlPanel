@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react';
 import { Button, Icon, Input, Header, Modal } from 'semantic-ui-react';
 import { LoginContext } from '../../services/LoginContext';
 import { login } from '../../services/Api';
+import { LoginActionTypes } from '../../types';
 
 const LoginModal = () => {
-    const { loggingIn: open, dispatch } = useContext(LoginContext);
+    const { modalOpen, loggingIn, dispatch } = useContext(LoginContext);
     const [password, setPassword] = useState('');
     return (
-        <Modal open={open}>
+        <Modal open={modalOpen}>
             <Header icon="lock" content="Login to see controls" />
             <Modal.Content>
                 <Input
@@ -21,16 +22,20 @@ const LoginModal = () => {
                 <Button
                     basic
                     color="red"
-                    onClick={() => dispatch({ type: 'logout' })}
+                    onClick={() => dispatch({ type: LoginActionTypes.logout })}
                 >
                     <Icon name="remove" /> No
                 </Button>
-                <Button
-                    color="green"
-                    onClick={() => login({ userName: 'whatever', password })}
-                >
-                    <Icon name="checkmark" /> Yes
-                </Button>
+                {loggingIn ? (
+                    <Button color="green" loading />
+                ) : (
+                    <Button
+                        color="green"
+                        onClick={() => login({ dispatch, password })}
+                    >
+                        <Icon name="checkmark" /> Yes
+                    </Button>
+                )}
             </Modal.Actions>
         </Modal>
     );

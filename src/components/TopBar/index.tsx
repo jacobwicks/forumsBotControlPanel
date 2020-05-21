@@ -4,6 +4,7 @@ import { Header, Icon, Menu } from 'semantic-ui-react';
 import { LoginContext } from '../../services/LoginContext';
 import LoginModal from '../LoginModal';
 import { getBotName } from '../../services/Api';
+import { LoginActionTypes } from '../../types';
 
 const ControlPanelLink = () => {
     const { dispatch } = useContext(LoginContext);
@@ -11,7 +12,7 @@ const ControlPanelLink = () => {
         <Icon
             name="setting"
             link
-            onClick={() => dispatch({ type: 'openLoginModal' })}
+            onClick={() => dispatch({ type: LoginActionTypes.openModal })}
             size="large"
         />
     );

@@ -1,16 +1,13 @@
 import React, { createContext, useReducer } from 'react';
 import { Action } from '../../types';
 import log from '../Log';
-import { interval } from '../../config.json';
-import { BotAction, BotState } from '../../types';
+import { BotAction, BotSettings, BotState } from '../../types';
 
 export const initialState = {
-    running: false,
+    fetching: false,
+    hasFailed: false,
+    settings: undefined,
     dispatch: (action: Action) => undefined,
-
-    //if the interval imported from config is a number, use it
-    //otherwise set to 5
-    interval: typeof interval === 'number' ? interval : 5,
 } as BotState;
 
 //don't accept less than 2
@@ -22,43 +19,78 @@ export const reducer = (state: BotState, action: BotAction) => {
     switch (action.type) {
         //drops interval by 1 minute
         case 'decreaseInterval': {
-            const { interval } = state;
-            const newInterval = getNewInterval(state.interval - 1);
+            if (state.settings) {
+                const settings = { ...state.settings };
+                const { interval } = settings;
 
-            return {
-                ...state,
-                interval: newInterval ? newInterval : interval,
-            };
+                const newInterval = getNewInterval(interval - 1);
+                settings.interval = newInterval ? newInterval : interval;
+
+                return {
+                    ...state,
+                    settings,
+                };
+            } else return state;
         }
 
         //increases interval by 1 minute
         case 'increaseInterval': {
-            const { interval } = state;
-            const newInterval = getNewInterval(state.interval + 1);
+            if (state.settings) {
+                const settings: BotSettings = { ...state.settings };
+                const { interval } = settings;
 
+                const newInterval = getNewInterval(interval + 1);
+
+                settings.interval = newInterval ? newInterval : interval;
+                return {
+                    ...state,
+                    interval: newInterval ? newInterval : interval,
+                };
+            } else return state;
+        }
+        case 'fetchSettingsAttempt': {
             return {
                 ...state,
-                interval: newInterval ? newInterval : interval,
+                hasFailed: false,
+                fetching: true,
+                settings: undefined,
             };
         }
-
+        case 'fetchSettingsFailure': {
+            return {
+                ...state,
+                hasFailed: true,
+                fetching: false,
+                settings: undefined,
+            };
+        }
+        case 'fetchSettingsSuccess': {
+            const { settings } = action;
+            return {
+                ...state,
+                hasFailed: false,
+                fetching: false,
+                settings,
+            };
+        }
         //sets the bot to run every interval in minutes
         case 'setInterval': {
             const { interval } = action;
             const newInterval = getNewInterval(interval);
-
-            return {
-                ...state,
-                interval: newInterval ? newInterval : state.interval,
-            };
+            return state;
+            // return {
+            //     ...state,
+            //     interval: newInterval ? newInterval : state.interval,
+            // };
         }
 
         //starts the bot running with current settings
         case 'start': {
-            return {
-                ...state,
-                running: true,
-            };
+            return state;
+            // return {
+            //     ...state,
+            //     running: true,
+            // };
         }
 
         //stops the bot if it is currently running

@@ -1,7 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { Action } from '../../types';
-import { creds } from '../../config.json';
-import { login } from '../Api';
+import { Action, LoginAction } from '../../types';
 
 //The Dispatch function
 interface LoginDispatch {
@@ -11,11 +9,13 @@ interface LoginDispatch {
 interface LoginType {
     isLoggedIn: boolean;
     loggingIn: boolean;
+    modalOpen: boolean;
 }
 
 const initialState = {
     isLoggedIn: false,
     loggingIn: false,
+    modalOpen: false,
     dispatch: (action: Action) => undefined,
 } as LoginState;
 
@@ -23,15 +23,22 @@ const initialState = {
 //except dispatch will return the LoggedInDispatch function
 export type LoginState = LoginType & LoginDispatch;
 
-let reducer = (state: LoginState, action: Action) => {
+let reducer = (state: LoginState, action: LoginAction) => {
     switch (action.type) {
-        case 'login': {
-            const { password } = action;
+        case 'attempt': {
+            //const { password } = action;
 
             return {
                 ...state,
+                loggingIn: true,
+                isLoggedIn: false,
+            };
+        }
+        case 'failure': {
+            return {
+                ...state,
                 loggingIn: false,
-                isLoggedIn: password === creds.password,
+                isLoggedIn: false,
             };
         }
         case 'logout': {
@@ -41,20 +48,25 @@ let reducer = (state: LoginState, action: Action) => {
                 isLoggedIn: false,
             };
         }
-        case 'openLoginModal': {
+        case 'openModal': {
             return {
                 ...state,
-                loggingIn: true,
+                modalOpen: true,
             };
         }
-        case 'toggle': {
+        case 'success': {
             return {
                 ...state,
-                isLoggedIn: !state.isLoggedIn,
+                loggingIn: false,
+                isLoggedIn: true,
+                modalOpen: false,
             };
         }
-        default:
-            throw new Error();
+        default: {
+            console.log(`loginContext default`, action);
+            //throw new Error();
+            return state;
+        }
     }
 };
 

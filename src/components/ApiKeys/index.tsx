@@ -1,6 +1,6 @@
 import React from 'react';
-import { apiKeys } from '../../config.json';
 
+const apiKeys = {};
 const ApiKeys = () => (
     <div>
         {Object.keys(apiKeys).map((apiKey: string, index) => (

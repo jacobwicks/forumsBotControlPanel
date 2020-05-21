@@ -1,5 +1,9 @@
 import React from 'react';
-import { creds } from '../../config.json';
+
+const creds = {
+    username: 'placeholder',
+    password: 'placeholder',
+};
 
 const SACredentials = () => (
     <div>

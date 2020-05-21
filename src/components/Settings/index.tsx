@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Input, Message } from 'semantic-ui-react';
 import { BotContext } from '../../services/BotContext';
 import { BotActionTypes } from '../../types';
+import { getSettings, loadSettings } from '../../services/Api';
 
 //add what the bot is doing right now
 //waiting,
@@ -9,8 +10,16 @@ import { BotActionTypes } from '../../types';
 //processing instructions
 //posting - postAction
 
-const Controls = () => {
-    const { dispatch, interval, running } = useContext(BotContext);
+const Settings = () => {
+    const { dispatch, hasFailed, fetching, settings } = useContext(BotContext);
+    const { interval, running } = settings || {
+        interval: undefined,
+        running: undefined,
+    };
+
+    useEffect(() => {
+        !fetching && !hasFailed && !settings && loadSettings(dispatch);
+    }, [dispatch, fetching, hasFailed, settings, loadSettings]);
 
     return (
         <div>
@@ -65,4 +74,4 @@ const Controls = () => {
     );
 };
 
-export default Controls;
+export default Settings;
