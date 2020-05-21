@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Button, Input, Message } from 'semantic-ui-react';
 import { BotContext } from '../../services/BotContext';
 import { BotActionTypes } from '../../types';
-import { getSettings, loadSettings } from '../../services/Api';
+import { loadSettings } from '../../services/Api';
 
 //add what the bot is doing right now
 //waiting,

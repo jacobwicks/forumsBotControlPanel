@@ -3,6 +3,71 @@ export interface Action {
     [key: string]: any;
 }
 
+export interface Album {
+    description: string;
+    hash: string;
+    status: boolean;
+}
+
+export interface Albums {
+    [key: string]: Album;
+}
+
+export enum AlbumsActionTypes {
+    approve = 'approve',
+    createNew = 'createNew',
+    deleteAlbum = 'deleteAlbum',
+    fetchAlbumsAttempt = 'fetchAlbumsAttempt',
+    fetchAlbumsFailure = 'fetchAlbumsFailure',
+    fetchAlbumsSuccess = 'fetchAlbumsSuccess',
+    reject = 'reject',
+    report = 'report',
+    removeImage = 'removeImage',
+}
+
+export type AlbumsAction =
+    //approves adding an image to an album
+    | { type: AlbumsActionTypes.approve }
+
+    //create a new album. user must provide the hash
+    | { type: AlbumsActionTypes.createNew }
+
+    //delete an album. From the bot? or from imgur altogether?
+    | { type: AlbumsActionTypes.deleteAlbum }
+
+    //trying to fetch the albums
+    | { type: AlbumsActionTypes.fetchAlbumsAttempt }
+
+    //failed to fetch the albums
+    | { type: AlbumsActionTypes.fetchAlbumsFailure }
+
+    //got the albums from the api
+    | { type: AlbumsActionTypes.fetchAlbumsSuccess; albums: Albums }
+
+    //reject adding an image to an album
+    | { type: AlbumsActionTypes.reject }
+
+    //remove an image from an album
+    | { type: AlbumsActionTypes.removeImage }
+
+    //the image is obscene or illegal
+    | { type: AlbumsActionTypes.report };
+
+//The Dispatch function
+interface AlbumsDispatch {
+    dispatch: (action: AlbumsAction) => void;
+}
+
+interface AlbumsType {
+    albums?: Albums;
+    fetching: boolean;
+    hasFailed: boolean;
+}
+
+//a union type. The Albums state will have a Stats object for any given key
+//except dispatch will return the LoggedInDispatch function
+export type AlbumsState = AlbumsType & AlbumsDispatch;
+
 //the types of action that the reducer in BotContext will handle
 export enum BotActionTypes {
     decreaseInterval = 'decreaseInterval',
@@ -46,7 +111,7 @@ export type BotAction =
 
 //The Dispatch function
 interface BotDispatch {
-    dispatch: (action: Action) => void;
+    dispatch: (action: BotAction) => void;
 }
 
 export interface BotSettings {

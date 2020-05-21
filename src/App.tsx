@@ -4,8 +4,8 @@ import TopBar from './components/TopBar';
 import ControlPanel from './components/ControlPanel';
 import { Container } from 'semantic-ui-react';
 import Instructions from './components/Instructions';
-import { LoginContext, LoginProvider } from './services/LoginContext';
-import { BotProvider } from './services/BotContext';
+import { LoginContext } from './services/LoginContext';
+import Providers from './components/Providers';
 
 const App2 = () => {
     const { isLoggedIn } = useContext(LoginContext);
@@ -21,10 +21,8 @@ const App2 = () => {
 };
 
 const App = () => (
-    <LoginProvider>
-        <BotProvider>
-            <App2 />
-        </BotProvider>
-    </LoginProvider>
+    <Providers>
+        <App2 />
+    </Providers>
 );
 export default App;
