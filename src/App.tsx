@@ -21,11 +21,7 @@ const App2 = () => {
             const route = 'authenticate';
             const url = `${apiUrl}${route}`;
             const response = await authFetch(url);
-            console.log(response);
-            //@ts-ignore
-            console.log(response.status);
             const status = response?.status;
-            console.log(status);
             status === 200 && dispatch({ type: LoginActionTypes.success });
         }
     };
