@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Button, Input, Message } from 'semantic-ui-react';
 import { BotContext } from '../../services/BotContext';
-import { BotActionTypes } from '../../types';
+import { BotActionTypes, BotFetchKeys } from '../../types';
 import { loadSettings } from '../../services/Api';
 
 //add what the bot is doing right now
@@ -18,7 +18,10 @@ const Settings = () => {
     };
 
     useEffect(() => {
-        !fetching && !hasFailed && !settings && loadSettings(dispatch);
+        !fetching.includes(BotFetchKeys.settings) &&
+            !hasFailed.includes(BotFetchKeys.settings) &&
+            !settings &&
+            loadSettings(dispatch);
     }, [dispatch, fetching, hasFailed, settings, loadSettings]);
 
     return (

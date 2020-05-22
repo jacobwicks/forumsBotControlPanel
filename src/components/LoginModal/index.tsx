@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Button, Icon, Input, Header, Modal } from 'semantic-ui-react';
 import { LoginContext } from '../../services/LoginContext';
-import { login } from '../../services/Api';
-import { LoginActionTypes } from '../../types';
+import { login, logout } from '../../services/Api';
 
 const LoginModal = () => {
     const { modalOpen, loggingIn, dispatch } = useContext(LoginContext);
@@ -19,11 +18,7 @@ const LoginModal = () => {
                 />
             </Modal.Content>
             <Modal.Actions>
-                <Button
-                    basic
-                    color="red"
-                    onClick={() => dispatch({ type: LoginActionTypes.logout })}
-                >
+                <Button basic color="red" onClick={() => logout(dispatch)}>
                     <Icon name="remove" /> No
                 </Button>
                 {loggingIn ? (

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Tab } from 'semantic-ui-react';
-import ApiKeys from '../ApiKeys';
+import APIs from '../APIs';
 import SACredentials from '../SACredentials';
 import Albums from '../Albums';
 import Settings from '../Settings';
@@ -35,7 +35,7 @@ const tabs = [
         render: () => (
             <Tab.Pane>
                 Click on an Api to edit its keys and secrets
-                <ApiKeys />
+                <APIs />
             </Tab.Pane>
         ),
     },

@@ -4,8 +4,9 @@ import log from '../Log';
 import { BotAction, BotSettings, BotState } from '../../types';
 
 export const initialState = {
-    fetching: false,
-    hasFailed: false,
+    APIs: undefined,
+    fetching: [],
+    hasFailed: [],
     settings: undefined,
     dispatch: (action: Action) => undefined,
 } as BotState;
@@ -48,29 +49,32 @@ export const reducer = (state: BotState, action: BotAction) => {
                 };
             } else return state;
         }
-        case 'fetchSettingsAttempt': {
+        case 'fetchAttempt': {
+            const { key } = action;
+
             return {
                 ...state,
-                hasFailed: false,
-                fetching: true,
-                settings: undefined,
+                hasFailed: state.hasFailed.filter((failed) => failed !== key),
+                fetching: [...state.fetching, key],
+                [key]: undefined,
             };
         }
-        case 'fetchSettingsFailure': {
+        case 'fetchFailure': {
+            const { key } = action;
             return {
                 ...state,
-                hasFailed: true,
-                fetching: false,
-                settings: undefined,
+                hasFailed: [...state.hasFailed, key],
+                fetching: state.fetching.filter((f) => f !== key),
+                [key]: undefined,
             };
         }
-        case 'fetchSettingsSuccess': {
-            const { settings } = action;
+        case 'fetchSuccess': {
+            const { content, key } = action;
             return {
                 ...state,
-                hasFailed: false,
-                fetching: false,
-                settings,
+                hasFailed: state.hasFailed.filter((failed) => failed !== key),
+                fetching: state.fetching.filter((f) => f !== key),
+                [key]: content,
             };
         }
         //sets the bot to run every interval in minutes

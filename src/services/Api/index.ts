@@ -14,3 +14,4 @@ export const getBotName = async () => {
 
 export { default as loadSettings } from './services/BotSettings';
 export { default as login } from './services/Login';
+export { default as logout } from './services/Logout';

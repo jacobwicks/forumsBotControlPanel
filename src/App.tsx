@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './App.css';
 import TopBar from './components/TopBar';
 import ControlPanel from './components/ControlPanel';
@@ -6,9 +6,36 @@ import { Container } from 'semantic-ui-react';
 import Instructions from './components/Instructions';
 import { LoginContext } from './services/LoginContext';
 import Providers from './components/Providers';
+import { getHeaders } from './services/Api/services/Headers';
+import { apiUrl } from './services/Api';
+import authFetch from './services/Api/services/AuthFetch';
+import { LoginActionTypes } from './types';
 
 const App2 = () => {
-    const { isLoggedIn } = useContext(LoginContext);
+    const { isLoggedIn, dispatch } = useContext(LoginContext);
+    const [hasMounted, setHasMounted] = useState(false);
+
+    const checkToken = async () => {
+        const token = getHeaders();
+        if (token) {
+            const route = 'authenticate';
+            const url = `${apiUrl}${route}`;
+            const response = await authFetch(url);
+            console.log(response);
+            //@ts-ignore
+            console.log(response.status);
+            const status = response?.status;
+            console.log(status);
+            status === 200 && dispatch({ type: LoginActionTypes.success });
+        }
+    };
+
+    useEffect(() => {
+        if (!hasMounted) {
+            setHasMounted(true);
+            checkToken();
+        }
+    }, [hasMounted, setHasMounted, checkToken]);
 
     return (
         <React.Fragment>

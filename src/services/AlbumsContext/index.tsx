@@ -7,6 +7,7 @@ export const initialState = {
     albums: undefined,
     fetching: false,
     hasFailed: false,
+    imageQueue: undefined,
     dispatch: (action: Action) => undefined,
 } as AlbumsState;
 
@@ -17,6 +18,7 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
             return {
                 ...state,
                 albums: undefined,
+                imageQueue: undefined,
                 hasFailed: false,
                 fetching: true,
             };
@@ -25,15 +27,17 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
             return {
                 ...state,
                 albums: undefined,
+                imageQueue: undefined,
                 hasFailed: true,
                 fetching: false,
             };
         }
         case 'fetchAlbumsSuccess': {
-            const { albums } = action;
+            const { albums, imageQueue } = action;
             return {
                 ...state,
                 albums,
+                imageQueue,
                 hasFailed: false,
                 fetching: false,
             };

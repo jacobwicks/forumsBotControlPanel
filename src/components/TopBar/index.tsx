@@ -4,13 +4,23 @@ import { Header, Icon, Menu } from 'semantic-ui-react';
 import { LoginContext } from '../../services/LoginContext';
 import LoginModal from '../LoginModal';
 import { getBotName } from '../../services/Api';
-import { LoginActionTypes } from '../../types';
+import { LoginActionTypes, BotFetchKeys } from '../../types';
 import { BotContext } from '../../services/BotContext';
+import { logout } from '../../services/Api/';
 
 const ControlPanelLink = () => {
-    const { dispatch } = useContext(LoginContext);
-    return (
+    const { dispatch, isLoggedIn } = useContext(LoginContext);
+    return isLoggedIn ? (
         <Icon
+            title="Bot Instructions Page"
+            name="file outline"
+            link
+            onClick={() => logout(dispatch)}
+            size="large"
+        />
+    ) : (
+        <Icon
+            title="Bot Control Panel"
             name="setting"
             link
             onClick={() => dispatch({ type: LoginActionTypes.openModal })}
@@ -28,7 +38,12 @@ const Title = () => {
     useEffect(() => {
         if (settings) {
             setBotName(settings.botName);
-        } else if (!botName && !fetching && !botNameFetching && !hasFailed) {
+        } else if (
+            !botName &&
+            !fetching.includes(BotFetchKeys.settings) &&
+            !botNameFetching &&
+            !hasFailed
+        ) {
             _getBotName();
         }
     }, [botName, fetching, botNameFetching, hasFailed, settings]);

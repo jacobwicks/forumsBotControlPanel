@@ -1,5 +1,7 @@
+import { getToken } from '../Token';
+
 export const getHeaders = () => {
-    const token = localStorage.getItem('token');
+    const token = getToken();
     return token
         ? new Headers({
               Authorization: 'Bearer ' + token,

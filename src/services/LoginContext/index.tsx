@@ -46,6 +46,7 @@ let reducer = (state: LoginState, action: LoginAction) => {
                 ...state,
                 loggingIn: false,
                 isLoggedIn: false,
+                modalOpen: false,
             };
         }
         case 'openModal': {

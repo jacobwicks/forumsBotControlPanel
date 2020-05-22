@@ -1,5 +1,7 @@
 import { apiUrl } from '../../index';
 import { LoginAction, LoginActionTypes } from '../../../../types';
+import { saveToken } from '../Token';
+import expectJSON from '../ExpectJSON';
 
 const login = async ({
     dispatch,
@@ -29,16 +31,11 @@ const login = async ({
         body,
     };
 
-    const res = await fetch(loginUrl, options);
-    const json = await res.json();
-    const { token } = json;
-
-    try {
-        localStorage.setItem('token', token);
-        dispatch({ type: LoginActionTypes.success });
-    } catch (err) {
-        console.error("couldn't store login token", err);
-    }
+    const res = await expectJSON(fetch(loginUrl, options));
+    const token = res?.token;
+    token && saveToken(token)
+        ? dispatch({ type: LoginActionTypes.success })
+        : dispatch({ type: LoginActionTypes.failure });
 };
 
 export default login;

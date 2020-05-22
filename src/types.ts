@@ -3,6 +3,22 @@ export interface Action {
     [key: string]: any;
 }
 
+enum APITypes {
+    access_token = 'access_token',
+    access_token_secret = 'access_token_secret',
+    bearerToken = 'bearerToken',
+    clientId = 'clientId',
+    clientSecret = 'clientSecret',
+    consumerKey = 'consumerKey',
+    consumerSecret = 'consumerSecret',
+}
+
+type API = { [A in APITypes]?: any };
+
+export interface APIs {
+    [key: string]: API;
+}
+
 export interface Album {
     description: string;
     hash: string;
@@ -42,7 +58,11 @@ export type AlbumsAction =
     | { type: AlbumsActionTypes.fetchAlbumsFailure }
 
     //got the albums from the api
-    | { type: AlbumsActionTypes.fetchAlbumsSuccess; albums: Albums }
+    | {
+          type: AlbumsActionTypes.fetchAlbumsSuccess;
+          albums: Albums;
+          imageQueue?: ReviewImage[];
+      }
 
     //reject adding an image to an album
     | { type: AlbumsActionTypes.reject }
@@ -58,8 +78,9 @@ interface AlbumsDispatch {
     dispatch: (action: AlbumsAction) => void;
 }
 
-interface AlbumsType {
+export interface AlbumsType {
     albums?: Albums;
+    imageQueue?: ReviewImage[];
     fetching: boolean;
     hasFailed: boolean;
 }
@@ -72,15 +93,19 @@ export type AlbumsState = AlbumsType & AlbumsDispatch;
 export enum BotActionTypes {
     decreaseInterval = 'decreaseInterval',
     increaseInterval = 'increaseInterval',
-    fetchSettingsAttempt = 'fetchSettingsAttempt',
-    fetchSettingsFailure = 'fetchSettingsFailure',
-    fetchSettingsSuccess = 'fetchSettingsSuccess',
+    fetchAttempt = 'fetchAttempt',
+    fetchFailure = 'fetchFailure',
+    fetchSuccess = 'fetchSuccess',
     runOnce = 'runOnce',
     setInterval = 'setInterval',
     start = 'start',
     stop = 'stop',
 }
 
+export enum BotFetchKeys {
+    APIs = 'APIs',
+    settings = 'settings',
+}
 export type BotAction =
     //decreases the run interval
     | { type: BotActionTypes.decreaseInterval }
@@ -88,14 +113,18 @@ export type BotAction =
     //increases the run interval
     | { type: BotActionTypes.increaseInterval }
 
-    //attempting to fetch the settings from the api
-    | { type: BotActionTypes.fetchSettingsAttempt }
+    //attempting to fetch something from the api
+    | { type: BotActionTypes.fetchAttempt; key: BotFetchKeys }
 
-    //fetching the settings failed
-    | { type: BotActionTypes.fetchSettingsFailure }
+    //fetching failed
+    | { type: BotActionTypes.fetchFailure; key: BotFetchKeys }
 
-    //load settings received from API into context
-    | { type: BotActionTypes.fetchSettingsSuccess; settings: BotSettings }
+    //load APIs received from API into context
+    | {
+          type: BotActionTypes.fetchSuccess;
+          key: BotFetchKeys;
+          content: APIs | BotSettings;
+      }
 
     //runs the bot once with current settings, then stops the bot
     | { type: BotActionTypes.runOnce }
@@ -121,14 +150,30 @@ export interface BotSettings {
 }
 
 interface BotType {
-    fetching: boolean;
-    hasFailed: boolean;
+    APIs?: APIs;
+    fetching: string[];
+    hasFailed: string[];
     settings?: BotSettings;
 }
 
 //a union type. The LoggedIn state will have a Stats object for any given key
 //except dispatch will return the LoggedInDispatch function
 export type BotState = BotType & BotDispatch;
+
+//the possible states of an image submitted to be added to an album
+export enum ImageReviewStatus {
+    //not reviewed yet
+    pending = 'PENDING',
+
+    //accepted into the album
+    accepted = 'ACCEPTED',
+
+    //rejected from the album
+    rejected = 'REJECTED',
+
+    //image is obscene or illegal
+    reported = 'REPORTED',
+}
 
 //the types of action that the reducer in BotContext will handle
 export enum LoginActionTypes {
@@ -148,7 +193,20 @@ export type LoginAction =
 
     //user logs out
     | { type: LoginActionTypes.logout }
+
+    //the login modal is open or not
     | { type: LoginActionTypes.openModal }
+
     //login attempt succeeded
     //token has been stored in localStorage
     | { type: LoginActionTypes.success };
+
+export interface ReviewImage {
+    album: string;
+    image: string;
+    submittedAt: Date;
+    submittedById: number;
+    submittedByName: string;
+    submittedByAvatar: string;
+    status: ImageReviewStatus;
+}
