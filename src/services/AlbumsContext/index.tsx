@@ -13,6 +13,7 @@ export const initialState = {
 
 //the reducer handles actions
 export const reducer = (state: AlbumsState, action: AlbumsAction) => {
+    console.log(`received action`, action);
     switch (action.type) {
         case 'fetchAlbumsAttempt': {
             return {
@@ -40,6 +41,36 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
                 imageQueue,
                 hasFailed: false,
                 fetching: false,
+            };
+        }
+        case 'setDescription': {
+            const { album, value } = action;
+            const { albums } = state;
+            if (!albums) return state;
+            const newAlbum = { ...albums[album] };
+            newAlbum.description = value;
+
+            return {
+                ...state,
+                albums: {
+                    ...albums,
+                    [album]: newAlbum,
+                },
+            };
+        }
+        case 'setHash': {
+            const { album, hash } = action;
+            const { albums } = state;
+            if (!albums) return state;
+            const newAlbum = { ...albums[album] };
+            newAlbum.hash = hash;
+
+            return {
+                ...state,
+                albums: {
+                    ...albums,
+                    [album]: newAlbum,
+                },
             };
         }
         default:

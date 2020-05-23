@@ -12,6 +12,7 @@ const authFetch = (url: string, post?: boolean, body?: string) => {
         //@ts-ignore
         body && (options.body = body);
 
+        console.log(`fetch options`, options);
         return fetch(url, options);
     }
 };

@@ -7,6 +7,7 @@ export const initialState = {
     APIs: undefined,
     fetching: [],
     hasFailed: [],
+    pending: [],
     settings: undefined,
     dispatch: (action: Action) => undefined,
 } as BotState;
@@ -87,7 +88,6 @@ export const reducer = (state: BotState, action: BotAction) => {
             //     interval: newInterval ? newInterval : state.interval,
             // };
         }
-
         //starts the bot running with current settings
         case 'start': {
             return state;

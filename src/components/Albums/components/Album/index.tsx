@@ -9,6 +9,32 @@ import {
     Input,
     Loader,
 } from 'semantic-ui-react';
+import EditableInput from '../../../EditableInput';
+import { AlbumsActionTypes, AlbumsAction } from '../../../../types';
+
+// Flow for e.g. album active status checkbox
+
+// status is assigned in config.json
+// control panel asks api for albums
+// api reads config, sends to cpanel
+// cpanel loads data into albums context
+// component loads data, displays checkbox
+
+// user clicks checkbox
+// checkbox calls a value setting function
+// value setting function
+// 1. dispatches attempt action to albumscontext
+// 1a. context changes value pending receipt of success or failure
+// 2. calls setValue
+// 	setValue calls API
+// 	setValue returns true or false to value setting function
+// 3. value setting function receives true or false
+// 4. if true, value setting function dispatched success to context
+// If true, we are done. maybe show a success message?
+
+// 5. if false, value setting function dispatches failure to context
+// 6. context reverts the value
+// 7. Maybe show a failed toast?
 
 const AlbumProperty = ({
     keyName,
@@ -57,8 +83,43 @@ const AlbumProperty = ({
     );
 };
 
+const AlbumInput = ({
+    album,
+    type,
+    input,
+    value,
+}: {
+    album: string;
+    //the type of action to set the input value
+    type: AlbumsActionTypes;
+    //the input
+    input: string;
+    //the old value of the input
+    value: string;
+}) => {
+    const { dispatch } = useContext(AlbumsContext);
+    const configKeys = ['albums', album];
+
+    return (
+        <EditableInput
+            configKeys={configKeys}
+            dispatch={dispatch}
+            dispatchBefore={[{ type, album } as any]}
+            dispatchOnFailure={[
+                {
+                    type,
+                    album,
+                    value,
+                } as any,
+            ]}
+            input={input}
+            value={value}
+        />
+    );
+};
+
 const Album = ({ album }: { album: string }) => {
-    const { albums, imageQueue } = useContext(AlbumsContext);
+    const { albums, dispatch, imageQueue } = useContext(AlbumsContext);
     //albums isn't necessarily loaded
     if (!albums)
         return (
@@ -78,13 +139,20 @@ const Album = ({ album }: { album: string }) => {
     return (
         <div>
             <Header>{album}</Header>
-            <AlbumProperty
-                keyName={'description'}
+            <AlbumInput
+                album={album}
+                input="description"
+                type={AlbumsActionTypes.setDescription}
                 value={thisAlbum.description}
             />
             <br />
             <br />
-            <AlbumProperty keyName={'hash'} value={thisAlbum.hash} />
+            <AlbumInput
+                album={album}
+                input="hash"
+                type={AlbumsActionTypes.setHash}
+                value={thisAlbum.hash}
+            />
             <br />
             <br />
             <AlbumProperty
@@ -100,3 +168,22 @@ const Album = ({ album }: { album: string }) => {
 };
 
 export default Album;
+
+{
+    /* <EditableInput
+configKeys={configKeys}
+dispatch={dispatch}
+dispatchBefore={[
+    { type: AlbumsActionTypes.setHash, album } as any,
+]}
+dispatchOnFailure={[
+    {
+        type: AlbumsActionTypes.setHash,
+        album,
+        hash: thisAlbum.hash,
+    },
+]}
+input="hash"
+value={thisAlbum.hash}
+/> */
+}

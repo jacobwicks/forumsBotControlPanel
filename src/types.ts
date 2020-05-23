@@ -39,6 +39,8 @@ export enum AlbumsActionTypes {
     reject = 'reject',
     report = 'report',
     removeImage = 'removeImage',
+    setDescription = 'setDescription',
+    setHash = 'setHash',
 }
 
 export type AlbumsAction =
@@ -71,7 +73,17 @@ export type AlbumsAction =
     | { type: AlbumsActionTypes.removeImage }
 
     //the image is obscene or illegal
-    | { type: AlbumsActionTypes.report };
+    | { type: AlbumsActionTypes.report }
+
+    //sets the description of an album
+    | {
+          type: AlbumsActionTypes.setDescription;
+          album: string;
+          value: string;
+      }
+
+    //sets the hash of an album
+    | { type: AlbumsActionTypes.setHash; album: string; hash: string };
 
 //The Dispatch function
 interface AlbumsDispatch {
@@ -98,6 +110,9 @@ export enum BotActionTypes {
     fetchSuccess = 'fetchSuccess',
     runOnce = 'runOnce',
     setInterval = 'setInterval',
+    setValueAttempt = 'setValueAttempt',
+    setValueFailure = 'setValueFailure',
+    setValueSuccess = 'setValueSuccess',
     start = 'start',
     stop = 'stop',
 }
