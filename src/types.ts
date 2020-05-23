@@ -228,7 +228,7 @@ export type LoginAction =
 export interface ReviewImage {
     album: string;
     image: string;
-    submittedAt: Date;
+    submittedAt: string;
     submittedBy: SAUser;
     status: ImageReviewStatus;
 }

@@ -1,13 +1,30 @@
 import React, { useContext, useState } from 'react';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
-import {
-    Button,
-    Grid,
-    GridColumn,
-    Header,
-    Image,
-    Segment,
-} from 'semantic-ui-react';
+import { Button, Grid, Header, Image, Segment } from 'semantic-ui-react';
+
+export const getDate = (submittedDate: string) => {
+    submittedDate = new Date(submittedDate).toString();
+
+    //get the date
+    submittedDate = submittedDate.slice(0, submittedDate.length - 36);
+
+    //the minutes
+    const minutes = submittedDate.slice(-3);
+
+    let hours = submittedDate.slice(-5, -3);
+
+    //set am or pm
+    const amPm = Number(hours) > 11 ? 'PM' : 'AM';
+
+    //set hours
+    if (Number(hours) > 12) hours = (Number(hours) - 12).toString();
+    if (Number(hours) === 0) hours = '12';
+
+    //set the date
+    const date = submittedDate.slice(0, submittedDate.length - 5);
+
+    return `${date} ${hours} ${minutes} ${amPm}`;
+};
 
 const ImageReview = ({ album }: { album?: string }) => {
     const [qIndex, setQIndex] = useState(0);
@@ -53,16 +70,17 @@ const ImageReview = ({ album }: { album?: string }) => {
             {!!reviewImage && user && (
                 <div>
                     <Grid columns="2" divided>
-                        <GridColumn width="2">
+                        <Grid.Column width="2">
                             <Header h1 content={user.name} />
                             {user.regDate}
                             {user.avatar && <Image src={user.avatar} />}
                             {user.title}
-                        </GridColumn>
-
-                        <Image src={reviewImage.image} size="small" />
-                        {reviewImage.status}
-                        {reviewImage.submittedAt}
+                        </Grid.Column>
+                        <Grid.Column>
+                            <p>{getDate(reviewImage.submittedAt)}</p>
+                            <p>{reviewImage.status}</p>
+                            <Image src={reviewImage.image} size="small" />
+                        </Grid.Column>
                     </Grid>
                 </div>
             )}

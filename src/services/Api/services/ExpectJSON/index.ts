@@ -1,9 +1,9 @@
 //fetch that expects a JSON response
-const expectJSON = async (responsePromise: Promise<Response> | undefined) => {
+const expectJSON = async (responsePromise: Promise<Response | undefined>) => {
     if (!responsePromise) return undefined;
     const response = await responsePromise;
     try {
-        const json = await response.json();
+        const json = await response?.json();
         return json;
     } catch (err) {
         return undefined;

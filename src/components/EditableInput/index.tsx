@@ -20,7 +20,7 @@ const dispatchAll = ({
     actions,
 }: {
     dispatch: (action: AlbumsAction | BotAction) => void;
-    actions: [AlbumsAction | BotAction];
+    actions?: [AlbumsAction | BotAction];
 }) => dispatch && actions && actions.forEach((action) => dispatch(action));
 
 interface EditableInputProps {
@@ -32,7 +32,7 @@ interface EditableInputProps {
 
     //dispatch to the appropriate config
     dispatch: (action: any) => void;
-    //dispatch: (action: AlbumsAction | BotAction) => void;
+    //dispatch: React.Dispatch<AlbumsAction> | React.Dispatch<BotAction>;
 
     //dispatch an action before calling setValue
     dispatchBefore?: [AlbumsAction | BotAction];
@@ -71,29 +71,30 @@ const EditableInput = ({
 
     const handleBlur = async (value: string | boolean | number | undefined) => {
         setOpen(false);
+        console.log(`handling blur`, value);
 
         //if requested, dispatch the attempt to context
-        dispatchBefore &&
-            dispatchAll({
-                dispatch,
-                actions: dispatchBefore.map((action) => ({
-                    ...action,
-                    value: temp,
-                })) as any,
-            });
+        dispatchAll({
+            dispatch,
+            actions: dispatchBefore?.map((action) => ({
+                ...action,
+                //add the current value to the action
+                value,
+            })) as any,
+        });
 
         //call api to attempt changeValue
         const result = await setValue({
             configKeys: [...configKeys, input],
-            value: temp,
+            value,
         });
 
         result
-            ? //if value was set, dispatch success actions if any
-              dispatchOnSuccess &&
+            ? //if value was set, dispatch success actions
               dispatchAll({ dispatch, actions: dispatchOnSuccess })
             : //else dispatch failure actions
-              dispatchOnFailure &&
+              //normally, to reset value to prior value
+              //because change failed
               dispatchAll({ dispatch, actions: dispatchOnFailure });
     };
 
@@ -108,9 +109,7 @@ const EditableInput = ({
     const inputChild = (
         <Input
             onKeyPress={({ key }: { key: string }) => {
-                if (key === 'Enter') {
-                    !!temp && handleBlur(temp);
-                }
+                if (key === 'Enter') handleBlur(temp);
             }}
             value={temp}
             onChange={({ target }) => setTemp(target.value)}
@@ -125,9 +124,7 @@ const EditableInput = ({
         <Form>
             <TextArea
                 onKeyPress={({ key }: { key: string }) => {
-                    if (key === 'Enter') {
-                        !!temp && handleBlur(temp);
-                    }
+                    if (key === 'Enter') handleBlur(temp);
                 }}
                 value={temp as string | undefined}
                 onChange={(e, { value }) =>

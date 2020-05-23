@@ -48,3 +48,16 @@ dispatches failure action
 context receives failure
 failure action
 is set action to prior value
+
+
+*****
+use glob to collect actions
+and generate control panel
+and generate instructions
+and collate post handler reducer
+and collate pm handler reducer
+
+Allow actions to use array of keys string[] for invoke
+allow actions to use regex for invoke
+
+***

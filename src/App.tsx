@@ -7,7 +7,6 @@ import Instructions from './components/Instructions';
 import { LoginContext } from './services/LoginContext';
 import Providers from './components/Providers';
 import { getHeaders } from './services/Api/services/Headers';
-import { apiUrl } from './services/Api';
 import authFetch from './services/Api/services/AuthFetch';
 import { LoginActionTypes } from './types';
 

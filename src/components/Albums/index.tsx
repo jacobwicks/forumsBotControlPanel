@@ -1,15 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AlbumsContext } from '../../services/AlbumsContext';
 import loadAlbums from '../../services/Api/services/Albums';
-import {
-    Grid,
-    Button,
-    Header,
-    Image,
-    Label,
-    Segment,
-    GridColumn,
-} from 'semantic-ui-react';
+import { Grid, Button, Label, Segment } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
 

@@ -7,7 +7,7 @@ const login = async ({
     dispatch,
     password,
 }: {
-    dispatch: React.Dispatch<LoginAction>; //(args: any) => void;
+    dispatch: React.Dispatch<LoginAction>;
     password: string;
 }) => {
     dispatch({ type: LoginActionTypes.attempt });
@@ -31,13 +31,18 @@ const login = async ({
         body,
     };
 
-    const res = await expectJSON(fetch(loginUrl, options));
+    try {
+        const res = await expectJSON(fetch(loginUrl, options));
 
-    const token = res?.token;
+        const token = res?.token;
 
-    token && saveToken(token)
-        ? dispatch({ type: LoginActionTypes.success })
-        : dispatch({ type: LoginActionTypes.failure });
+        token && saveToken(token)
+            ? dispatch({ type: LoginActionTypes.success })
+            : dispatch({ type: LoginActionTypes.failure });
+    } catch (err) {
+        //log(err)
+        dispatch({ type: LoginActionTypes.failure });
+    }
 };
 
 export default login;

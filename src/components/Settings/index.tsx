@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import {
     Button,
-    Header,
     Icon,
     Input,
     Label,
