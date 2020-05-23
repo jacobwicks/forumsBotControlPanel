@@ -1,33 +1,7 @@
 import React, { useState, ReactElement } from 'react';
-import { Button, Icon, Input, Label } from 'semantic-ui-react';
+import { Button, Form, Icon, Input, Label, TextArea } from 'semantic-ui-react';
 import { AlbumsAction, BotAction } from '../../types';
 import setValue from '../../services/Api/services/SetValue';
-
-//return true if status === 200, else false
-//calling fn should deal with dispatching actions to context
-
-//parent component renders input
-//provides array of actions before, onSuccess, and onFailure
-//actions include prior value if necessary
-
-//user finishes input action
-//input action calls handleblur
-
-//handleBlur dispatches dispatchBefore =>
-// dispatch set action to context
-//context changes state to value
-
-// handleBlur calls api function
-// handleBlur hears from api success
-// if ncessary dispatches success action
-// context receives sucess
-// But context state already reflects new value
-
-// calling function hears from api failure
-// dispatches failure action
-// context receives failure
-// failure action
-// is set action to prior value
 
 //add this
 // User is notified of failed action
@@ -61,6 +35,9 @@ interface EditableInputProps {
     //the name of the input
     input: string;
 
+    //show a textarea when open instead of an input
+    textArea?: boolean;
+
     //the starting value
     value?: string;
 }
@@ -73,6 +50,7 @@ const EditableInput = ({
     dispatchOnFailure,
     dispatchOnSuccess,
     input,
+    textArea,
     value,
 }: EditableInputProps) => {
     const [open, setOpen] = useState(false);
@@ -116,19 +94,39 @@ const EditableInput = ({
             {child ? (
                 child
             ) : open ? (
-                <Input
-                    onKeyPress={({ key }: { key: string }) => {
-                        if (key === 'Enter') {
-                            !!temp && handleBlur(temp);
-                        }
-                    }}
-                    value={temp}
-                    onChange={({ target }) => setTemp(target.value)}
-                    onBlur={(e: InputEvent) => {
-                        const target = e.target as HTMLInputElement;
-                        handleBlur(target.value);
-                    }}
-                />
+                textArea ? (
+                    <Form>
+                        <TextArea
+                            onKeyPress={({ key }: { key: string }) => {
+                                if (key === 'Enter') {
+                                    !!temp && handleBlur(temp);
+                                }
+                            }}
+                            value={temp}
+                            onChange={(e, { value }) =>
+                                setTemp(value ? value.toString() : '')
+                            }
+                            onBlur={(e: InputEvent) => {
+                                const target = e.target as HTMLInputElement;
+                                handleBlur(target.value);
+                            }}
+                        />
+                    </Form>
+                ) : (
+                    <Input
+                        onKeyPress={({ key }: { key: string }) => {
+                            if (key === 'Enter') {
+                                !!temp && handleBlur(temp);
+                            }
+                        }}
+                        value={temp}
+                        onChange={({ target }) => setTemp(target.value)}
+                        onBlur={(e: InputEvent) => {
+                            const target = e.target as HTMLInputElement;
+                            handleBlur(target.value);
+                        }}
+                    />
+                )
             ) : (
                 value
             )}

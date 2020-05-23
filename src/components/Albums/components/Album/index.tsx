@@ -87,6 +87,7 @@ const AlbumInput = ({
     album,
     type,
     input,
+    textArea,
     value,
 }: {
     album: string;
@@ -94,6 +95,7 @@ const AlbumInput = ({
     type: AlbumsActionTypes;
     //the input
     input: string;
+    textArea?: boolean;
     //the old value of the input
     value: string;
 }) => {
@@ -113,6 +115,7 @@ const AlbumInput = ({
                 } as any,
             ]}
             input={input}
+            textArea={textArea}
             value={value}
         />
     );
@@ -142,6 +145,7 @@ const Album = ({ album }: { album: string }) => {
             <AlbumInput
                 album={album}
                 input="description"
+                textArea
                 type={AlbumsActionTypes.setDescription}
                 value={thisAlbum.description}
             />

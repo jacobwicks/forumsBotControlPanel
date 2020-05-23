@@ -1,0 +1,25 @@
+return true if status === 200, else false
+calling fn should deal with dispatching actions to context
+
+parent component renders input
+provides array of actions before, onSuccess, and onFailure
+actions include prior value if necessary
+
+user finishes input action
+input action calls handleblur
+
+handleBlur dispatches dispatchBefore =>
+dispatch set action to context
+context changes state to value
+
+handleBlur calls api function
+handleBlur hears from api success
+if ncessary dispatches success action
+context receives sucess
+But context state already reflects new value
+
+calling function hears from api failure
+dispatches failure action
+context receives failure
+failure action
+is set action to prior value
