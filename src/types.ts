@@ -41,6 +41,7 @@ export enum AlbumsActionTypes {
     removeImage = 'removeImage',
     setDescription = 'setDescription',
     setHash = 'setHash',
+    setStatus = 'setStatus',
 }
 
 export type AlbumsAction =
@@ -82,8 +83,16 @@ export type AlbumsAction =
           value: string;
       }
 
+    //sets the album active status
+    //if true, album is available for posters to invoke or request image addition
+    | {
+          type: AlbumsActionTypes.setStatus;
+          album: string;
+          value: boolean;
+      }
+
     //sets the hash of an album
-    | { type: AlbumsActionTypes.setHash; album: string; hash: string };
+    | { type: AlbumsActionTypes.setHash; album: string; value: string };
 
 //The Dispatch function
 interface AlbumsDispatch {
@@ -220,8 +229,14 @@ export interface ReviewImage {
     album: string;
     image: string;
     submittedAt: Date;
-    submittedById: number;
-    submittedByName: string;
-    submittedByAvatar: string;
+    submittedBy: SAUser;
     status: ImageReviewStatus;
+}
+
+export interface SAUser {
+    avatar?: string;
+    id: number;
+    name: string;
+    title?: string;
+    regDate: string;
 }

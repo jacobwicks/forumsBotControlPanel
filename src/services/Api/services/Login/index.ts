@@ -32,7 +32,9 @@ const login = async ({
     };
 
     const res = await expectJSON(fetch(loginUrl, options));
+
     const token = res?.token;
+
     token && saveToken(token)
         ? dispatch({ type: LoginActionTypes.success })
         : dispatch({ type: LoginActionTypes.failure });

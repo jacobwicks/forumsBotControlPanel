@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import './App.css';
 import TopBar from './components/TopBar';
 import ControlPanel from './components/ControlPanel';
@@ -15,16 +15,18 @@ const App2 = () => {
     const { isLoggedIn, dispatch } = useContext(LoginContext);
     const [hasMounted, setHasMounted] = useState(false);
 
-    const checkToken = async () => {
+    const checkToken = useCallback(async () => {
         const token = getHeaders();
         if (token) {
             const route = 'authenticate';
-            const url = `${apiUrl}${route}`;
-            const response = await authFetch(url);
-            const status = response?.status;
-            status === 200 && dispatch({ type: LoginActionTypes.success });
+
+            const response = await authFetch(route);
+
+            response?.status === 200
+                ? dispatch({ type: LoginActionTypes.success })
+                : dispatch({ type: LoginActionTypes.logout });
         }
-    };
+    }, [dispatch]);
 
     useEffect(() => {
         if (!hasMounted) {

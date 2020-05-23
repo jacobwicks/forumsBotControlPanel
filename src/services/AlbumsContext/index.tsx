@@ -59,11 +59,26 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
             };
         }
         case 'setHash': {
-            const { album, hash } = action;
+            const { album, value } = action;
             const { albums } = state;
             if (!albums) return state;
             const newAlbum = { ...albums[album] };
-            newAlbum.hash = hash;
+            newAlbum.hash = value;
+
+            return {
+                ...state,
+                albums: {
+                    ...albums,
+                    [album]: newAlbum,
+                },
+            };
+        }
+        case 'setStatus': {
+            const { album, value } = action;
+            const { albums } = state;
+            if (!albums) return state;
+            const newAlbum = { ...albums[album] };
+            newAlbum.status = value;
 
             return {
                 ...state,

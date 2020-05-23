@@ -80,8 +80,8 @@ export const reducer = (state: BotState, action: BotAction) => {
         }
         //sets the bot to run every interval in minutes
         case 'setInterval': {
-            const { interval } = action;
-            const newInterval = getNewInterval(interval);
+            //const { interval } = action;
+            //const newInterval = getNewInterval(interval);
             return state;
             // return {
             //     ...state,

@@ -1,6 +1,4 @@
-import fetch, { Response } from 'node-fetch';
-import { BotAction, BotActionTypes, BotSettings } from '../../types';
-import { getHeaders } from './services/Headers';
+import fetch from 'node-fetch';
 
 export const apiUrl = 'http://localhost:3001/api/v1/';
 

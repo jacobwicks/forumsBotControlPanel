@@ -1,4 +1,3 @@
-import { apiUrl } from '../../index';
 import expectJSON from '../ExpectJSON';
 import authFetch from '../AuthFetch';
 import {
@@ -11,8 +10,7 @@ import {
 //gets the named APIs that the bot has in its config
 const getAPIs = async () => {
     const route = 'apis';
-    const url = `${apiUrl}${route}`;
-    const response = await expectJSON(authFetch(url));
+    const response = await expectJSON(authFetch(route));
     const APIsArray: string[] | undefined = response?.APIs;
 
     //convert the APIsArray, which is an array of strings
@@ -22,7 +20,7 @@ const getAPIs = async () => {
         ? APIsArray.reduce((acc, cur) => {
               acc[cur] = {};
               return acc;
-          }, <APIs>{})
+          }, {} as APIs)
         : undefined;
 
     return APIs;

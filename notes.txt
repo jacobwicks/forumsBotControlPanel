@@ -1,3 +1,28 @@
+// Flow for e.g. album active status checkbox
+
+// status is assigned in config.json
+// control panel asks api for albums
+// api reads config, sends to cpanel
+// cpanel loads data into albums context
+// component loads data, displays checkbox
+
+// user clicks checkbox
+// checkbox calls a value setting function
+// value setting function
+// 1. dispatches attempt action to albumscontext
+// 1a. context changes value pending receipt of success or failure
+// 2. calls setValue
+// 	setValue calls API
+// 	setValue returns true or false to value setting function
+// 3. value setting function receives true or false
+// 4. if true, value setting function dispatched success to context
+// If true, we are done. maybe show a success message?
+
+// 5. if false, value setting function dispatches failure to context
+// 6. context reverts the value
+// 7. Maybe show a failed toast?
+
+
 return true if status === 200, else false
 calling fn should deal with dispatching actions to context
 

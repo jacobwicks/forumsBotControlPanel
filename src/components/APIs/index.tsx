@@ -11,7 +11,7 @@ const APIs = () => {
             !hasFailed.includes(BotFetchKeys.APIs) &&
             !APIs &&
             loadAPIs(dispatch);
-    }, [dispatch, fetching, hasFailed, APIs, loadAPIs]);
+    }, [dispatch, fetching, hasFailed, APIs]);
 
     return (
         <div>

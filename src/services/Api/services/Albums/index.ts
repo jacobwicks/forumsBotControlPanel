@@ -1,4 +1,3 @@
-import { apiUrl } from '../../index';
 import expectJSON from '../ExpectJSON';
 import authFetch from '../AuthFetch';
 import {
@@ -11,8 +10,7 @@ import {
 //gets the imgur albums for the bot from the API
 const getAlbums = async () => {
     const route = 'albums';
-    const url = `${apiUrl}${route}`;
-    const response = await expectJSON(authFetch(url));
+    const response = await expectJSON(authFetch(route));
     const albums: Albums | undefined = response?.albums;
     const imageQueue: ReviewImage[] | undefined = response?.imageQueue;
     return {

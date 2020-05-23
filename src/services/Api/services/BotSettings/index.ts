@@ -1,4 +1,3 @@
-import { apiUrl } from '../../index';
 import authFetch from '../AuthFetch';
 import expectJSON from '../ExpectJSON';
 import {
@@ -11,8 +10,7 @@ import {
 //gets the current settings for the bot
 const getSettings = async () => {
     const route = 'settings';
-    const url = `${apiUrl}${route}`;
-    const response = await expectJSON(authFetch(url));
+    const response = await expectJSON(authFetch(route));
     const settings: BotSettings | undefined = response?.settings;
     return settings;
 };

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Tab } from 'semantic-ui-react';
 import APIs from '../APIs';
 import SACredentials from '../SACredentials';
