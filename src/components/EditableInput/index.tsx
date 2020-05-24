@@ -7,6 +7,7 @@ import {
     Input,
     Label,
     TextArea,
+    Header,
 } from 'semantic-ui-react';
 import { AlbumsAction, BotAction } from '../../types';
 import setValue from '../../services/Api/services/SetValue';
@@ -34,9 +35,13 @@ interface EditableInputProps {
     dispatch: (action: any) => void;
     //dispatch: React.Dispatch<AlbumsAction> | React.Dispatch<BotAction>;
 
-    //dispatch an action before calling setValue
+    //dispatch actions before calling setValue
     dispatchBefore?: [AlbumsAction | BotAction];
+
+    //dispatch actions if setValue fails
     dispatchOnFailure?: [AlbumsAction | BotAction];
+
+    //dispatch actions is setValue succeeds
     dispatchOnSuccess?: [AlbumsAction | BotAction];
 
     //the name of the input
@@ -46,6 +51,9 @@ interface EditableInputProps {
 
     //human readable label text if the input name isn't good
     labelText?: string;
+
+    //password mask the input
+    password?: boolean;
 
     //show a textarea when open instead of an input
     textArea?: boolean;
@@ -63,6 +71,7 @@ const EditableInput = ({
     dispatchOnSuccess,
     input,
     labelText,
+    password,
     textArea,
     value,
 }: EditableInputProps) => {
@@ -108,15 +117,16 @@ const EditableInput = ({
 
     const inputChild = (
         <Input
-            onKeyPress={({ key }: { key: string }) => {
-                if (key === 'Enter') handleBlur(temp);
-            }}
-            value={temp}
-            onChange={({ target }) => setTemp(target.value)}
             onBlur={(e: InputEvent) => {
                 const target = e.target as HTMLInputElement;
                 handleBlur(target.value);
             }}
+            onKeyPress={({ key }: { key: string }) => {
+                if (key === 'Enter') handleBlur(temp);
+            }}
+            onChange={({ target }) => setTemp(target.value)}
+            type={password ? 'password' : undefined}
+            value={temp}
         />
     );
 
@@ -157,7 +167,9 @@ const EditableInput = ({
                 ? child 
                 : open 
                     ? child 
-                    : value
+                    : password 
+                        ? <span style={{fontSize:'x-large'}}>•••••</span> 
+                        :value
             }
         </div>
     );

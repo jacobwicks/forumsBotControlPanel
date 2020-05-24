@@ -48,14 +48,18 @@ const Settings = () => {
                         color="green"
                     >
                         <Icon name="play" size="large" />
-                        On
+                        Start
                     </Button>
                     <Button
                         onClick={() => dispatch({ type: BotActionTypes.stop })}
                         color="red"
                     >
                         <Icon name="stop" size="large" />
-                        Off
+                        Stop
+                    </Button>
+                    <Button color="blue">
+                        <Icon name="play circle" size="large" />
+                        Run Once
                     </Button>
                 </div>
                 <Message>

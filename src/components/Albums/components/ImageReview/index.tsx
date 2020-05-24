@@ -34,7 +34,17 @@ const ImageReview = ({ album }: { album?: string }) => {
         (album ? imageQueue?.filter((i) => i.album === album) : imageQueue) ||
         [];
 
-    const reviewImage = imageQueue?.[qIndex];
+    console.log(`${album}, filtered`, filteredQueue);
+
+    const selectImage = (index: number) => {
+        if (index < 0) setQIndex(0);
+        else if (index > filteredQueue.length - 1)
+            setQIndex((filteredQueue.length - 1) & 0);
+        else setQIndex(index);
+    };
+
+    const reviewImage = filteredQueue[qIndex];
+
     const user = reviewImage?.submittedBy;
     return (
         <Segment>
@@ -44,42 +54,41 @@ const ImageReview = ({ album }: { album?: string }) => {
                     qIndex !== undefined &&
                     `Image ${qIndex + 1} of ${
                         filteredQueue.length
-                    } pending review for ${album}`
+                    } pending review for ${album ? album : 'all albums'}`
                 }
             />
             <Segment>
-                <Button
-                    icon="double arrow backward"
-                    onClick={() => setQIndex(0)}
-                />
+                <Button icon="backward" onClick={() => selectImage(0)} />
                 <Button
                     icon="step backward"
-                    onClick={() => setQIndex(qIndex - 1)}
+                    onClick={() => selectImage(qIndex - 1)}
                 />
                 <Button color="green" icon="thumbs up" />
                 <Button color="red" icon="thumbs down" />
                 <Button
                     icon="step forward"
-                    onClick={() => setQIndex(qIndex + 1)}
+                    onClick={() => selectImage(qIndex + 1)}
                 />
                 <Button
-                    icon="double arrow forward"
-                    onClick={() => setQIndex(filteredQueue.length - 1)}
+                    icon="forward"
+                    onClick={() => selectImage(filteredQueue.length - 1)}
                 />
             </Segment>
             {!!reviewImage && user && (
-                <div>
+                <div style={{ height: 600 }}>
                     <Grid columns="2" divided>
                         <Grid.Column width="2">
                             <Header h1 content={user.name} />
                             {user.regDate}
+                            <br />
+                            <br />
                             {user.avatar && <Image src={user.avatar} />}
                             {user.title}
                         </Grid.Column>
                         <Grid.Column>
                             <p>{getDate(reviewImage.submittedAt)}</p>
                             <p>{reviewImage.status}</p>
-                            <Image src={reviewImage.image} size="small" />
+                            <Image src={reviewImage.image} size="large" />
                         </Grid.Column>
                     </Grid>
                 </div>

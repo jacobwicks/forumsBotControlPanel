@@ -74,7 +74,6 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
             };
         }
         case 'setStatus': {
-            console.log(`settings status`, action);
             const { album, value } = action;
             const { albums } = state;
             if (!albums) return state;
