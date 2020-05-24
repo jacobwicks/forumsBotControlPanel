@@ -8,8 +8,9 @@ import {
     Segment,
 } from 'semantic-ui-react';
 import { BotContext } from '../../services/BotContext';
-import { BotActionTypes, BotFetchKeys } from '../../types';
+import { BotActionTypes, BotFetchKeys, BotAction } from '../../types';
 import { loadSettings } from '../../services/Api';
+import setValue from '../../services/Api/services/SetValue';
 
 const LogViewer = () => <div>Log Viewr</div>;
 //add what the bot is doing right now
@@ -17,6 +18,34 @@ const LogViewer = () => <div>Log Viewr</div>;
 //scanning threads - threadId#
 //processing instructions
 //posting - postAction
+
+const startBot = async (dispatch: (action: BotAction) => void) => {
+    const configKeys = ['settings', 'running'];
+    const value = true;
+
+    dispatch({ type: BotActionTypes.start });
+
+    const started = await setValue({
+        configKeys,
+        value,
+    });
+
+    !started && dispatch({ type: BotActionTypes.stop });
+};
+
+const stopBot = async (dispatch: (action: BotAction) => void) => {
+    const configKeys = ['settings', 'running'];
+    const value = false;
+
+    dispatch({ type: BotActionTypes.stop });
+
+    const stopped = await setValue({
+        configKeys,
+        value,
+    });
+
+    !stopped && dispatch({ type: BotActionTypes.stop });
+};
 
 const Settings = () => {
     const { dispatch, hasFailed, fetching, settings } = useContext(BotContext);
@@ -44,14 +73,14 @@ const Settings = () => {
                 </Message>
                 <div>
                     <Button
-                        onClick={() => dispatch({ type: BotActionTypes.start })}
+                        onClick={() => !running && startBot(dispatch)}
                         color="green"
                     >
                         <Icon name="play" size="large" />
                         Start
                     </Button>
                     <Button
-                        onClick={() => dispatch({ type: BotActionTypes.stop })}
+                        onClick={() => running && stopBot(dispatch)}
                         color="red"
                     >
                         <Icon name="stop" size="large" />

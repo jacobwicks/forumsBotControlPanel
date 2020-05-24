@@ -1,5 +1,4 @@
-import expectJSON from '../ExpectJSON';
-import authFetch from '../AuthFetch';
+import { authFetchJSON } from '../AuthFetch';
 import {
     Albums,
     AlbumsAction,
@@ -7,12 +6,20 @@ import {
     ReviewImage,
 } from '../../../../types';
 
+interface AlbumsResponse {
+    albums: Albums;
+    imageQueue: ReviewImage[];
+}
+
+type AR = AlbumsResponse | undefined;
+
 //gets the imgur albums for the bot from the API
 const getAlbums = async () => {
     const route = 'albums';
-    const response = await expectJSON(authFetch(route));
-    const albums: Albums | undefined = response?.albums;
-    const imageQueue: ReviewImage[] | undefined = response?.imageQueue;
+    const response = (await authFetchJSON(route)) as AR;
+    const albums = response?.albums;
+    const imageQueue = response?.imageQueue;
+
     return {
         albums,
         imageQueue,

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { Button, Grid, Header, Image, Segment } from 'semantic-ui-react';
 
@@ -31,10 +31,15 @@ const ImageReview = ({ album }: { album?: string }) => {
     const { imageQueue } = useContext(AlbumsContext);
 
     const filteredQueue =
-        (album ? imageQueue?.filter((i) => i.album === album) : imageQueue) ||
-        [];
+        // prettier-ignore
+        (album 
+            ? imageQueue?.filter((i) => i.album === album) 
+            : imageQueue) 
+        || [];
 
-    console.log(`${album}, filtered`, filteredQueue);
+    useEffect(() => {
+        setQIndex(0);
+    }, [album, setQIndex]);
 
     const selectImage = (index: number) => {
         if (index < 0) setQIndex(0);

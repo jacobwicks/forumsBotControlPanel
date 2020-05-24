@@ -1,3 +1,42 @@
+To implement
+ignore users=> array of users 
+{
+    id
+    name
+}
+
+check for user by name
+calls to api, uses puppeteer to login, then, uh, search?
+https://forums.somethingawful.com/query.php
+<input name="q" type="text" id="query" value="">
+so, document.getelementbyid('query');
+username:"junk"
+
+run search
+gets page with this div, which contains a div that contains the uid
+<div id="search_info">
+Searched for posts which meet the following criteria:
+<hr>
+<div>Posted by user (name=Junk; uid=46145)</div>
+<hr>
+Showing results 1 to 10 of 1000 results. Query took 1.90 seconds to complete.
+</div>
+
+a nonexistent username returns this
+
+<div class="search_message">
+User darlingclementines was not found
+</div>
+
+so that should be pretty possible to write
+
+
+*****
+should invalidate token API side on logout
+
+***
+
+
 // Flow for e.g. album active status checkbox
 
 // status is assigned in config.json

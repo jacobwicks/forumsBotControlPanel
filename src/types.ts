@@ -184,6 +184,11 @@ interface BotType {
 //except dispatch will return the LoggedInDispatch function
 export type BotState = BotType & BotDispatch;
 
+export interface Creds {
+    username: string;
+    password: string;
+}
+
 //the possible states of an image submitted to be added to an album
 export enum ImageReviewStatus {
     //not reviewed yet

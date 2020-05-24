@@ -1,5 +1,4 @@
-import authFetch from '../AuthFetch';
-import expectJSON from '../ExpectJSON';
+import { authFetchJSON } from '../AuthFetch';
 import {
     BotFetchKeys,
     BotSettings,
@@ -7,11 +6,16 @@ import {
     BotAction,
 } from '../../../../types';
 
+interface BotSettingsResponse {
+    settings: BotSettings;
+}
+
+type BSR = BotSettingsResponse | undefined;
+
 //gets the current settings for the bot
 const getSettings = async () => {
     const route = 'settings';
-    const response = await expectJSON(authFetch(route));
-    const settings: BotSettings | undefined = response?.settings;
+    const settings = ((await authFetchJSON(route)) as BSR)?.settings;
     return settings;
 };
 

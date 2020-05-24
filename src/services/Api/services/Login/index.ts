@@ -3,6 +3,10 @@ import { LoginAction, LoginActionTypes } from '../../../../types';
 import { saveToken } from '../Token';
 import expectJSON from '../ExpectJSON';
 
+interface TokenResponse {
+    token: string;
+}
+
 const login = async ({
     dispatch,
     password,
@@ -32,13 +36,23 @@ const login = async ({
     };
 
     try {
-        const res = await expectJSON(fetch(loginUrl, options));
+        //call fetch at the loginUrl
+        const responsePromise = fetch(loginUrl, options);
 
-        const token = res?.token;
+        //response is either a json object or undefined
+        const response = (await expectJSON(responsePromise)) as
+            | TokenResponse
+            | undefined;
 
+        const token = response?.token;
+
+        //if token is truthy
+        //save the token to local storage
         token && saveToken(token)
-            ? dispatch({ type: LoginActionTypes.success })
-            : dispatch({ type: LoginActionTypes.failure });
+            ? //and dispatch a success action
+              dispatch({ type: LoginActionTypes.success })
+            : //otherwise, login failed
+              dispatch({ type: LoginActionTypes.failure });
     } catch (err) {
         //log(err)
         dispatch({ type: LoginActionTypes.failure });

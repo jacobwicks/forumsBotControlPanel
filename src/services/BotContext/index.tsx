@@ -90,19 +90,28 @@ export const reducer = (state: BotState, action: BotAction) => {
         }
         //starts the bot running with current settings
         case 'start': {
-            return state;
-            // return {
-            //     ...state,
-            //     running: true,
-            // };
+            if (state.settings) {
+                const settings = { ...state.settings };
+                settings.running = true;
+
+                return {
+                    ...state,
+                    settings,
+                };
+            } else return state;
         }
 
         //stops the bot if it is currently running
         case 'stop': {
-            return {
-                ...state,
-                running: false,
-            };
+            if (state.settings) {
+                const settings = { ...state.settings };
+                settings.running = false;
+
+                return {
+                    ...state,
+                    settings,
+                };
+            } else return state;
         }
 
         default:

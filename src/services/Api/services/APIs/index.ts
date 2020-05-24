@@ -1,5 +1,5 @@
 import expectJSON from '../ExpectJSON';
-import authFetch from '../AuthFetch';
+import { authFetchJSON } from '../AuthFetch';
 import {
     BotAction,
     APIs,
@@ -7,11 +7,16 @@ import {
     BotFetchKeys,
 } from '../../../../types';
 
+interface APIsResponse {
+    APIs: string[];
+}
+
+type AR = APIsResponse | undefined;
+
 //gets the named APIs that the bot has in its config
 const getAPIs = async () => {
     const route = 'apis';
-    const response = await expectJSON(authFetch(route));
-    const APIsArray: string[] | undefined = response?.APIs;
+    const APIsArray = ((await authFetchJSON(route)) as AR)?.APIs;
 
     //convert the APIsArray, which is an array of strings
     //into the APIs type object that gets loaded into BotContext

@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import expectJSON from '../../services/Api/services/ExpectJSON';
-import authFetch from '../../services/Api/services/AuthFetch';
+import { authFetchJSON } from '../../services/Api/services/AuthFetch';
 import { Loader, Message } from 'semantic-ui-react';
 import EditableInput from '../EditableInput';
+import { BotAction, Creds } from '../../types';
+
+interface CredsResponse {
+    creds: Creds;
+}
+
+type CR = CredsResponse | undefined;
 
 const SACredentials = () => {
     const [username, setUsername] = useState('');
@@ -28,7 +34,7 @@ const SACredentials = () => {
         //api route
         const route = 'creds';
         //expect a JSON response from the fetch request to the route
-        const { creds } = await expectJSON(authFetch(route));
+        const creds = ((await authFetchJSON(route)) as CR)?.creds;
 
         //done trying to fetch
         setIsFetching(false);
@@ -62,13 +68,9 @@ const SACredentials = () => {
         <div>
             <EditableInput
                 configKeys={configKeys}
-                dispatch={({ doThing, value }) =>
-                    value ? doThing(value) : doThing()
-                }
-                //@ts-ignore
-                dispatchBefore={[{ doThing: (value) => setUsername(value) }]}
-                //@ts-ignore
-                dispatchOnFailure={[{ doThing: () => setUsername(username) }]}
+                dispatch={({ value }) => setUsername(value)}
+                dispatchBefore={[{} as BotAction]}
+                dispatchOnFailure={[({ value: username } as any) as BotAction]}
                 input="username"
                 labelText="Bot SA Username"
                 value={username}
@@ -77,13 +79,9 @@ const SACredentials = () => {
             <br />
             <EditableInput
                 configKeys={configKeys}
-                dispatch={({ doThing, value }) =>
-                    value ? doThing(value) : doThing()
-                }
-                //@ts-ignore
-                dispatchBefore={[{ doThing: (value) => setPassword(value) }]}
-                //@ts-ignore
-                dispatchOnFailure={[{ doThing: () => setPassword(password) }]}
+                dispatch={({ value }) => setPassword(value)}
+                dispatchBefore={[{} as BotAction]}
+                dispatchOnFailure={[({ value: password } as any) as BotAction]}
                 input="password"
                 labelText="Bot SA Password"
                 password
