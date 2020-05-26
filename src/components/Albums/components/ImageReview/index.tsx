@@ -1,18 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
+import usePrevious from './services/UsePrevious';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { Header, Segment } from 'semantic-ui-react';
 import ImageReviewControls from './components/ImageReviewControls';
 import { ImageReviewStatus, ReviewImage } from '../../../../types';
 import AnimatedImage from './components/AnimatedImage';
 import ReviewImageDisplay from './components/ReviewImage';
-
-const usePrevious = <T extends any>(value: T): T | undefined => {
-    const ref = useRef<T>();
-    useEffect(() => {
-        ref.current = value;
-    });
-    return ref.current;
-};
+import { acceptImage, rejectImage } from '../../../../services/Api';
 
 export enum directions {
     down = 'down',
@@ -29,74 +23,77 @@ const numbers = {
 };
 
 const ImageReview = ({ album }: { album?: string }) => {
+    const { dispatch, imageQueue } = useContext(AlbumsContext);
+
+    //the index in the filtered queue
+    //of the image that you are currently looking at
     const [qIndex, setQIndex] = useState(0);
+
+    //a number that helps the animation library keep track of images
     const [key, setKey] = useState(0);
+
+    //the directions that images enter and exit the screen
     const [enterDirection, setEnterDirection] = useState(directions.right);
     const [exitDirection, setExitDirection] = useState(directions.left);
+
+    //when true, keeps displaying the image of the prior image
+    //used when status changes filteres the pending image out of q
     const [overrideImage, setOverrideImage] = useState(false);
 
-    const custom = {
-        enterDirection,
-        exitDirection,
-    };
-
+    //makes the current image animate off the screen
+    //and brings the new image onscreen
     const animateOut = (newDirection: directions) => {
         setExitDirection(newDirection);
         setKey(key + numbers[newDirection]);
     };
 
-    const { imageQueue } = useContext(AlbumsContext);
-
+    //an array of the current images from this album
+    //that have pending status
     const filteredQueue =
-        // prettier-ignore
-        (album 
-        ? imageQueue?.filter((i) => i.album === album && i.status === ImageReviewStatus.pending) 
-        : imageQueue) 
-        || [];
+        (album
+            ? imageQueue?.filter(
+                  (i) =>
+                      i.album === album &&
+                      i.status === ImageReviewStatus.pending
+              )
+            : imageQueue) || [];
+
+    //the current poster submitted image being reviewed
     const reviewImage = filteredQueue[qIndex];
 
+    //submitted at timestamp is unique to each image
+    //so its used by the actions/context reducer to identify images
     const submittedAt = reviewImage?.submittedAt;
 
-    //2 things should trigger animation
-    //1.when the lenght of the filteredQueue changes but the album does not
-    //it means that the image status has changed such that it is no longer pending
-    //hold a reference to the previous image and compare the status
-    //trigger animation by detecting context change but also
-    //difficult part: keep displaying the previous image until the animation has completed
-    //then display the new image
-
+    //keep these previous references around
+    //to complete animating an image offscreen
+    //after it has been filtered out of the queue
     const previousAlbum = usePrevious(album);
     const previousReviewImage = usePrevious(reviewImage) as ReviewImage;
     const previousKey = usePrevious(key) as number;
     const previousFilteredQueueLength = usePrevious(filteredQueue.length);
 
-    console.log(`album ${album}, previousAlbum ${previousAlbum}`);
-    console.log(
-        `filteredQ length ${filteredQueue.length}, previousFilteredQLength ${previousFilteredQueueLength}`
-    );
-
     useEffect(() => {
         if (
+            //the album is the same
             album === previousAlbum &&
+            //but the queue length changed. Means the prior image status changed
             filteredQueue.length !== previousFilteredQueueLength
         ) {
             setOverrideImage(true);
-            console.log(
-                `the status of the previous review image is `,
-                previousReviewImage?.status
-            );
+
             if (previousReviewImage.status === ImageReviewStatus.accepted) {
                 setEnterDirection(directions.right);
+                //accepted- it flys up off the screen
                 animateOut(directions.up);
                 setOverrideImage(false);
-                nextImage();
             }
 
             if (previousReviewImage.status === ImageReviewStatus.rejected) {
                 setEnterDirection(directions.right);
+                //rejected- it falls down off the screen
                 animateOut(directions.down);
                 setOverrideImage(false);
-                nextImage();
             }
         }
     }, [
@@ -107,9 +104,8 @@ const ImageReview = ({ album }: { album?: string }) => {
         reviewImage,
         previousReviewImage,
     ]);
-    //2: when the qIndex changes but the album does not
-    //it means that the user has changed what image they are looking at
-    //animate the old one out, animate the new one in
+
+    //if the album changes, look at image 0
     useEffect(() => {
         setQIndex(0);
     }, [album, setQIndex]);
@@ -121,6 +117,7 @@ const ImageReview = ({ album }: { album?: string }) => {
     };
 
     const animatedNextImage = () => {
+        setEnterDirection(directions.right);
         animateOut(directions.left);
         nextImage();
     };
@@ -137,6 +134,7 @@ const ImageReview = ({ album }: { album?: string }) => {
         prevImage();
     };
 
+    //safely select any index. used for first & last images
     const selectImage = (index: number) => {
         if (index < 0) setQIndex(0);
         else if (index > filteredQueue.length - 1)
@@ -144,47 +142,32 @@ const ImageReview = ({ album }: { album?: string }) => {
         else setQIndex(index);
     };
 
-    // //if the image status changes, animate it out
-    // useEffect(() => {
-    //     if (reviewImage.status) {
-    //         if (reviewImage.status === ImageReviewStatus.accepted) {
-    //             setEnterDirection(directions.right);
-    //             animateOut(directions.up);
-    //             nextImage();
-    //         }
-
-    //         if (reviewImage.status === ImageReviewStatus.rejected) {
-    //             setEnterDirection(directions.right);
-    //             animateOut(directions.down);
-    //             nextImage();
-    //         }
-    //     }
-    // }, [reviewImage?.status]);
+    const getHeaderContent = () => {
+        const fqLength = filteredQueue.length;
+        return fqLength
+            ? qIndex !== undefined &&
+                  `Image ${qIndex + 1} of ${
+                      filteredQueue.length
+                  } pending review for ${album ? album : 'all albums'}`
+            : `No images to review for ${album ? album : 'any albums'}`;
+    };
 
     return (
         <Segment>
-            <Header
-                h2
-                content={
-                    qIndex !== undefined &&
-                    `Image ${qIndex + 1} of ${
-                        filteredQueue.length
-                    } pending review for ${album ? album : 'all albums'}`
-                }
-            />
+            <Header as="h2" content={getHeaderContent()} />
             <ImageReviewControls
-                maxIndex={(filteredQueue.length - 1) & 0}
+                acceptImage={() => acceptImage({ dispatch, submittedAt })}
+                rejectImage={() => rejectImage({ dispatch, submittedAt })}
+                firstImage={() => selectImage(0)}
+                lastImage={() => selectImage(filteredQueue.length - 1)}
                 nextImage={animatedNextImage}
                 prevImage={animatedPrevImage}
-                qIndex={qIndex}
-                selectImage={selectImage}
-                submittedAt={submittedAt}
             />
-            {!!reviewImage && reviewImage.submittedBy && (
+            {!!reviewImage && (
                 <ReviewImageDisplay
                     animatedImage={
                         <AnimatedImage
-                            custom={custom}
+                            custom={{ enterDirection, exitDirection }}
                             image={
                                 overrideImage
                                     ? previousReviewImage.image

@@ -1,15 +1,15 @@
 import React, { ReactElement } from 'react';
-import { Grid, Header, Image } from 'semantic-ui-react';
-import { ReviewImage, SAUser } from '../../../../../../types';
-import { getDate } from '../../services';
+import { Grid } from 'semantic-ui-react';
+import { ReviewImage as ReviewImageType } from '../../../../../../types';
+import { getDate } from '../../services/GetDate';
 import User from '../../../../../User';
 
-const _ReviewImage = ({
+const ReviewImage = ({
     animatedImage,
     reviewImage,
 }: {
     animatedImage: ReactElement;
-    reviewImage: ReviewImage;
+    reviewImage: ReviewImageType;
 }) => (
     <div style={{ height: 600 }}>
         <Grid columns="2" divided>
@@ -21,8 +21,6 @@ const _ReviewImage = ({
                 <p>{reviewImage.status}</p>
                 <div
                     style={{
-                        //width: '100vw',
-                        // height: '100vh',
                         width: 300,
                         position: 'relative',
                         display: 'flex',
@@ -37,4 +35,4 @@ const _ReviewImage = ({
     </div>
 );
 
-export default _ReviewImage;
+export default ReviewImage;

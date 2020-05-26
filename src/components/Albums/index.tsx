@@ -4,6 +4,7 @@ import loadAlbums from '../../services/Api/services/Albums';
 import { Grid, Button, Label, Segment } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
+import { ImageReviewStatus } from '../../types';
 
 const Albums = () => {
     const [album, setAlbum] = useState('');
@@ -17,7 +18,11 @@ const Albums = () => {
         !fetching && !hasFailed && !albums && loadAlbums(dispatch);
     }, [dispatch, fetching, hasFailed, albums]);
 
-    const singular = imageQueue?.length === 1;
+    const toReview = imageQueue?.filter(
+        (img) => img.status === ImageReviewStatus.pending
+    ).length;
+
+    const singular = toReview === 1;
 
     return (
         <div>
@@ -25,7 +30,7 @@ const Albums = () => {
                 {imageQueue && (
                     <Button onClick={() => setReview(!review)}>
                         There {singular ? 'is' : 'are'}{' '}
-                        {imageQueue.length ? imageQueue.length : 'no'} image
+                        {toReview ? toReview : 'no'} image
                         {!singular && 's'} waiting for review
                     </Button>
                 )}
@@ -36,7 +41,9 @@ const Albums = () => {
                         {albums &&
                             Object.keys(albums).map((thisAlbum, index) => {
                                 const images = imageQueue?.filter(
-                                    (img) => img.album === thisAlbum
+                                    (img) =>
+                                        img.album === thisAlbum &&
+                                        img.status === ImageReviewStatus.pending
                                 ).length;
                                 return (
                                     <div key={index} style={{ padding: 10 }}>
