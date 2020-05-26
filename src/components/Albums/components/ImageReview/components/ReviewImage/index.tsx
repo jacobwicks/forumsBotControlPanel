@@ -19,7 +19,19 @@ const _ReviewImage = ({
             <Grid.Column>
                 <p>{getDate(reviewImage.submittedAt)}</p>
                 <p>{reviewImage.status}</p>
-                {animatedImage}
+                <div
+                    style={{
+                        //width: '100vw',
+                        // height: '100vh',
+                        width: 300,
+                        position: 'relative',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'left',
+                    }}
+                >
+                    {animatedImage}
+                </div>
             </Grid.Column>
         </Grid>
     </div>

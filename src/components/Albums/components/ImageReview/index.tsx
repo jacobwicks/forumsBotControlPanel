@@ -179,7 +179,7 @@ const ImageReview = ({ album }: { album?: string }) => {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                style={{ maxWidth: 300, maxHeight: 300 }}
+                style={{ maxWidth: 300, maxHeight: 300, position: 'absolute' }}
                 transition={{
                     x: { type: 'spring', stiffness: 300, damping: 200 },
                     opacity: { duration: 0.2 },
