@@ -4,7 +4,7 @@ import { Header, Segment } from 'semantic-ui-react';
 import ImageReviewControls from './components/ImageReviewControls';
 import { ImageReviewStatus } from '../../../../types';
 import AnimatedImage from './components/AnimatedImage';
-//import ReviewImage from './components/ReviewImage';
+import ReviewImage from './components/ReviewImage';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const usePrevious = <T extends any>(value: T): T | undefined => {
@@ -207,7 +207,12 @@ const ImageReview = ({ album }: { album?: string }) => {
                 selectImage={selectImage}
                 submittedAt={submittedAt}
             />
-            {!!reviewImage && reviewImage.submittedBy && animatedImage}
+            {!!reviewImage && reviewImage.submittedBy && (
+                <ReviewImage
+                    animatedImage={animatedImage}
+                    reviewImage={reviewImage}
+                />
+            )}
         </Segment>
     );
 };
