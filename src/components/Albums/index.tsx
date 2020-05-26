@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AlbumsContext } from '../../services/AlbumsContext';
 import loadAlbums from '../../services/Api/services/Albums';
-import { Grid, Button, Label, Segment } from 'semantic-ui-react';
+import { Grid, Button, Label, Popup, Segment } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
 import { ImageReviewStatus } from '../../types';
@@ -28,7 +28,11 @@ const Albums = () => {
         <div>
             <Segment>
                 {imageQueue && (
-                    <Button onClick={() => setReview(!review)}>
+                    <Button
+                        onClick={() =>
+                            album ? setAlbum('') : setReview(!review)
+                        }
+                    >
                         There {singular ? 'is' : 'are'}{' '}
                         {toReview ? toReview : 'no'} image
                         {!singular && 's'} waiting for review
@@ -47,15 +51,26 @@ const Albums = () => {
                                 ).length;
                                 return (
                                     <div key={index} style={{ padding: 10 }}>
-                                        <Button
-                                            color={images ? 'red' : undefined}
-                                            onClick={() => {
-                                                setAlbum(thisAlbum);
-                                                images && setReview(true);
-                                            }}
-                                        >
-                                            {images}
-                                        </Button>
+                                        <Popup
+                                            content={`Click to review images for ${thisAlbum}`}
+                                            disabled={!images}
+                                            trigger={
+                                                <Button
+                                                    color={
+                                                        images
+                                                            ? 'red'
+                                                            : undefined
+                                                    }
+                                                    onClick={() => {
+                                                        setAlbum(thisAlbum);
+                                                        images &&
+                                                            setReview(true);
+                                                    }}
+                                                >
+                                                    {images}
+                                                </Button>
+                                            }
+                                        />
                                         <Label
                                             color={
                                                 thisAlbum === album

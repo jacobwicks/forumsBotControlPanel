@@ -5,7 +5,7 @@ import { AlbumsActionTypes } from '../../../../types';
 import AlbumInput from '../AlbumInput';
 
 const Album = ({ album }: { album: string }) => {
-    const { albums, imageQueue } = useContext(AlbumsContext);
+    const { albums } = useContext(AlbumsContext);
     //albums isn't necessarily loaded
     if (!albums)
         return (
@@ -17,10 +17,6 @@ const Album = ({ album }: { album: string }) => {
 
     //the full album object from albums
     const thisAlbum = albums[album];
-
-    //an array of ReviewImage
-    const reviewImages =
-        imageQueue?.filter((image) => image.album === album) || [];
 
     return (
         <div>
@@ -49,8 +45,6 @@ const Album = ({ album }: { album: string }) => {
                 checkbox
                 value={thisAlbum.status}
             />
-            There are {reviewImages.length ? reviewImages.length : 'no'} images
-            to review for this album.
         </div>
     );
 };

@@ -56,7 +56,9 @@ const ImageReview = ({ album }: { album?: string }) => {
                       i.album === album &&
                       i.status === ImageReviewStatus.pending
               )
-            : imageQueue) || [];
+            : imageQueue?.filter(
+                  (i) => i.status === ImageReviewStatus.pending
+              )) || [];
 
     //the current poster submitted image being reviewed
     const reviewImage = filteredQueue[qIndex];
