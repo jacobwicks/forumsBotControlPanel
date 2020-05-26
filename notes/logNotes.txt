@@ -1,0 +1,25 @@
+What is loggable?
+* Bot running
+* Browser open
+* logged in
+* scanning thread
+* # new posts in thread
+* processing posts from thread
+* # instructions from thread
+* handling instructions
+* making post, link to instruction 
+* post made => link to post
+* Run complete
+
+commands from control panel will be logged
+* command to stop
+* command to start
+* command to run once
+
+Realtime log features
+computer style font, maybe google ROBOTO
+Black background, green text with links highlighted in amber, posters highlighted in red
+hover over a mention of a poster to see a popup with their avatar & title
+click a link to open the link in a new tab, view the post or image
+hover over an image src to see a popup with the image display
+

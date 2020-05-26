@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { Action } from '../../types';
+import { Action, ImageReviewStatus } from '../../types';
 import log from '../Log';
 import { AlbumsAction, AlbumsState } from '../../types';
 
@@ -15,6 +15,17 @@ export const initialState = {
 export const reducer = (state: AlbumsState, action: AlbumsAction) => {
     console.log(`received action`, action);
     switch (action.type) {
+        case 'accept': {
+            const { submittedAt } = action;
+            if (state.imageQueue) {
+                const imageQueue = [...state.imageQueue];
+                const image = imageQueue.find(
+                    (image) => image.submittedAt === submittedAt
+                );
+                image?.status && (image.status = ImageReviewStatus.accepted);
+                return { ...state, imageQueue };
+            } else return state;
+        }
         case 'fetchAlbumsAttempt': {
             return {
                 ...state,
@@ -42,6 +53,17 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
                 hasFailed: false,
                 fetching: false,
             };
+        }
+        case 'reject': {
+            const { submittedAt } = action;
+            if (state.imageQueue) {
+                const imageQueue = [...state.imageQueue];
+                const image = imageQueue.find(
+                    (image) => image.submittedAt === submittedAt
+                );
+                image?.status && (image.status = ImageReviewStatus.rejected);
+                return { ...state, imageQueue };
+            } else return state;
         }
         case 'setDescription': {
             const { album, value } = action;

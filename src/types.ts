@@ -30,7 +30,7 @@ export interface Albums {
 }
 
 export enum AlbumsActionTypes {
-    approve = 'approve',
+    accept = 'accept',
     createNew = 'createNew',
     deleteAlbum = 'deleteAlbum',
     fetchAlbumsAttempt = 'fetchAlbumsAttempt',
@@ -45,8 +45,8 @@ export enum AlbumsActionTypes {
 }
 
 export type AlbumsAction =
-    //approves adding an image to an album
-    | { type: AlbumsActionTypes.approve }
+    //accepts adds an image to an album
+    | { type: AlbumsActionTypes.accept; submittedAt: string }
 
     //create a new album. user must provide the hash
     | { type: AlbumsActionTypes.createNew }
@@ -68,7 +68,7 @@ export type AlbumsAction =
       }
 
     //reject adding an image to an album
-    | { type: AlbumsActionTypes.reject }
+    | { type: AlbumsActionTypes.reject; submittedAt: string }
 
     //remove an image from an album
     | { type: AlbumsActionTypes.removeImage }

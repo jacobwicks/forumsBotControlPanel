@@ -1,3 +1,26 @@
+What does run once mean?
+Click the run once button
+dispatch button to context, so context reflects currenty running once
+So this running once status can be reflected in the display
+control panel calls to the API
+API immediately runs the bot code a single time
+Want the api to tell the control panel two things
+1. I have started running the bot
+2. I have finished running the bot once, and here's what happened
+
+Apparently, this means Implementing server sent events
+****
+
+
+****
+PM responses
+read pms
+respond to pms
+Emptyquote
+Random smiley
+AI response
+
+****
 To implement
 ignore users=> array of users 
 {
