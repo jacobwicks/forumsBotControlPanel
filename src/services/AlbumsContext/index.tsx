@@ -4,6 +4,7 @@ import log from '../Log';
 import { AlbumsAction, AlbumsState } from '../../types';
 
 export const initialState = {
+    album: undefined,
     albums: undefined,
     fetching: false,
     hasFailed: false,
@@ -65,6 +66,10 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
                 return { ...state, imageQueue };
             } else return state;
         }
+        case 'setAlbum': {
+            const { album } = action;
+            return { ...state, album };
+        }
         case 'setDescription': {
             const { album, value } = action;
             const { albums } = state;
@@ -94,6 +99,30 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
                     [album]: newAlbum,
                 },
             };
+        }
+        case 'setName': {
+            const { album, value } = action;
+            const { albums, imageQueue } = state;
+            if (!albums) return state;
+
+            const newAlbums = { ...albums };
+            newAlbums[value] = { ...newAlbums[album] };
+            delete newAlbums[album];
+
+            const newQueue = imageQueue?.map((image) =>
+                image.album === album ? { ...image, album: value } : image
+            );
+
+            return {
+                ...state,
+                album: value,
+                albums: newAlbums,
+                imageQueue: newQueue,
+            };
+        }
+        case 'setReview': {
+            const { review } = action;
+            return { ...state, review: !!review };
         }
         case 'setStatus': {
             const { album, value } = action;

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import usePrevious from './services/UsePrevious';
+import usePrevious from '../../../../services/UsePrevious';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { Header, Segment } from 'semantic-ui-react';
 import ImageReviewControls from './components/ImageReviewControls';

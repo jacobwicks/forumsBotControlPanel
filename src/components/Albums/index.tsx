@@ -1,18 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AlbumsContext } from '../../services/AlbumsContext';
 import loadAlbums from '../../services/Api/services/Albums';
-import { Grid, Button, Label, Popup, Segment } from 'semantic-ui-react';
+import { Grid, Button, Segment } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
-import { ImageReviewStatus } from '../../types';
+import { ImageReviewStatus, AlbumsActionTypes } from '../../types';
+import SidebarAlbum from './components/SidebarAlbum';
 
 const Albums = () => {
-    const [album, setAlbum] = useState('');
-    const [review, setReview] = useState(false);
-
-    const { dispatch, hasFailed, fetching, albums, imageQueue } = useContext(
-        AlbumsContext
-    );
+    const {
+        dispatch,
+        album,
+        albums,
+        hasFailed,
+        fetching,
+        imageQueue,
+        review,
+    } = useContext(AlbumsContext);
 
     useEffect(() => {
         !fetching && !hasFailed && !albums && loadAlbums(dispatch);
@@ -30,7 +34,15 @@ const Albums = () => {
                 {imageQueue && (
                     <Button
                         onClick={() =>
-                            album ? setAlbum('') : setReview(!review)
+                            album
+                                ? dispatch({
+                                      type: AlbumsActionTypes.setAlbum,
+                                      album: '',
+                                  })
+                                : dispatch({
+                                      type: AlbumsActionTypes.setReview,
+                                      review: !review,
+                                  })
                         }
                     >
                         There {singular ? 'is' : 'are'}{' '}
@@ -43,51 +55,17 @@ const Albums = () => {
                 <Grid columns={2} divided>
                     <Grid.Column width={3}>
                         {albums &&
-                            Object.keys(albums).map((thisAlbum, index) => {
-                                const images = imageQueue?.filter(
-                                    (img) =>
-                                        img.album === thisAlbum &&
-                                        img.status === ImageReviewStatus.pending
-                                ).length;
-                                return (
-                                    <div key={index} style={{ padding: 10 }}>
-                                        <Popup
-                                            content={`Click to review images for ${thisAlbum}`}
-                                            disabled={!images}
-                                            trigger={
-                                                <Button
-                                                    color={
-                                                        images
-                                                            ? 'red'
-                                                            : undefined
-                                                    }
-                                                    onClick={() => {
-                                                        setAlbum(thisAlbum);
-                                                        images &&
-                                                            setReview(true);
-                                                    }}
-                                                >
-                                                    {images}
-                                                </Button>
-                                            }
-                                        />
-                                        <Label
-                                            color={
-                                                thisAlbum === album
-                                                    ? 'green'
-                                                    : undefined
-                                            }
-                                            style={{ cursor: 'pointer' }}
-                                            onClick={() => setAlbum(thisAlbum)}
-                                        >
-                                            {thisAlbum}
-                                        </Label>
-                                    </div>
-                                );
-                            })}
+                            Object.keys(albums)
+                                .sort()
+                                .map((thisAlbum, index) => (
+                                    <SidebarAlbum
+                                        album={thisAlbum}
+                                        index={index}
+                                    />
+                                ))}
                     </Grid.Column>
                     <Grid.Column>
-                        {album && <Album album={album} />}
+                        {album && <Album album={album} key={album} />}
                     </Grid.Column>
                 </Grid>
             </Segment>

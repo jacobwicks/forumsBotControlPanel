@@ -3,9 +3,14 @@ import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { Header, Loader } from 'semantic-ui-react';
 import { AlbumsActionTypes } from '../../../../types';
 import AlbumInput from '../AlbumInput';
+import EditableInput from '../../../EditableInput';
+import setProperty from '../../../../services/Api/services/SetProperty';
+import authFetch from '../../../../services/Api/services/AuthFetch';
+import getStringBody from '../../../../services/Api/services/GetStringBody';
 
 const Album = ({ album }: { album: string }) => {
-    const { albums } = useContext(AlbumsContext);
+    const { dispatch, albums } = useContext(AlbumsContext);
+
     //albums isn't necessarily loaded
     if (!albums)
         return (
@@ -18,9 +23,39 @@ const Album = ({ album }: { album: string }) => {
     //the full album object from albums
     const thisAlbum = albums[album];
 
+    const setAlbumName = async (value: string) => {
+        dispatch({ type: AlbumsActionTypes.setName, album, value });
+        const result = authFetch(
+            'renameAlbum',
+            true,
+            getStringBody({ album, value })
+        );
+
+        !result &&
+            dispatch({
+                type: AlbumsActionTypes.setName,
+                album: value,
+                value: album,
+            });
+    };
+
     return (
         <div>
-            <Header>{album}</Header>
+            <Header>
+                <EditableInput
+                    configKeys={['albums']}
+                    callback={setAlbumName}
+                    input={album}
+                    labelText="Album"
+                    targetsProperty
+                    value={album}
+                />
+            </Header>
+            <a href={`https://imgur.com/a/${thisAlbum.hash}`} target="_blank">
+                View album {album} on Imgur
+            </a>
+            <br />
+            <br />
             <AlbumInput
                 album={album}
                 input="description"

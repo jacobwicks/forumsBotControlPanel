@@ -39,8 +39,11 @@ export enum AlbumsActionTypes {
     reject = 'reject',
     report = 'report',
     removeImage = 'removeImage',
+    setAlbum = 'setAlbum',
     setDescription = 'setDescription',
     setHash = 'setHash',
+    setName = 'setName',
+    setReview = 'setReview',
     setStatus = 'setStatus',
 }
 
@@ -76,11 +79,26 @@ export type AlbumsAction =
     //the image is obscene or illegal
     | { type: AlbumsActionTypes.report }
 
+    //sets the current album to string or undefined
+    | { type: AlbumsActionTypes.setAlbum; album?: string }
+
     //sets the description of an album
     | {
           type: AlbumsActionTypes.setDescription;
           album: string;
           value: string;
+      }
+
+    //sets the name of the album
+    | {
+          type: AlbumsActionTypes.setName;
+          album: string;
+          value: string;
+      }
+    //turns image review on or off
+    | {
+          type: AlbumsActionTypes.setReview;
+          review?: boolean;
       }
 
     //sets the album active status
@@ -100,10 +118,12 @@ interface AlbumsDispatch {
 }
 
 export interface AlbumsType {
+    album?: string;
     albums?: Albums;
     imageQueue?: ReviewImage[];
     fetching: boolean;
     hasFailed: boolean;
+    review: boolean;
 }
 
 //a union type. The Albums state will have a Stats object for any given key

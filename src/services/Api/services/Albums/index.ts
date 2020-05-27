@@ -23,6 +23,10 @@ export const acceptImage = ({
 }) => {
     //dispatch action to AlbumsContext
     dispatch({ type: AlbumsActionTypes.accept, submittedAt });
+    // const route = 'albums';
+    // const response = (await authFetchJSON(route)) as AR;
+    // const albums = response?.albums;
+    // const imageQueue = response?.imageQueue;
     //request API to accept image
     //API Route calls uploadImageToAlbum function
     //uploadImageToAlbum function returns true/undefined
