@@ -27,6 +27,15 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
                 return { ...state, imageQueue };
             } else return state;
         }
+        case 'delete': {
+            const { submittedAt } = action;
+            const { imageQueue } = state;
+            if (!imageQueue) return state;
+            const newQueue = imageQueue.filter(
+                (image) => image.submittedAt !== submittedAt
+            );
+            return { ...state, newQueue };
+        }
         case 'fetchAlbumsAttempt': {
             return {
                 ...state,
@@ -54,6 +63,17 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
                 hasFailed: false,
                 fetching: false,
             };
+        }
+        case 'pending': {
+            const { submittedAt } = action;
+            if (state.imageQueue) {
+                const imageQueue = [...state.imageQueue];
+                const image = imageQueue.find(
+                    (image) => image.submittedAt === submittedAt
+                );
+                image?.status && (image.status = ImageReviewStatus.pending);
+                return { ...state, imageQueue };
+            } else return state;
         }
         case 'reject': {
             const { submittedAt } = action;

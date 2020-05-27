@@ -1,4 +1,4 @@
-import { authFetchJSON } from '../AuthFetch';
+import authFetch, { authFetchJSON } from '../AuthFetch';
 import {
     Albums,
     AlbumsAction,
@@ -6,6 +6,7 @@ import {
     ReviewImage,
 } from '../../../../types';
 import { Dispatch } from 'react';
+import getStringBody from '../GetStringBody';
 
 interface AlbumsResponse {
     albums: Albums;
@@ -14,7 +15,7 @@ interface AlbumsResponse {
 
 type AR = AlbumsResponse | undefined;
 
-export const acceptImage = ({
+export const acceptImage = async ({
     dispatch,
     submittedAt,
 }: {
@@ -23,17 +24,26 @@ export const acceptImage = ({
 }) => {
     //dispatch action to AlbumsContext
     dispatch({ type: AlbumsActionTypes.accept, submittedAt });
-    // const route = 'albums';
-    // const response = (await authFetchJSON(route)) as AR;
-    // const albums = response?.albums;
-    // const imageQueue = response?.imageQueue;
-    //request API to accept image
-    //API Route calls uploadImageToAlbum function
-    //uploadImageToAlbum function returns true/undefined
-    //api route returns 200/500
-    //if true/200 do nothing
-    //if false/500, put the image back in the queue
-    //and display a toast
+
+    const route = 'acceptImage';
+    //stringify the body of the POST to api
+    const body = getStringBody({ submittedAt });
+
+    try {
+        //Post method = true,
+        const response = await authFetch(route, true, body);
+        console.log(`resposne is`, response);
+        // const json = await response?.json();
+        // const imageUrl = json?.imageUrl;
+        // console.log(`imageUrl`, imageUrl);
+        // //return true if status === 200, else false
+        // //calling fn should deal with dispatching actions to context
+        // imageUrl
+        //     ? dispatch({ type: AlbumsActionTypes.delete, submittedAt })
+        //     : dispatch({ type: AlbumsActionTypes.pending, submittedAt });
+    } catch (err) {
+        return undefined;
+    }
 };
 
 export const rejectImage = ({
