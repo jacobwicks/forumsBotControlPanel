@@ -1,13 +1,13 @@
-import authFetch, { authFetchJSON } from '../AuthFetch';
+import { authFetchJSON } from '../AuthFetch';
 import {
     Albums,
     AlbumsAction,
     AlbumsActionTypes,
     ReviewImage,
 } from '../../../../types';
-import { Dispatch } from 'react';
-import { apiUrl } from '../..';
-import { getHeaders } from '../Headers';
+import { acceptImage, rejectImage } from './Images';
+import createNewAlbum from './CreateNewAlbum';
+import deleteAlbum from './DeleteAlbum';
 
 interface AlbumsResponse {
     albums: Albums;
@@ -15,80 +15,6 @@ interface AlbumsResponse {
 }
 
 type AR = AlbumsResponse | undefined;
-
-export const acceptImage = async ({
-    dispatch,
-    submittedAt,
-}: {
-    dispatch: Dispatch<AlbumsAction>;
-    submittedAt: string;
-}) => {
-    //dispatch action to AlbumsContext
-    dispatch({ type: AlbumsActionTypes.accept, submittedAt });
-
-    const route = 'acceptImage';
-    const acceptImageUrl = `${apiUrl}${route}`;
-
-    try {
-        const body = JSON.stringify({
-            submittedAt,
-        });
-
-        const headers = getHeaders();
-
-        const options = {
-            //it's a post request
-            method: 'POST',
-
-            headers,
-
-            body,
-        };
-
-        //call fetch at the loginUrl
-        const response = await fetch(acceptImageUrl, options);
-        console.log(response.status);
-
-        const json = await response?.json();
-        const uploadedImageUrl = json?.uploadedImageUrl;
-
-        uploadedImageUrl
-            ? //maybe display a message with a link? Or not, who cares
-              console.log(`image successfully uploaded to`, uploadedImageUrl)
-            : //should probably display a failure alert... Upload failed, added back to queue
-              dispatch({ type: AlbumsActionTypes.pending, submittedAt });
-    } catch (err) {
-        return undefined;
-    }
-};
-
-export const rejectImage = async ({
-    dispatch,
-    submittedAt,
-}: {
-    dispatch: Dispatch<AlbumsAction>;
-    submittedAt: string;
-}) => {
-    //dispatch action to AlbumsContext
-    dispatch({ type: AlbumsActionTypes.reject, submittedAt });
-    const route = 'rejectImage';
-
-    try {
-        const body = JSON.stringify({
-            submittedAt,
-        });
-        const response = await authFetch(route, true, body);
-
-        //return true if status === 200, else false
-        response?.status === 200
-            ? //maybe display a message with a link? Or not, who cares
-              console.log(`image successfully rejected`)
-            : //should probably display a failure alert... reject failed, added back to queue
-              dispatch({ type: AlbumsActionTypes.pending, submittedAt });
-    } catch (err) {
-        return undefined;
-    }
-};
 
 //gets the imgur albums for the bot from the API
 const getAlbums = async () => {
@@ -116,4 +42,4 @@ const loadAlbums = async (dispatch: React.Dispatch<AlbumsAction>) => {
     } else dispatch({ type: AlbumsActionTypes.fetchAlbumsFailure });
 };
 
-export default loadAlbums;
+export { acceptImage, createNewAlbum, deleteAlbum, loadAlbums, rejectImage };

@@ -31,7 +31,8 @@ export interface Albums {
 
 export enum AlbumsActionTypes {
     accept = 'accept',
-    createNew = 'createNew',
+    addExistingAlbum = 'addExistingAlbum',
+    createNewAlbum = 'createNewAlbum',
     delete = 'delete',
     deleteAlbum = 'deleteAlbum',
     fetchAlbumsAttempt = 'fetchAlbumsAttempt',
@@ -53,14 +54,28 @@ export type AlbumsAction =
     //accepts adds an image to an album
     | { type: AlbumsActionTypes.accept; submittedAt: string }
 
+    //adds an exisiting imgur album
+    | {
+          type: AlbumsActionTypes.addExistingAlbum;
+          album?: string;
+          description?: string;
+          hash: string;
+          status?: boolean;
+      }
+
     //create a new album. user must provide the hash
-    | { type: AlbumsActionTypes.createNew }
+    | {
+          type: AlbumsActionTypes.createNewAlbum;
+          album: string;
+          description?: string;
+          hash?: string;
+      }
 
     //deletes an image from the queue
     | { type: AlbumsActionTypes.delete; submittedAt: string }
 
     //delete an album. From the bot? or from imgur altogether?
-    | { type: AlbumsActionTypes.deleteAlbum }
+    | { type: AlbumsActionTypes.deleteAlbum; album: string }
 
     //trying to fetch the albums
     | { type: AlbumsActionTypes.fetchAlbumsAttempt }

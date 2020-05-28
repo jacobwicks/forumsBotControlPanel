@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { Action, ImageReviewStatus } from '../../types';
+import { Action, ImageReviewStatus, Album, Albums } from '../../types';
 import log from '../Log';
 import { AlbumsAction, AlbumsState } from '../../types';
 
@@ -27,6 +27,23 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
                 return { ...state, imageQueue };
             } else return state;
         }
+        case 'createNewAlbum': {
+            const { album, description, hash } = action;
+            const { albums } = state;
+            const newAlbums: Albums = { ...albums };
+
+            const newAlbum: Album = {
+                description: description ? description : '',
+                hash: hash ? hash : '',
+                status: true,
+            };
+
+            newAlbums[album] = newAlbum;
+            return {
+                ...state,
+                albums: newAlbums,
+            };
+        }
         case 'delete': {
             const { submittedAt } = action;
             const { imageQueue } = state;
@@ -34,7 +51,31 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
             const newQueue = imageQueue.filter(
                 (image) => image.submittedAt !== submittedAt
             );
-            return { ...state, newQueue };
+            return { ...state, imageQueue: newQueue };
+        }
+        case 'deleteAlbum': {
+            const { album } = action;
+            const { album: currentAlbum, albums, imageQueue } = state;
+
+            //if the current album is this album, set current album to undefined
+            //this album is getting deleted and can't be displayed
+            const newAlbum = currentAlbum === album ? undefined : currentAlbum;
+
+            //new albums object
+            const newAlbums: Albums = { ...albums };
+            //delete the album from albums
+            delete newAlbums[album];
+
+            //filter all images for album out of the queue
+            const newImageQueue = imageQueue?.filter(
+                (image) => image.album !== album
+            );
+            return {
+                ...state,
+                album: newAlbum,
+                albums: newAlbums,
+                imageQueue: newImageQueue,
+            };
         }
         case 'fetchAlbumsAttempt': {
             return {

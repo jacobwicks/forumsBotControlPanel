@@ -11,8 +11,10 @@ export const getBotName = async () => {
 };
 
 export {
-    default as loadAlbums,
     acceptImage,
+    createNewAlbum,
+    deleteAlbum,
+    loadAlbums,
     rejectImage,
 } from './services/Albums';
 export { default as loadSettings } from './services/BotSettings';

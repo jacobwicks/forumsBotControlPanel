@@ -1,11 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AlbumsContext } from '../../services/AlbumsContext';
-import loadAlbums from '../../services/Api/services/Albums';
-import { Grid, Button, Segment } from 'semantic-ui-react';
+import { loadAlbums } from '../../services/Api/';
+import { Grid, Button, Segment, Header, Icon, Popup } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
 import { ImageReviewStatus, AlbumsActionTypes } from '../../types';
 import SidebarAlbum from './components/SidebarAlbum';
+import CreateAlbumModal from './components/CreateAlbumModal';
 
 const Albums = () => {
     const {
@@ -54,6 +55,9 @@ const Albums = () => {
                 <br />
                 <Grid columns={2} divided>
                     <Grid.Column width={3}>
+                        <Header as="h2">
+                            Albums <CreateAlbumModal />
+                        </Header>
                         {albums &&
                             Object.keys(albums)
                                 .sort()

@@ -3,6 +3,7 @@ import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { Header, Loader, Icon, Popup } from 'semantic-ui-react';
 import { AlbumsActionTypes } from '../../../../types';
 import AlbumInput from '../AlbumInput';
+import DeleteAlbumModal from '../DeleteAlbumModal';
 import EditableInput from '../../../EditableInput';
 import authFetch from '../../../../services/Api/services/AuthFetch';
 
@@ -22,6 +23,7 @@ const Album = ({ album }: { album: string }) => {
 
     //the full album object from albums
     const thisAlbum = albums[album];
+    if (!thisAlbum) return <Loader active />;
 
     const setAlbumName = async (value: string) => {
         dispatch({ type: AlbumsActionTypes.setName, album, value });
@@ -66,10 +68,22 @@ const Album = ({ album }: { album: string }) => {
                         }
                     />
                 )}
+                <DeleteAlbumModal
+                    album={album}
+                    close={() => setShowDeleteModal(false)}
+                    open={showDeleteModal}
+                />
             </Header>
-            <a href={`https://imgur.com/a/${thisAlbum.hash}`} target="_blank">
-                View album {album} on Imgur
-            </a>
+            {thisAlbum.hash ? (
+                <a
+                    href={`https://imgur.com/a/${thisAlbum.hash}`}
+                    target="_blank"
+                >
+                    View album {album} on Imgur
+                </a>
+            ) : (
+                'No hash set for this album, Imgur link unavailable'
+            )}
             <br />
             <br />
             <AlbumInput

@@ -1,21 +1,33 @@
 import { getHeaders } from '../Headers';
 import { apiUrl } from '../..';
 
+interface Options {
+    method: string;
+    headers: any;
+    body?: string;
+}
+
 //fetch with authorization: bearer token from localStorage
-const authFetch = async (route: string, post?: boolean, body?: string) => {
+const authFetch = async (
+    route: string,
+    post?: boolean,
+    body?: string | object
+) => {
     const url = `${apiUrl}${route}`;
 
     //wtf typescript https://stackoverflow.com/questions/47754183/typescript-cannot-add-headers-to-a-fetch-api-using-react-native
     const headers: any = getHeaders();
     if (headers) {
-        const options = {
+        const options: Options = {
             method: post ? 'POST' : 'GET',
             headers,
         };
-        //@ts-ignore
-        body && (options.body = body);
 
         try {
+            body && typeof body === 'object'
+                ? (options.body = JSON.stringify(body))
+                : (options.body = body);
+
             return fetch(url, options);
         } catch (err) {
             console.log(`authfetch caught error`, err);
@@ -28,9 +40,13 @@ const authFetch = async (route: string, post?: boolean, body?: string) => {
     return undefined;
 };
 
-export const authFetchJSON = async (route: string) => {
+export const authFetchJSON = async (
+    route: string,
+    post?: boolean,
+    body?: string | object
+) => {
     //fetches using the bearer token
-    const responsePromise = authFetch(route);
+    const responsePromise = authFetch(route, post, body);
 
     if (!responsePromise) return undefined;
 
