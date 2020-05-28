@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Button,
     Checkbox,
@@ -7,26 +7,18 @@ import {
     Input,
     Label,
     TextArea,
-    Header,
 } from 'semantic-ui-react';
 import { AlbumsAction, BotAction } from '../../types';
 import setValue from '../../services/Api/services/SetValue';
 import setProperty from '../../services/Api/services/SetProperty';
+import dispatchAll from './services/DispatchAll';
 
-//add this
-// User is notified of failed action
-// option to ignore, retry, or refresh data from api
-
-const dispatchAll = ({
-    dispatch,
-    actions,
-}: {
-    dispatch: (action: AlbumsAction | BotAction) => void;
-    actions?: [AlbumsAction | BotAction];
-}) => dispatch && actions && actions.forEach((action) => dispatch(action));
-
+//lots of props, but it's a very capable input component
 interface EditableInputProps {
+    //function called instead of dispatch before
+    //lets you use editableInput for something besides dispatching actions
     callback?: (...args: any) => void;
+
     checkbox?: boolean;
 
     //the path of the variable that the input edits
@@ -65,6 +57,9 @@ interface EditableInputProps {
     //show a textarea when open instead of an input
     textArea?: boolean;
 
+    //if the parent compnent wants to know about opening
+    tellParentOpen?: (open: boolean) => void;
+
     //the starting value
     value?: string | boolean;
 }
@@ -81,11 +76,17 @@ const EditableInput = ({
     labelText,
     password,
     targetsProperty,
+    tellParentOpen,
     textArea,
     value,
 }: EditableInputProps) => {
     const [open, setOpen] = useState(false);
     const [temp, setTemp] = useState(value);
+
+    //if the parent component wants to know if the input is open
+    useEffect(() => {
+        tellParentOpen && tellParentOpen(open);
+    }, [open]);
 
     const handleBlur = async (value: string | boolean | number | undefined) => {
         setOpen(false);

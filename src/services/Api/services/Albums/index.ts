@@ -1,4 +1,4 @@
-import { authFetchJSON } from '../AuthFetch';
+import authFetch, { authFetchJSON } from '../AuthFetch';
 import {
     Albums,
     AlbumsAction,
@@ -62,7 +62,7 @@ export const acceptImage = async ({
     }
 };
 
-export const rejectImage = ({
+export const rejectImage = async ({
     dispatch,
     submittedAt,
 }: {
@@ -71,6 +71,23 @@ export const rejectImage = ({
 }) => {
     //dispatch action to AlbumsContext
     dispatch({ type: AlbumsActionTypes.reject, submittedAt });
+    const route = 'rejectImage';
+
+    try {
+        const body = JSON.stringify({
+            submittedAt,
+        });
+        const response = await authFetch(route, true, body);
+
+        //return true if status === 200, else false
+        response?.status === 200
+            ? //maybe display a message with a link? Or not, who cares
+              console.log(`image successfully rejected`)
+            : //should probably display a failure alert... reject failed, added back to queue
+              dispatch({ type: AlbumsActionTypes.pending, submittedAt });
+    } catch (err) {
+        return undefined;
+    }
 };
 
 //gets the imgur albums for the bot from the API
