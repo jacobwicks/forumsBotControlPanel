@@ -4,9 +4,7 @@ import { Header, Loader } from 'semantic-ui-react';
 import { AlbumsActionTypes } from '../../../../types';
 import AlbumInput from '../AlbumInput';
 import EditableInput from '../../../EditableInput';
-import setProperty from '../../../../services/Api/services/SetProperty';
 import authFetch from '../../../../services/Api/services/AuthFetch';
-import getStringBody from '../../../../services/Api/services/GetStringBody';
 
 const Album = ({ album }: { album: string }) => {
     const { dispatch, albums } = useContext(AlbumsContext);
@@ -28,7 +26,7 @@ const Album = ({ album }: { album: string }) => {
         const result = authFetch(
             'renameAlbum',
             true,
-            getStringBody({ album, value })
+            JSON.stringify({ album, value })
         );
 
         !result &&

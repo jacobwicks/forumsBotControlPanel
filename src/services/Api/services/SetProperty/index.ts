@@ -1,5 +1,4 @@
 import authFetch from '../AuthFetch';
-import getStringBody from '../GetStringBody';
 
 interface setPropertyProps {
     configKeys: string[];
@@ -12,7 +11,7 @@ const setProperty = async (jsonBody: setPropertyProps) => {
     const route = 'setProperty';
 
     //stringify the body of the POST to api
-    const body = getStringBody(jsonBody);
+    const body = JSON.stringify(jsonBody);
 
     try {
         //Post method = true,

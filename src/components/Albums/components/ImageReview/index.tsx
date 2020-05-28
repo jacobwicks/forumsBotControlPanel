@@ -84,14 +84,20 @@ const ImageReview = ({ album }: { album?: string }) => {
         ) {
             setOverrideImage(true);
 
-            if (previousReviewImage.status === ImageReviewStatus.accepted) {
+            if (
+                previousReviewImage &&
+                previousReviewImage.status === ImageReviewStatus.accepted
+            ) {
                 setEnterDirection(directions.right);
                 //accepted- it flys up off the screen
                 animateOut(directions.up);
                 setOverrideImage(false);
             }
 
-            if (previousReviewImage.status === ImageReviewStatus.rejected) {
+            if (
+                previousReviewImage &&
+                previousReviewImage.status === ImageReviewStatus.rejected
+            ) {
                 setEnterDirection(directions.right);
                 //rejected- it falls down off the screen
                 animateOut(directions.down);

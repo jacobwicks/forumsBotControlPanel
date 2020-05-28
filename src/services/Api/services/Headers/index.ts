@@ -4,8 +4,9 @@ export const getHeaders = () => {
     const token = getToken();
     return token
         ? new Headers({
+              Accept: 'application/json',
               Authorization: 'Bearer ' + token,
-              'content-type': 'application/x-www-form-urlencoded',
+              'Content-Type': 'application/json',
           })
         : undefined;
 };

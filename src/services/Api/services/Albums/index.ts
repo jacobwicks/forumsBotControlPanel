@@ -1,4 +1,4 @@
-import authFetch, { authFetchJSON } from '../AuthFetch';
+import { authFetchJSON } from '../AuthFetch';
 import {
     Albums,
     AlbumsAction,
@@ -6,7 +6,8 @@ import {
     ReviewImage,
 } from '../../../../types';
 import { Dispatch } from 'react';
-import getStringBody from '../GetStringBody';
+import { apiUrl } from '../..';
+import { getHeaders } from '../Headers';
 
 interface AlbumsResponse {
     albums: Albums;
@@ -26,21 +27,36 @@ export const acceptImage = async ({
     dispatch({ type: AlbumsActionTypes.accept, submittedAt });
 
     const route = 'acceptImage';
-    //stringify the body of the POST to api
-    const body = getStringBody({ submittedAt });
+    const acceptImageUrl = `${apiUrl}${route}`;
 
     try {
-        //Post method = true,
-        const response = await authFetch(route, true, body);
-        console.log(`resposne is`, response);
-        // const json = await response?.json();
-        // const imageUrl = json?.imageUrl;
-        // console.log(`imageUrl`, imageUrl);
-        // //return true if status === 200, else false
-        // //calling fn should deal with dispatching actions to context
-        // imageUrl
-        //     ? dispatch({ type: AlbumsActionTypes.delete, submittedAt })
-        //     : dispatch({ type: AlbumsActionTypes.pending, submittedAt });
+        const body = JSON.stringify({
+            submittedAt,
+        });
+
+        const headers = getHeaders();
+
+        const options = {
+            //it's a post request
+            method: 'POST',
+
+            headers,
+
+            body,
+        };
+
+        //call fetch at the loginUrl
+        const response = await fetch(acceptImageUrl, options);
+        console.log(response.status);
+
+        const json = await response?.json();
+        const uploadedImageUrl = json?.uploadedImageUrl;
+
+        uploadedImageUrl
+            ? //maybe display a message with a link? Or not, who cares
+              console.log(`image successfully uploaded to`, uploadedImageUrl)
+            : //should probably display a failure alert... Upload failed, added back to queue
+              dispatch({ type: AlbumsActionTypes.pending, submittedAt });
     } catch (err) {
         return undefined;
     }
