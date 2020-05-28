@@ -1,27 +1,60 @@
-import { AlbumsAction } from '../../../../../types';
+import authFetch from '../../AuthFetch';
+import { AlbumsAction, AlbumsActionTypes } from '../../../../../types';
 
-const addExistingAlbum = ({
+const addExistingAlbumAPI = async ({
+    album,
+    hash,
+    description,
+}: {
+    album: string;
+    hash: string;
+    description?: string;
+}) => {
+    const route = 'addExistingAlbum';
+
+    const response = await authFetch(route, true, {
+        album,
+        description,
+        hash,
+    });
+
+    return response?.status === 200;
+};
+
+const addExistingAlbum = async ({
     album,
     dispatch,
     description,
     hash,
 }: {
-    album?: string;
+    album: string;
     dispatch: React.Dispatch<AlbumsAction>;
     description?: string;
-    hash?: string;
+    hash: string;
 }) => {
-    //get album info from imgur
-    //add album to context
-    // dispatch({
-    //     type: AlbumsActionTypes.addExistingAlbum,
-    //     album,
-    //     description,
-    //     hash,
-    //     status,
-    // });
-    //const result = add album to API
-    //if !result deleteAlbum
+    //create the new album locally
+    dispatch({
+        type: AlbumsActionTypes.createNewAlbum,
+        album,
+        hash,
+        description,
+    });
+
+    //set the current album to the new album
+    dispatch({
+        type: AlbumsActionTypes.setAlbum,
+        album,
+    });
+
+    //ask the api to confirm that the album exists
+    //and if so, add it to the albums
+    const albumAdded = await addExistingAlbumAPI({ album, description, hash });
+
+    !albumAdded &&
+        dispatch({
+            type: AlbumsActionTypes.deleteAlbum,
+            album,
+        });
 };
 
 export default addExistingAlbum;

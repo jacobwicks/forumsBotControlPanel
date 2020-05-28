@@ -3,7 +3,7 @@ import { Button, Label, Popup } from 'semantic-ui-react';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { ImageReviewStatus, AlbumsActionTypes } from '../../../../types';
 
-const SidebarAlbum = ({ album, index }: { album: string; index: number }) => {
+const SidebarAlbum = ({ album }: { album: string }) => {
     const { dispatch, album: currentAlbum, imageQueue } = useContext(
         AlbumsContext
     );
@@ -14,7 +14,7 @@ const SidebarAlbum = ({ album, index }: { album: string; index: number }) => {
     ).length;
 
     return (
-        <div key={index} style={{ padding: 10 }}>
+        <div style={{ padding: 10 }}>
             <Popup
                 content={`Click to review images for ${album}`}
                 disabled={!images}

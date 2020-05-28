@@ -54,7 +54,7 @@ const Albums = () => {
                 <br />
                 <br />
                 <Grid columns={2} divided>
-                    <Grid.Column width={3}>
+                    <Grid.Column width={4}>
                         <Header as="h2">
                             Albums <CreateAlbumModal />
                         </Header>
@@ -64,7 +64,7 @@ const Albums = () => {
                                 .map((thisAlbum, index) => (
                                     <SidebarAlbum
                                         album={thisAlbum}
-                                        index={index}
+                                        key={index}
                                     />
                                 ))}
                     </Grid.Column>

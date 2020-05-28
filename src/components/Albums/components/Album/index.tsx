@@ -78,6 +78,7 @@ const Album = ({ album }: { album: string }) => {
                 <a
                     href={`https://imgur.com/a/${thisAlbum.hash}`}
                     target="_blank"
+                    rel="noopener noreferrer"
                 >
                     View album {album} on Imgur
                 </a>
