@@ -1,30 +1,44 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { LoginContext } from '../../services/LoginContext';
 import { apiUrl } from '../../services/Api';
+import { Table, Loader } from 'semantic-ui-react';
 
+interface Event {
+    data: string | object;
+}
 const LogViewer = () => {
-    const [thisEventSource, setThisEventSource] = useState<
-        EventSource | undefined
-    >(undefined);
+    const [events, setEvents] = useState<Event[]>([]);
+    const [listening, setListening] = useState(false);
 
-    const [gettingEvent, setGettingEvent] = useState(false);
-
-    const getEventSource = () => {
-        const eventRoute = 'logEvent';
-        const eventUrl = `${apiUrl}${eventRoute}`;
-        const evtSource = new EventSource(eventUrl, {
-            withCredentials: true,
-        });
-    };
+    const route = 'logEvent';
+    const eventUrl = `${apiUrl}${route}`;
 
     useEffect(() => {
-        if (!thisEventSource && !gettingEvent) {
-            setGettingEvent(true);
-            getEventSource();
-        }
-    }, [thisEventSource, gettingEvent, getEventSource]);
+        if (!listening) {
+            const events = new EventSource(eventUrl);
+            events.onmessage = (event) => {
+                const parsedData: Event = JSON.parse(event.data);
+                console.log(`got some data`, parsedData);
+                setEvents((events) => events.concat(parsedData));
+            };
 
-    return <div>Log Viewer Placeholder</div>;
+            setListening(true);
+        }
+    }, [listening, events]);
+
+    return (
+        <Table inverted style={{ color: 'lime', minHeight: 250 }}>
+            {!events ? (
+                <Loader active />
+            ) : (
+                events.map((event, index) => (
+                    <Table.Row key={index}>
+                        {index + 1}: {event.data}
+                    </Table.Row>
+                ))
+            )}
+        </Table>
+    );
 };
 
 export default LogViewer;

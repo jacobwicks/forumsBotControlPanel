@@ -12,6 +12,7 @@ import { BotActionTypes, BotFetchKeys, BotAction } from '../../types';
 import { loadSettings } from '../../services/Api';
 import setValue from '../../services/Api/services/SetValue';
 import LogViewer from '../LogViewer/';
+import { runOnce } from '../../services/Api/services/Bot';
 
 //add what the bot is doing right now
 //waiting,
@@ -77,7 +78,7 @@ const ControlButtons = () => {
                 <Icon name="stop" size="large" />
                 Stop
             </Button>
-            <Button color="blue">
+            <Button color="blue" onClick={() => runOnce()}>
                 <Icon name="play circle" size="large" />
                 Run Once
             </Button>
