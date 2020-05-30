@@ -1,4 +1,4 @@
-import { AlbumsAction, Album, AlbumsActionTypes } from '../../../../../types';
+import { AlbumsAction, AlbumsActionTypes } from '../../../../../types';
 import authFetch from '../../AuthFetch';
 
 const deleteAlbumAPI = async (album: string) => {

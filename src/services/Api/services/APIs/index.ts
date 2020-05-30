@@ -1,4 +1,3 @@
-import expectJSON from '../ExpectJSON';
 import { authFetchJSON } from '../AuthFetch';
 import {
     BotAction,

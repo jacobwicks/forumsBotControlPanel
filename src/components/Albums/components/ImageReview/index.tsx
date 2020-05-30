@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import usePrevious from '../../../../services/UsePrevious';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { Header, Segment } from 'semantic-ui-react';
@@ -42,10 +42,13 @@ const ImageReview = ({ album }: { album?: string }) => {
 
     //makes the current image animate off the screen
     //and brings the new image onscreen
-    const animateOut = (newDirection: directions) => {
-        setExitDirection(newDirection);
-        setKey(key + numbers[newDirection]);
-    };
+    const animateOut = useCallback(
+        (newDirection: directions) => {
+            setExitDirection(newDirection);
+            setKey(key + numbers[newDirection]);
+        },
+        [setExitDirection, key, setKey]
+    );
 
     //an array of the current images from this album
     //that have pending status
@@ -106,6 +109,7 @@ const ImageReview = ({ album }: { album?: string }) => {
         }
     }, [
         album,
+        animateOut,
         previousAlbum,
         filteredQueue.length,
         previousFilteredQueueLength,

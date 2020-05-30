@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AlbumsContext } from '../../services/AlbumsContext';
 import { loadAlbums } from '../../services/Api/';
-import { Grid, Button, Segment, Header, Icon, Popup } from 'semantic-ui-react';
+import { Grid, Button, Segment, Header } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
 import { ImageReviewStatus, AlbumsActionTypes } from '../../types';
 import SidebarAlbum from './components/SidebarAlbum';
-import CreateAlbumModal from './components/CreateAlbumModal';
+import AddOrCreateAlbumModal from './components/AddOrCreateAlbumModal';
 
 const Albums = () => {
     const {
@@ -56,7 +56,7 @@ const Albums = () => {
                 <Grid columns={2} divided>
                     <Grid.Column width={4}>
                         <Header as="h2">
-                            Albums <CreateAlbumModal />
+                            Albums <AddOrCreateAlbumModal />
                         </Header>
                         {albums &&
                             Object.keys(albums)

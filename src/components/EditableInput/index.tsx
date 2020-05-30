@@ -86,7 +86,7 @@ const EditableInput = ({
     //if the parent component wants to know if the input is open
     useEffect(() => {
         tellParentOpen && tellParentOpen(open);
-    }, [open]);
+    }, [open, tellParentOpen]);
 
     const handleBlur = async (value: string | boolean | number | undefined) => {
         setOpen(false);

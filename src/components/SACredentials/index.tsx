@@ -27,7 +27,7 @@ const SACredentials = () => {
         ) {
             getCreds();
         }
-    }, [username, isFetching, hasFetched, hasFailed]);
+    }, [username, isFetching, hasFetched, hasFailed, password]);
 
     const getCreds = async () => {
         setIsFetching(true);

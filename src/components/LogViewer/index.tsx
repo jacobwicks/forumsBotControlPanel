@@ -1,40 +1,90 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { LoginContext } from '../../services/LoginContext';
+import React, { useState, useEffect, useRef, ReactElement } from 'react';
 import { apiUrl } from '../../services/Api';
-import { Table, Loader, Segment } from 'semantic-ui-react';
-import AnimatedEllipse from './AnimatedEllipse';
+import { Loader, Segment } from 'semantic-ui-react';
+import AnimatedEllipse from './components/AnimatedEllipse';
+import ErrorEvent from './components/ErrorEvent';
 
-interface KeyString {
+interface KeyStringInterface {
     [key: string]: any;
+}
+
+function assertIsKeyStringInterface(
+    data: string | KeyStringInterface
+): asserts data is KeyStringInterface {
+    if (!(typeof data === 'object')) {
+        throw new Error('data is not a KeyStringInterface');
+    }
 }
 
 interface Event {
     time: number;
-    data: string | KeyString;
+    data: string | KeyStringInterface;
 }
 
 enum LogEventTypes {
     apiMessage = 'apiMessage',
     botStatus = 'botStatus',
+    error = 'error',
     link = 'link',
     post = 'post',
 }
+
 //api message
 //link
 //post
 //image
-const LogEvent = ({ event, newest }: { event: Event; newest: boolean }) => {
+const LogEvent = ({
+    event,
+    newest,
+}: {
+    //the event from the api
+    event: Event;
+    //if this event is the latest event received
+    newest: boolean;
+}) => {
     let { data } = event;
     console.log(`time ${event.time}`, data);
-    let print: any =
-        typeof data === 'object'
-            ? Object.keys(data).reduce((acc, cur, index) => {
-                  //@ts-ignore
-                  if (index === 0) return `${cur}: ${(data as KeyString)[cur]}`;
-                  //@ts-ignore
-                  return `${acc}|| ${cur}: ${(data as KeyString)[cur]}`;
-              }, '')
-            : data;
+
+    const getPrint = () => {
+        if (typeof data === 'string') {
+            return data;
+        } else if (typeof data === 'object') {
+            const children = Object.keys(data).reduce((children, key) => {
+                assertIsKeyStringInterface(data);
+                switch (key) {
+                    case LogEventTypes.error: {
+                        const errorChild = (
+                            <ErrorEvent newest={newest} error={data[key]} />
+                        );
+                        children.push(errorChild);
+                        return children;
+                    }
+                    default: {
+                        children.push(
+                            <span>
+                                {key}: {data[key]}
+                            </span>
+                        );
+                    }
+                }
+
+                return children;
+            }, [] as ReactElement[]);
+
+            return <>{children}</>;
+        }
+    };
+
+    let print = getPrint();
+    // let print: any =
+    //     typeof data === 'object'
+    //         ? Object.keys(data).reduce((acc, cur, index) => {
+    //               //@ts-ignore
+    //               if (index === 0) return `${cur}: ${(data as KeyString)[cur]}`;
+    //               //@ts-ignore
+    //               return `${acc}|| ${cur}: ${(data as KeyString)[cur]}`;
+    //           }, '')
+    //         : data;
 
     const time = new Date(event.time);
 
@@ -42,7 +92,7 @@ const LogEvent = ({ event, newest }: { event: Event; newest: boolean }) => {
         time &&
         `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}> `;
 
-    if (newest && print.slice(-3) === '...') {
+    if (newest && typeof print === 'string' && print.slice(-3) === '...') {
         print = (
             <>
                 {print.slice(0, -3)}
@@ -62,11 +112,10 @@ const LogViewer = () => {
     const [events, setEvents] = useState<Event[]>([]);
     const [listening, setListening] = useState(false);
 
-    const route = 'logEvent';
-    const eventUrl = `${apiUrl}${route}`;
-
     useEffect(() => {
         if (!listening) {
+            const route = 'logEvent';
+            const eventUrl = `${apiUrl}${route}`;
             const events = new EventSource(eventUrl);
             events.onmessage = (event) => {
                 const parsedData: Event = JSON.parse(event.data);
