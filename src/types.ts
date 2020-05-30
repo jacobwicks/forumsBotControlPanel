@@ -232,6 +232,10 @@ export interface Creds {
     password: string;
 }
 
+export interface Event {
+    time: number;
+    data: string | KeyStringInterface;
+}
 //the possible states of an image submitted to be added to an album
 export enum ImageReviewStatus {
     //not reviewed yet
@@ -245,6 +249,10 @@ export enum ImageReviewStatus {
 
     //image is obscene or illegal
     reported = 'REPORTED',
+}
+
+export interface KeyStringInterface {
+    [key: string]: any;
 }
 
 //the types of action that the reducer in BotContext will handle
