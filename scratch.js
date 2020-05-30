@@ -1,4 +1,4 @@
-const date = new Date();
-const str = JSON.stringify(date);
+const date = Date.now();
 console.log(date);
-console.log(str);
+const d = new Date(date);
+console.log(d.toString());

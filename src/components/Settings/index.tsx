@@ -13,6 +13,7 @@ import { loadSettings } from '../../services/Api';
 import setValue from '../../services/Api/services/SetValue';
 import LogViewer from '../LogViewer/';
 import { runOnce } from '../../services/Api/services/Bot';
+import AnimatedEllipse from '../LogViewer/AnimatedEllipse';
 
 //add what the bot is doing right now
 //waiting,
