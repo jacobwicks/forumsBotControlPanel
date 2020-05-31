@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Icon } from 'semantic-ui-react';
+import getChildren from '../GetChildren';
 
-const ArrayDisplay = ({ array }: { array: string[] }) => {
+const ArrayDisplay = ({ array, newest }: { array: any[]; newest: boolean }) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -18,9 +19,14 @@ const ArrayDisplay = ({ array }: { array: string[] }) => {
                         margin: 10,
                     }}
                 >
-                    {array.map((el: string, key) => (
-                        <div key={key}>{el}</div>
-                    ))}
+                    {array.map((el, key) =>
+                        // prettier-ignore
+                        typeof el === 'object'
+                            ? Array.isArray(el) 
+                                ? <ArrayDisplay array={el} newest={newest}/>
+                                : getChildren(el, newest)
+                            : <div key={key}>{el}</div>
+                    )}
                 </div>
             )}
         </span>

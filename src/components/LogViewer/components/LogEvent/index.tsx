@@ -4,20 +4,7 @@ import {
     KeyStringInterface,
 } from '../../../../types';
 import AnimatedEllipse from '../AnimatedEllipse';
-import ArrayDisplay from '../ArrayDisplay';
-import ErrorEvent from '../ErrorEvent';
-import ObjectDisplay from '../ObjectDisplay';
-
-enum LogEventTypes {
-    apiMessage = 'apiMessage',
-    array = 'array',
-    botStatus = 'botStatus',
-    error = 'error',
-    link = 'link',
-    post = 'post',
-    setting = 'setting',
-    text = 'text',
-}
+import getChildren from '../GetChildren';
 
 function assertIsKeyStringInterface(
     data: string | KeyStringInterface
@@ -46,54 +33,8 @@ const LogEvent = ({
         if (!data && text) {
             return text;
         } else if (typeof data === 'object') {
-            const children = Object.keys(data).reduce((children, key) => {
-                assertIsKeyStringInterface(data);
-                switch (key) {
-                    case LogEventTypes.array: {
-                        const array = data[key];
-                        const arrayChild = <ArrayDisplay array={array} />;
-                        children.push(arrayChild);
-                        return children;
-                    }
-                    case LogEventTypes.error: {
-                        const errorChild = (
-                            <ErrorEvent newest={newest} error={data[key]} />
-                        );
-                        children.push(errorChild);
-                        return children;
-                    }
-                    case LogEventTypes.text: {
-                        children.push(<span>{data[key]}</span>);
-                        return children;
-                    }
-                    case LogEventTypes.setting: {
-                        const thisSetting = data[key];
-                        const setting = Object.keys(thisSetting)[0];
-                        children.push(
-                            <span>
-                                {setting} is {data[key][setting].toString()}
-                            </span>
-                        );
-                        return children;
-                    }
-                    default: {
-                        const value = data[key];
-                        const display =
-                            // prettier-ignore
-                            typeof value === 'object'
-                            ? Array.isArray(value)
-                                ? <ArrayDisplay array={value} />
-                                : <ObjectDisplay object={value} />
-                            : value;
-                        children.push(
-                            <span>
-                                {key}: {display}
-                            </span>
-                        );
-                    }
-                }
-                return children;
-            }, [] as ReactElement[]);
+            assertIsKeyStringInterface(data);
+            const children = getChildren(data, newest);
 
             return <>{children}</>;
         }
