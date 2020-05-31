@@ -17,6 +17,7 @@ export {
     loadAlbums,
     rejectImage,
 } from './services/Albums';
+export { default as listenToEvents } from './services/Events';
 export { default as loadSettings } from './services/BotSettings';
 export { default as login } from './services/Login';
 export { default as logout } from './services/Logout';

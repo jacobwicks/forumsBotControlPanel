@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Tab } from 'semantic-ui-react';
 import APIs from '../APIs';
 import SACredentials from '../SACredentials';
 import Albums from '../Albums';
 import Settings from '../Settings';
+import { listenToEvents } from '../../services/Api';
+import { EventsContext } from '../../services/EventsContext';
+import { BotContext } from '../../services/BotContext';
 
 // edit the config.json file that the bot accesses
 // input api keys and secrets to config.json file
@@ -67,6 +70,22 @@ const tabs = [
     { menuItem: 'Logging', render: () => <Tab.Pane>Placeholder</Tab.Pane> },
 ];
 
-const ControlPanel = () => <Tab panes={tabs} />;
+const ControlPanel = () => {
+    const { dispatch: eventsDispatch, failed, listening } = useContext(
+        EventsContext
+    );
+    const { dispatch: botDispatch } = useContext(BotContext);
+
+    useEffect(() => {
+        !listening &&
+            !failed &&
+            listenToEvents({
+                botDispatch,
+                eventsDispatch,
+            });
+    }, [listening, failed, botDispatch, eventsDispatch]);
+
+    return <Tab panes={tabs} />;
+};
 
 export default ControlPanel;

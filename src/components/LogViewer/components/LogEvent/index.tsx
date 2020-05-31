@@ -1,5 +1,8 @@
 import React, { ReactElement } from 'react';
-import { Event, KeyStringInterface } from '../../../../types';
+import {
+    LogEvent as LogEventInterface,
+    KeyStringInterface,
+} from '../../../../types';
 import AnimatedEllipse from '../AnimatedEllipse';
 import ArrayDisplay from '../ArrayDisplay';
 import ErrorEvent from '../ErrorEvent';
@@ -31,12 +34,12 @@ const LogEvent = ({
     newest,
 }: {
     //the event from the api
-    event: Event;
+    event: LogEventInterface;
     //if this event is the latest event received
     newest: boolean;
 }) => {
     let { data } = event;
-    console.log(`time ${event.time}`, data);
+    //console.log(`time ${event.time}`, data);
 
     const getPrint = () => {
         if (typeof data === 'string') {

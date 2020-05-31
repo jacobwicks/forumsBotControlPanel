@@ -4,30 +4,15 @@ import React, {
     useRef,
     MutableRefObject,
     ReactElement,
+    useContext,
 } from 'react';
 import { apiUrl } from '../../services/Api';
 import { Loader, Segment } from 'semantic-ui-react';
 import LogEvent from './components/LogEvent';
-import { Event } from '../../types';
+import { EventsContext } from '../../services/EventsContext';
 
 const LogViewer = () => {
-    const [events, setEvents] = useState<Event[]>([]);
-    const [listening, setListening] = useState(false);
-
-    useEffect(() => {
-        if (!listening) {
-            const route = 'logEvent';
-            const eventUrl = `${apiUrl}${route}`;
-            const events = new EventSource(eventUrl);
-            events.onmessage = (event) => {
-                const parsedData: Event = JSON.parse(event.data);
-                console.log(`got some data`, parsedData);
-                setEvents((events) => events.concat(parsedData));
-            };
-
-            setListening(true);
-        }
-    }, [listening, events]);
+    const { events } = useContext(EventsContext);
 
     const eventsEndRef = useRef(null) as MutableRefObject<any>;
 
