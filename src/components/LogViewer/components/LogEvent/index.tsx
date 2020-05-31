@@ -58,6 +58,10 @@ const LogEvent = ({
                         children.push(errorChild);
                         return children;
                     }
+                    case LogEventTypes.text: {
+                        children.push(<span>{data[key]}</span>);
+                        return children;
+                    }
                     default: {
                         children.push(
                             <span>
@@ -79,7 +83,9 @@ const LogEvent = ({
 
     const parsedTime =
         time &&
-        `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}> `;
+        `${(time.getHours() < 10 ? '0' : '') + time.getHours()}:${
+            (time.getMinutes() < 10 ? '0' : '') + time.getMinutes()
+        }:${(time.getSeconds() < 10 ? '0' : '') + time.getSeconds()}> `;
 
     if (newest && typeof print === 'string' && print.slice(-3) === '...') {
         print = (

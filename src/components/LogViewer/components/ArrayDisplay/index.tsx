@@ -11,7 +11,13 @@ const ArrayDisplay = ({ array }: { array: string[] }) => {
                 onClick={() => setOpen(!open)}
             />
             {open && (
-                <div style={{ outline: 'solid', outlineColor: 'lime' }}>
+                <div
+                    style={{
+                        outline: 'solid',
+                        outlineColor: 'lime',
+                        margin: 10,
+                    }}
+                >
                     {array.map((el: string, key) => (
                         <div key={key}>{el}</div>
                     ))}

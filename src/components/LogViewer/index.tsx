@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    MutableRefObject,
+    ReactElement,
+} from 'react';
 import { apiUrl } from '../../services/Api';
 import { Loader, Segment } from 'semantic-ui-react';
 import LogEvent from './components/LogEvent';
@@ -23,10 +29,9 @@ const LogViewer = () => {
         }
     }, [listening, events]);
 
-    const eventsEndRef = useRef(null);
+    const eventsEndRef = useRef(null) as MutableRefObject<any>;
 
     const scrollToBottom = () => {
-        //@ts-ignore
         eventsEndRef?.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
@@ -39,7 +44,6 @@ const LogViewer = () => {
                 color: 'lime',
                 height: 250,
                 overflow: 'auto',
-                scrollbarColor: 'lime',
             }}
         >
             {!events ? (
