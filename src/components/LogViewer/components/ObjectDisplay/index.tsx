@@ -1,0 +1,41 @@
+import React, { useState } from 'react';
+import { Icon } from 'semantic-ui-react';
+import ArrayDisplay from '../ArrayDisplay';
+
+const ObjectDisplay = ({ object }: { object: { [key: string]: any } }) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <span>
+            <Icon
+                name={open ? 'caret down' : 'caret right'}
+                onClick={() => setOpen(!open)}
+            />
+            {open && (
+                <div
+                    style={{
+                        outline: 'solid',
+                        outlineColor: 'lime',
+                        margin: 10,
+                    }}
+                >
+                    {Object.keys(object).map((key: string) => {
+                        const value = object[key];
+                        console.log(`key is ${key}, value is`, value, object);
+                        const display =
+                            // prettier-ignore
+                            value === 'object' 
+                            ? Array.isArray(value) 
+                                ? <ArrayDisplay array={value} />
+                                : <ObjectDisplay object={value} /> 
+                            : `${key}: ${value}`;
+
+                        return <div key={key}>{display}</div>;
+                    })}
+                </div>
+            )}
+        </span>
+    );
+};
+
+export default ObjectDisplay;

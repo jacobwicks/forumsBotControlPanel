@@ -242,7 +242,7 @@ export type EventsAction =
     //received event from event source. add it to array of LogEvents
     | {
           type: EventsActionTypes.addEvent;
-          event: LogEvent;
+          event: LogEvent | LogEvent[];
       }
 
     //failed to get event source
@@ -263,10 +263,11 @@ interface EventsType {
 
 export type EventsState = EventsType & EventsDispatch;
 
-export interface LogEvent {
-    time: number;
-    data: string | KeyStringInterface;
-}
+export type LogEvent = {
+    time: string;
+    text?: string;
+    data?: object;
+};
 //the possible states of an image submitted to be added to an album
 export enum ImageReviewStatus {
     //not reviewed yet

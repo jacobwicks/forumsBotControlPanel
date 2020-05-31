@@ -6,6 +6,7 @@ import {
 import AnimatedEllipse from '../AnimatedEllipse';
 import ArrayDisplay from '../ArrayDisplay';
 import ErrorEvent from '../ErrorEvent';
+import ObjectDisplay from '../ObjectDisplay';
 
 enum LogEventTypes {
     apiMessage = 'apiMessage',
@@ -14,6 +15,7 @@ enum LogEventTypes {
     error = 'error',
     link = 'link',
     post = 'post',
+    setting = 'setting',
     text = 'text',
 }
 
@@ -38,12 +40,11 @@ const LogEvent = ({
     //if this event is the latest event received
     newest: boolean;
 }) => {
-    let { data } = event;
-    //console.log(`time ${event.time}`, data);
+    const { data, text } = event;
 
     const getPrint = () => {
-        if (typeof data === 'string') {
-            return data;
+        if (!data && text) {
+            return text;
         } else if (typeof data === 'object') {
             const children = Object.keys(data).reduce((children, key) => {
                 assertIsKeyStringInterface(data);
@@ -65,10 +66,28 @@ const LogEvent = ({
                         children.push(<span>{data[key]}</span>);
                         return children;
                     }
-                    default: {
+                    case LogEventTypes.setting: {
+                        const thisSetting = data[key];
+                        const setting = Object.keys(thisSetting)[0];
                         children.push(
                             <span>
-                                {key}: {data[key]}
+                                {setting} is {data[key][setting].toString()}
+                            </span>
+                        );
+                        return children;
+                    }
+                    default: {
+                        const value = data[key];
+                        const display =
+                            // prettier-ignore
+                            typeof value === 'object'
+                            ? Array.isArray(value)
+                                ? <ArrayDisplay array={value} />
+                                : <ObjectDisplay object={value} />
+                            : value;
+                        children.push(
+                            <span>
+                                {key}: {display}
                             </span>
                         );
                     }

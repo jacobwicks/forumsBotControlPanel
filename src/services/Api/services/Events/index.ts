@@ -4,6 +4,7 @@ import {
     EventsAction,
     EventsActionTypes,
     LogEvent,
+    BotActionTypes,
 } from '../../../../types';
 
 const listenToEvents = ({
@@ -19,19 +20,29 @@ const listenToEvents = ({
         const events = new EventSource(eventUrl);
 
         events.onmessage = (event) => {
-            const parsedData: LogEvent = JSON.parse(event.data);
+            const parsedEvent: LogEvent | LogEvent[] = JSON.parse(event.data);
 
-            console.log(`got some data`, parsedData);
+            //parsed event is either LogEvent or LogEvent[]
+            console.log(`got an event`, parsedEvent);
 
             eventsDispatch({
                 type: EventsActionTypes.addEvent,
-                event: parsedData,
+                event: parsedEvent,
             });
 
-            // if(parsedData) {
-            //     const { data } = parsedData;
-            //     if
-            // }
+            const checkBotSetting = (ev: any) => {
+                const data = ev?.data;
+                if (data?.hasOwnProperty('setting')) {
+                    console.log(`I have a bot setting`, data);
+                    //botDispatch({type: BotActionTypes.})
+                }
+            };
+
+            if (Array.isArray(parsedEvent)) {
+                parsedEvent.forEach((event) => checkBotSetting(event));
+            } else if (parsedEvent?.data) {
+                checkBotSetting(parsedEvent);
+            }
         };
     } catch (err) {
         eventsDispatch({ type: EventsActionTypes.failed });
