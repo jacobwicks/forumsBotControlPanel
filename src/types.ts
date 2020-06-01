@@ -366,3 +366,60 @@ export interface Instruction extends Post {
     //the link to the post that had the instruction
     link: string;
 }
+
+interface ThreadLimits {
+    startPage: number;
+    startPost: number;
+    stopPage: number;
+    stopPost: number;
+}
+
+export interface Thread {
+    title: string;
+    name?: string;
+    threadId: number;
+    lastScannedPage?: number;
+    lastScannedPost?: number;
+    newPosts?: number;
+    limits?: ThreadLimits;
+}
+
+export enum ThreadsActionTypes {
+    addThread = 'addThread',
+    currentThread = 'currentThread',
+    failed = 'failed',
+    fetchAttempt = 'fetchAttempt',
+    setThreads = 'setThreads',
+}
+
+export type ThreadsAction =
+    //add thread or array of threads  to array of threads
+    | {
+          type: ThreadsActionTypes.addThread;
+          thread: Thread | Thread[];
+      }
+
+    //set the current thread
+    | { type: ThreadsActionTypes.currentThread; threadId: number }
+
+    //failed to get threads from API
+    | { type: ThreadsActionTypes.failed }
+
+    //fetching threads from API
+    | { type: ThreadsActionTypes.fetchAttempt }
+
+    //set the whole array of threads
+    | { type: ThreadsActionTypes.setThreads; threads: Thread[] };
+
+export interface ThreadsDispatch {
+    dispatch: React.Dispatch<ThreadsAction>;
+}
+
+interface ThreadsType {
+    thread: number;
+    threads?: Thread[];
+    failed: boolean;
+    fetching: boolean;
+}
+
+export type ThreadsState = ThreadsType & ThreadsDispatch;

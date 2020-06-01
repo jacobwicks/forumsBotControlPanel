@@ -3,12 +3,15 @@ import { AlbumsProvider } from '../../services/AlbumsContext';
 import { BotProvider } from '../../services/BotContext';
 import { EventsProvider } from '../../services/EventsContext';
 import { LoginProvider } from '../../services/LoginContext';
+import { ThreadsProvider } from '../../services/ThreadsContext';
 
 const Providers = (props: any) => (
     <AlbumsProvider>
         <BotProvider>
             <EventsProvider>
-                <LoginProvider {...props} />
+                <LoginProvider>
+                    <ThreadsProvider {...props} />
+                </LoginProvider>
             </EventsProvider>
         </BotProvider>
     </AlbumsProvider>

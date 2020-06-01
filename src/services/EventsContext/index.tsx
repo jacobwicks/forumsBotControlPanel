@@ -18,6 +18,12 @@ let reducer = (state: EventsState, action: EventsAction) => {
                 events,
             };
         }
+        case 'failed': {
+            return {
+                ...state,
+                failed: true,
+            };
+        }
         case 'setListening': {
             const { listening } = action;
             return {

@@ -4,10 +4,10 @@ import APIs from '../APIs';
 import SACredentials from '../SACredentials';
 import Albums from '../Albums';
 import Settings from '../Settings';
+import Threads from '../Threads';
 import { listenToEvents } from '../../services/Api';
 import { EventsContext } from '../../services/EventsContext';
 import { BotContext } from '../../services/BotContext';
-
 // edit the config.json file that the bot accesses
 // input api keys and secrets to config.json file
 // Change the bot name
@@ -67,7 +67,14 @@ const tabs = [
             </Tab.Pane>
         ),
     },
-    { menuItem: 'Logging', render: () => <Tab.Pane>Placeholder</Tab.Pane> },
+    {
+        menuItem: 'Threads',
+        render: () => (
+            <Tab.Pane>
+                <Threads />
+            </Tab.Pane>
+        ),
+    },
 ];
 
 const ControlPanel = () => {
