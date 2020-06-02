@@ -6,7 +6,7 @@ import { Instruction } from '../../../../types';
 import Post from '../../../Post';
 
 const Instructions = ({ instructions }: { instructions: Instruction[] }) => {
-    if (instructions.length == 0) return <></>;
+    if (instructions.length === 0) return <></>;
     const children = instructions.map((i) => {
         const { author, id, instruction, link } = i;
         return (

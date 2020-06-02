@@ -27,9 +27,9 @@ const CurrentThread = () => {
     const { name, title, threadId } = currentThread;
 
     return (
-        <Segment>
+        <>
             <Header as="h2">Current thread: {name ? name : title}</Header>
-        </Segment>
+        </>
     );
 };
 

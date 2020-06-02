@@ -5,14 +5,18 @@ import {
     EventsActionTypes,
     LogEvent,
     BotActionTypes,
+    ThreadsAction,
+    ThreadsActionTypes,
 } from '../../../../types';
 
 const listenToEvents = ({
     botDispatch,
     eventsDispatch,
+    threadsDispatch,
 }: {
     botDispatch: React.Dispatch<BotAction>;
     eventsDispatch: React.Dispatch<EventsAction>;
+    threadsDispatch: React.Dispatch<ThreadsAction>;
 }) => {
     try {
         const route = 'logEvent';
@@ -32,16 +36,36 @@ const listenToEvents = ({
 
             const checkBotSetting = (ev: any) => {
                 const data = ev?.data;
+
                 if (data?.hasOwnProperty('setting')) {
                     console.log(`I have a bot setting`, data);
                     //botDispatch({type: BotActionTypes.})
                 }
             };
 
+            const checkThreads = (ev: any) => {
+                const data = ev?.data;
+
+                if (data?.hasOwnProperty('threads')) {
+                    const { threads } = data;
+
+                    threadsDispatch({
+                        type: ThreadsActionTypes.setThreads,
+                        threads,
+                    });
+                }
+            };
+
+            //received an array of events
             if (Array.isArray(parsedEvent)) {
-                parsedEvent.forEach((event) => checkBotSetting(event));
+                //check each event for settings or threads
+                parsedEvent.forEach((event) => {
+                    checkBotSetting(event);
+                    checkThreads(event);
+                });
             } else if (parsedEvent?.data) {
                 checkBotSetting(parsedEvent);
+                checkThreads(parsedEvent);
             }
         };
     } catch (err) {

@@ -8,6 +8,7 @@ import Threads from '../Threads';
 import { listenToEvents } from '../../services/Api';
 import { EventsContext } from '../../services/EventsContext';
 import { BotContext } from '../../services/BotContext';
+import { ThreadsContext } from '../../services/ThreadsContext';
 // edit the config.json file that the bot accesses
 // input api keys and secrets to config.json file
 // Change the bot name
@@ -81,7 +82,10 @@ const ControlPanel = () => {
     const { dispatch: eventsDispatch, failed, listening } = useContext(
         EventsContext
     );
+
     const { dispatch: botDispatch } = useContext(BotContext);
+
+    const { dispatch: threadsDispatch } = useContext(ThreadsContext);
 
     useEffect(() => {
         !listening &&
@@ -89,8 +93,9 @@ const ControlPanel = () => {
             listenToEvents({
                 botDispatch,
                 eventsDispatch,
+                threadsDispatch,
             });
-    }, [listening, failed, botDispatch, eventsDispatch]);
+    }, [listening, failed, botDispatch, eventsDispatch, threadsDispatch]);
 
     return <Tab panes={tabs} />;
 };
