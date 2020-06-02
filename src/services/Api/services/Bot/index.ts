@@ -1,6 +1,4 @@
 import authFetch from '../AuthFetch';
-import { BotAction, BotActionTypes } from '../../../../types';
-import setValue from '../SetValue';
 
 const runOnce = async () => {
     const route = 'runOnce';
@@ -8,32 +6,18 @@ const runOnce = async () => {
     console.log(`runOnce ${response?.status === 200}`);
 };
 
-const startBot = async (dispatch: React.Dispatch<BotAction>) => {
-    const configKeys = ['settings', 'running'];
-    const value = true;
-
-    dispatch({ type: BotActionTypes.start });
-
-    const started = await setValue({
-        configKeys,
-        value,
-    });
-
-    !started && dispatch({ type: BotActionTypes.stop });
+const startBot = async () => {
+    const route = 'startBot';
+    await authFetch(route);
+    //don't do anything with the response
+    //if successful, a server sent event will be sent to the eventlistener
+    //that will propagate to the context and the components
 };
 
-const stopBot = async (dispatch: React.Dispatch<BotAction>) => {
-    const configKeys = ['settings', 'running'];
-    const value = false;
-
-    dispatch({ type: BotActionTypes.stop });
-
-    const stopped = await setValue({
-        configKeys,
-        value,
-    });
-
-    !stopped && dispatch({ type: BotActionTypes.stop });
+const stopBot = async () => {
+    const route = 'stopBot';
+    const botStopped = await authFetch(route);
+    console.log(`bot stopped response`, botStopped?.status);
 };
 
 export { startBot, stopBot, runOnce };

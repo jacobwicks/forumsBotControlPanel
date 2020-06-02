@@ -88,7 +88,7 @@ export const reducer = (state: BotState, action: BotAction) => {
             //     interval: newInterval ? newInterval : state.interval,
             // };
         }
-        //starts the bot running with current settings
+        //sets the status of bot currently running, rather than idle
         case 'setRunning': {
             const { running } = action;
             if (state.settings) {
@@ -103,10 +103,11 @@ export const reducer = (state: BotState, action: BotAction) => {
                 };
             } else return state;
         }
+        //starts the bot running every interval
         case 'start': {
             if (state.settings) {
                 const settings = { ...state.settings };
-                settings.running = true;
+                settings.on = true;
 
                 return {
                     ...state,
@@ -114,12 +115,11 @@ export const reducer = (state: BotState, action: BotAction) => {
                 };
             } else return state;
         }
-
-        //stops the bot if it is currently running
+        //bot is not currently running at intervals
         case 'stop': {
             if (state.settings) {
                 const settings = { ...state.settings };
-                settings.running = false;
+                settings.on = false;
 
                 return {
                     ...state,

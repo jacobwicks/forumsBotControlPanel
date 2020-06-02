@@ -50,15 +50,25 @@ const listenToEvents = ({
                                 });
                                 break;
                             }
-                            case 'running':
-                                {
-                                    const { running } = setting;
-                                    botDispatch({
-                                        type: BotActionTypes.setRunning,
-                                        running,
-                                    });
-                                }
+                            case 'on': {
+                                const { on } = setting;
+                                on
+                                    ? botDispatch({
+                                          type: BotActionTypes.start,
+                                      })
+                                    : botDispatch({
+                                          type: BotActionTypes.stop,
+                                      });
                                 break;
+                            }
+                            case 'running': {
+                                const { running } = setting;
+                                botDispatch({
+                                    type: BotActionTypes.setRunning,
+                                    running,
+                                });
+                                break;
+                            }
                             default: {
                                 console.log(
                                     `did not recognize bot setting`,
