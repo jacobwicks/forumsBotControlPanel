@@ -9,6 +9,7 @@ import ArrayDisplay from '../ArrayDisplay';
 import ObjectDisplay from '../ObjectDisplay';
 import Instructions from '../Instructions';
 
+//processes LogEvent data, returns react elements for display in the LogViewer
 const getChildren = (object: KeyStringInterface, newest?: boolean) =>
     Object.keys(object).reduce((children, key, index) => {
         switch (key) {
@@ -61,7 +62,7 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                 const thisSetting = object[key];
                 const setting = Object.keys(thisSetting)[0];
                 children.push(
-                    <span key={index}>
+                    <span key={index} style={{ color: 'pink' }}>
                         {setting} is {object[key][setting].toString()}
                     </span>
                 );

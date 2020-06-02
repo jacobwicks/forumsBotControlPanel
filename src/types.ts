@@ -162,6 +162,7 @@ export enum BotActionTypes {
     fetchSuccess = 'fetchSuccess',
     runOnce = 'runOnce',
     setInterval = 'setInterval',
+    setRunning = 'setRunning',
     setValueAttempt = 'setValueAttempt',
     setValueFailure = 'setValueFailure',
     setValueSuccess = 'setValueSuccess',
@@ -190,11 +191,14 @@ export type BotAction =
     | {
           type: BotActionTypes.fetchSuccess;
           key: BotFetchKeys;
-          content: APIs | BotSettings;
+          content: APIs | FrontEndBotSettings;
       }
 
     //runs the bot once with current settings, then stops the bot
     | { type: BotActionTypes.runOnce }
+
+    //sets if the bot is currently running or not
+    | { type: BotActionTypes.setRunning; running: boolean }
 
     //starts the bot running at current intervals
     | { type: BotActionTypes.start }
@@ -210,9 +214,17 @@ interface BotDispatch {
     dispatch: (action: BotAction) => void;
 }
 
-export interface BotSettings {
+export interface FrontEndBotSettings {
+    //the name that posters use to get the bot's attention
     botName: string;
+
+    //how often the bot runs in minutes, must be > 1
     interval: number;
+
+    //If the bot is set to run every interval or not
+    on: boolean;
+
+    //if the bot is currently running or not
     running: boolean;
 }
 
@@ -220,7 +232,7 @@ interface BotType {
     APIs?: APIs;
     fetching: string[];
     hasFailed: string[];
-    settings?: BotSettings;
+    settings?: FrontEndBotSettings;
 }
 
 //a union type. The LoggedIn state will have a Stats object for any given key

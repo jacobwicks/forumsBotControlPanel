@@ -1,13 +1,13 @@
 import { authFetchJSON } from '../AuthFetch';
 import {
     BotFetchKeys,
-    BotSettings,
+    FrontEndBotSettings,
     BotActionTypes,
     BotAction,
 } from '../../../../types';
 
 interface BotSettingsResponse {
-    settings: BotSettings;
+    settings: FrontEndBotSettings;
 }
 
 type BSR = BotSettingsResponse | undefined;

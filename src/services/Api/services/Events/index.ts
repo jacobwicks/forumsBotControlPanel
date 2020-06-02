@@ -27,7 +27,7 @@ const listenToEvents = ({
             const parsedEvent: LogEvent | LogEvent[] = JSON.parse(event.data);
 
             //parsed event is either LogEvent or LogEvent[]
-            console.log(`got an event`, parsedEvent);
+            //console.log(`got an event`, parsedEvent);
 
             eventsDispatch({
                 type: EventsActionTypes.addEvent,
@@ -38,7 +38,36 @@ const listenToEvents = ({
                 const data = ev?.data;
 
                 if (data?.hasOwnProperty('setting')) {
-                    console.log(`I have a bot setting`, data);
+                    //console.log(`I have a bot setting`, data);
+                    const { setting } = data;
+                    Object.keys(setting).forEach((botSetting) => {
+                        switch (botSetting) {
+                            case 'interval': {
+                                const { interval } = setting;
+                                botDispatch({
+                                    type: BotActionTypes.setInterval,
+                                    interval,
+                                });
+                                break;
+                            }
+                            case 'running':
+                                {
+                                    const { running } = setting;
+                                    botDispatch({
+                                        type: BotActionTypes.setRunning,
+                                        running,
+                                    });
+                                }
+                                break;
+                            default: {
+                                console.log(
+                                    `did not recognize bot setting`,
+                                    botSetting,
+                                    setting
+                                );
+                            }
+                        }
+                    });
                     //botDispatch({type: BotActionTypes.})
                 }
             };

@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import { Action } from '../../types';
 import log from '../Log';
-import { BotAction, BotSettings, BotState } from '../../types';
+import { BotAction, FrontEndBotSettings, BotState } from '../../types';
 
 export const initialState = {
     APIs: undefined,
@@ -38,7 +38,7 @@ export const reducer = (state: BotState, action: BotAction) => {
         //increases interval by 1 minute
         case 'increaseInterval': {
             if (state.settings) {
-                const settings: BotSettings = { ...state.settings };
+                const settings: FrontEndBotSettings = { ...state.settings };
                 const { interval } = settings;
 
                 const newInterval = getNewInterval(interval + 1);
@@ -89,6 +89,20 @@ export const reducer = (state: BotState, action: BotAction) => {
             // };
         }
         //starts the bot running with current settings
+        case 'setRunning': {
+            const { running } = action;
+            if (state.settings) {
+                const settings = {
+                    ...state.settings,
+                    running,
+                };
+
+                return {
+                    ...state,
+                    settings,
+                };
+            } else return state;
+        }
         case 'start': {
             if (state.settings) {
                 const settings = { ...state.settings };
