@@ -47,6 +47,23 @@ let reducer = (state: ThreadsState, action: ThreadsAction) => {
                 fetching: true,
             };
         }
+        case 'setName': {
+            const { threadId, value } = action;
+            const { threads } = state;
+            const index = threads?.findIndex((t) => t.threadId === threadId);
+
+            if (!threads || index === undefined || index === -1) return state;
+
+            const newThread = threads[index];
+
+            newThread.name = value;
+
+            const newThreads = [...threads].splice(index, 1, newThread);
+            return {
+                ...state,
+                threads: newThreads,
+            };
+        }
         case 'setThreads': {
             const { threads } = action;
             return {

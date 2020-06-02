@@ -1,8 +1,12 @@
-import { Thread, ThreadsAction, ThreadsActionTypes } from '../../../../types';
+import {
+    FrontEndThread,
+    ThreadsAction,
+    ThreadsActionTypes,
+} from '../../../../types';
 import { authFetchJSON } from '../AuthFetch';
 
 interface ThreadsResponse {
-    threads: Thread[];
+    threads: FrontEndThread[];
 }
 
 type TR = ThreadsResponse | undefined;

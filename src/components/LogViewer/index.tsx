@@ -1,12 +1,4 @@
-import React, {
-    useState,
-    useEffect,
-    useRef,
-    MutableRefObject,
-    ReactElement,
-    useContext,
-} from 'react';
-import { apiUrl } from '../../services/Api';
+import React, { useEffect, useRef, MutableRefObject, useContext } from 'react';
 import { Loader, Segment } from 'semantic-ui-react';
 import LogEvent from './components/LogEvent';
 import { EventsContext } from '../../services/EventsContext';

@@ -313,6 +313,7 @@ export type LoginAction =
     //token has been stored in localStorage
     | { type: LoginActionTypes.success };
 
+//the types of log events
 export enum LogEventTypes {
     apiMessage = 'apiMessage',
     array = 'array',
@@ -322,6 +323,7 @@ export enum LogEventTypes {
     link = 'link',
     post = 'post',
     setting = 'setting',
+    threads = 'threads',
     text = 'text',
 }
 
@@ -374,14 +376,40 @@ interface ThreadLimits {
     stopPost: number;
 }
 
-export interface Thread {
-    title: string;
+// export interface Thread {
+//     title: string;
+//     name?: string;
+//     threadId: number;
+//     lastScannedPage?: number;
+//     lastScannedPost?: number;
+//     newPosts?: number;
+//     limits?: ThreadLimits;
+// }
+
+//a thread that the bot monitors
+export interface FrontEndThread {
+    //active is true if it was bookmarked
+    //the last time we got bookmarked threads from the forums page
+    active: boolean;
+
+    //optional limits on scanning the thread
+    //start at X page, post, stop at Y page, post
+    limit?: ThreadLimits;
+
+    //a link to the thread
+    link: string;
+
+    //human readable name
+    //designated by you, the person running the bot
+    //goes in the logs
     name?: string;
+
+    //title from the forums
+    //this is often changed
+    title?: string;
+
+    //the unique identifying number of the thread
     threadId: number;
-    lastScannedPage?: number;
-    lastScannedPost?: number;
-    newPosts?: number;
-    limits?: ThreadLimits;
 }
 
 export enum ThreadsActionTypes {
@@ -389,6 +417,7 @@ export enum ThreadsActionTypes {
     currentThread = 'currentThread',
     failed = 'failed',
     fetchAttempt = 'fetchAttempt',
+    setName = 'setName',
     setThreads = 'setThreads',
 }
 
@@ -396,7 +425,7 @@ export type ThreadsAction =
     //add thread or array of threads  to array of threads
     | {
           type: ThreadsActionTypes.addThread;
-          thread: Thread | Thread[];
+          thread: FrontEndThread | FrontEndThread[];
       }
 
     //set the current thread
@@ -408,8 +437,10 @@ export type ThreadsAction =
     //fetching threads from API
     | { type: ThreadsActionTypes.fetchAttempt }
 
+    //set the name of a thread
+    | { type: ThreadsActionTypes.setName; threadId: number; value?: string }
     //set the whole array of threads
-    | { type: ThreadsActionTypes.setThreads; threads: Thread[] };
+    | { type: ThreadsActionTypes.setThreads; threads: FrontEndThread[] };
 
 export interface ThreadsDispatch {
     dispatch: React.Dispatch<ThreadsAction>;
@@ -417,7 +448,7 @@ export interface ThreadsDispatch {
 
 interface ThreadsType {
     thread: number;
-    threads?: Thread[];
+    threads?: FrontEndThread[];
     failed: boolean;
     fetching: boolean;
 }

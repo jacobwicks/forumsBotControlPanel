@@ -1,36 +1,47 @@
 import React, { ReactElement } from 'react';
-import { KeyStringInterface, LogEventTypes } from '../../../../types';
+import {
+    KeyStringInterface,
+    LogEventTypes,
+    FrontEndThread,
+} from '../../../../types';
 import ErrorEvent from '../ErrorEvent';
 import ArrayDisplay from '../ArrayDisplay';
 import ObjectDisplay from '../ObjectDisplay';
 import Instructions from '../Instructions';
 
 const getChildren = (object: KeyStringInterface, newest?: boolean) =>
-    Object.keys(object).reduce((children, key) => {
+    Object.keys(object).reduce((children, key, index) => {
         switch (key) {
             case LogEventTypes.array: {
                 const array = object[key];
                 const arrayChild = (
-                    <ArrayDisplay array={array} newest={!!newest} />
+                    <ArrayDisplay key={index} array={array} newest={!!newest} />
                 );
                 children.push(arrayChild);
                 return children;
             }
             case LogEventTypes.error: {
                 const errorChild = (
-                    <ErrorEvent newest={!!newest} error={object[key]} />
+                    <ErrorEvent
+                        key={index}
+                        newest={!!newest}
+                        error={object[key]}
+                    />
                 );
                 children.push(errorChild);
                 return children;
             }
             case LogEventTypes.instructions: {
-                const child = <Instructions instructions={object[key]} />;
+                const child = (
+                    <Instructions key={index} instructions={object[key]} />
+                );
                 children.push(child);
                 return children;
             }
             case LogEventTypes.link: {
                 const child = (
                     <a
+                        key={index}
                         href={object[key]}
                         style={{ color: 'lightBlue' }}
                         target="_blank"
@@ -43,16 +54,44 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                 return children;
             }
             case LogEventTypes.text: {
-                children.push(<span>{object[key]}</span>);
+                children.push(<span key={index}>{object[key]}</span>);
                 return children;
             }
             case LogEventTypes.setting: {
                 const thisSetting = object[key];
                 const setting = Object.keys(thisSetting)[0];
                 children.push(
-                    <span>
+                    <span key={index}>
                         {setting} is {object[key][setting].toString()}
                     </span>
+                );
+                return children;
+            }
+            case LogEventTypes.threads: {
+                const threads: FrontEndThread[] = object[key];
+                const displayThreads = threads.map((thread) => {
+                    const { name, link, title } = thread;
+
+                    return (
+                        <div>
+                            <a
+                                href={link}
+                                style={{ color: 'lightBlue' }}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {name ? name : title}
+                            </a>
+                        </div>
+                    );
+                });
+
+                children.push(
+                    <ArrayDisplay
+                        key={index}
+                        array={displayThreads}
+                        newest={!!newest}
+                    />
                 );
                 return children;
             }
@@ -72,7 +111,7 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                         : value;
 
                 children.push(
-                    <span>
+                    <span key={index}>
                         {key}: {display}
                     </span>
                 );

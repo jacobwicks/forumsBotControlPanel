@@ -17,6 +17,7 @@ const ObjectDisplay = ({
             <Icon
                 name={open ? 'caret down' : 'caret right'}
                 onClick={() => setOpen(!open)}
+                style={{ cursor: 'pointer' }}
             />
             {open && (
                 <div

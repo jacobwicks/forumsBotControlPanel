@@ -10,6 +10,7 @@ const ArrayDisplay = ({ array, newest }: { array: any[]; newest: boolean }) => {
             <Icon
                 name={open ? 'caret down' : 'caret right'}
                 onClick={() => setOpen(!open)}
+                style={{ cursor: 'pointer' }}
             />
             {open && (
                 <div
@@ -21,7 +22,9 @@ const ArrayDisplay = ({ array, newest }: { array: any[]; newest: boolean }) => {
                 >
                     {array.map((el, key) =>
                         // prettier-ignore
-                        typeof el === 'object'
+                        React.isValidElement(el)
+                        ? el
+                         : typeof el === 'object'
                             ? Array.isArray(el) 
                                 ? <ArrayDisplay array={el} newest={newest}/>
                                 : getChildren(el, newest)
