@@ -1,5 +1,5 @@
 import { apiUrl } from '../../index';
-import { LoginAction, LoginActionTypes } from '../../../../types';
+import { LoginAction, LoginActionTypes } from '../../../../types/types';
 import { saveToken } from '../Token';
 import expectJSON from '../ExpectJSON';
 

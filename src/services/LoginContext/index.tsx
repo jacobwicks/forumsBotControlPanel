@@ -1,27 +1,12 @@
 import React, { createContext, useReducer } from 'react';
-import { Action, LoginAction } from '../../types';
-
-//The Dispatch function
-interface LoginDispatch {
-    dispatch: (action: Action) => void;
-}
-
-interface LoginType {
-    isLoggedIn: boolean;
-    loggingIn: boolean;
-    modalOpen: boolean;
-}
+import { LoginAction, LoginState } from '../../types/types';
 
 const initialState = {
     isLoggedIn: false,
     loggingIn: false,
     modalOpen: false,
-    dispatch: (action: Action) => undefined,
+    dispatch: (action: LoginAction) => undefined,
 } as LoginState;
-
-//a union type. The LoggedIn state will have a Stats object for any given key
-//except dispatch will return the LoggedInDispatch function
-export type LoginState = LoginType & LoginDispatch;
 
 let reducer = (state: LoginState, action: LoginAction) => {
     switch (action.type) {

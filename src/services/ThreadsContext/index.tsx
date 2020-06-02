@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { ThreadsState, ThreadsAction } from '../../types';
+import { ThreadsState, ThreadsAction } from '../../types/types';
 
 const initialState = {
     threads: undefined,

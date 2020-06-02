@@ -3,7 +3,7 @@ import {
     KeyStringInterface,
     LogEventTypes,
     FrontEndThread,
-} from '../../../../types';
+} from '../../../../types/types';
 import ErrorEvent from '../ErrorEvent';
 import ArrayDisplay from '../ArrayDisplay';
 import ObjectDisplay from '../ObjectDisplay';

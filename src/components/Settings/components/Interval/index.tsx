@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Button, Input, Message } from 'semantic-ui-react';
 import { BotContext } from '../../../../services/BotContext';
-import { BotActionTypes } from '../../../../types';
+import { BotActionTypes } from '../../../../types/types';
 
 const Interval = () => {
     const { dispatch, settings } = useContext(BotContext);

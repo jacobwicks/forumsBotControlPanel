@@ -2,7 +2,7 @@ import React from 'react';
 import DisplayBox from '../DisplayBox';
 import { Popup } from 'semantic-ui-react';
 import User from '../../../User';
-import { Instruction } from '../../../../types';
+import { Instruction } from '../../../../types/types';
 import Post from '../../../Post';
 
 const Instructions = ({ instructions }: { instructions: Instruction[] }) => {

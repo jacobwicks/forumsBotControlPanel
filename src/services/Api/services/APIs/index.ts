@@ -4,7 +4,7 @@ import {
     APIs,
     BotActionTypes,
     BotFetchKeys,
-} from '../../../../types';
+} from '../../../../types/types';
 
 interface APIsResponse {
     APIs: string[];

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AlbumsActionTypes } from '../../../../types';
+import { AlbumsActionTypes } from '../../../../types/types';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import EditableInput from '../../../EditableInput';
 

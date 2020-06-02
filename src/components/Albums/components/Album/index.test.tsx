@@ -17,7 +17,7 @@ import {
     Albums,
     ImageReviewStatus,
     ReviewImage,
-} from '../../../../types';
+} from '../../../../types/types';
 
 import Album from './index';
 

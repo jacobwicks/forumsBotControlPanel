@@ -1,4 +1,4 @@
-import { LoginAction, LoginActionTypes } from '../../../../types';
+import { LoginAction, LoginActionTypes } from '../../../../types/types';
 import { deleteToken } from '../Token';
 
 const logout = async (dispatch: React.Dispatch<LoginAction>) => {

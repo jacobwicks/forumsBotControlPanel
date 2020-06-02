@@ -2,7 +2,7 @@ import React from 'react';
 import {
     LogEvent as LogEventInterface,
     KeyStringInterface,
-} from '../../../../types';
+} from '../../../../types/types';
 import AnimatedEllipse from '../AnimatedEllipse';
 import getChildren from '../GetChildren';
 

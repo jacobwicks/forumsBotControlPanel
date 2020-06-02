@@ -1,4 +1,4 @@
-import { AlbumsAction, AlbumsActionTypes } from '../../../../../types';
+import { AlbumsAction, AlbumsActionTypes } from '../../../../../types/types';
 import { authFetchJSON } from '../../AuthFetch';
 
 interface CreateNewAlbumResponse {

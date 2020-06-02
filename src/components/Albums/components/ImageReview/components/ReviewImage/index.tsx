@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Grid } from 'semantic-ui-react';
-import { ReviewImage as ReviewImageType } from '../../../../../../types';
+import { ReviewImage as ReviewImageType } from '../../../../../../types/types';
 import { getDate } from '../../services/GetDate';
 import User from '../../../../../User';
 

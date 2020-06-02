@@ -1,6 +1,6 @@
 import React from 'react';
 import { Segment, Image } from 'semantic-ui-react';
-import { Post as PostInterface } from '../../types';
+import { Post as PostInterface } from '../../types/types';
 
 const Post = ({ post }: { post: PostInterface }) => {
     const { body, image } = post;

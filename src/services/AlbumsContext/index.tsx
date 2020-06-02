@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
-import { Action, ImageReviewStatus, Album, Albums } from '../../types';
+import { ImageReviewStatus, Album, Albums } from '../../types/types';
 import log from '../Log';
-import { AlbumsAction, AlbumsState } from '../../types';
+import { AlbumsAction, AlbumsState } from '../../types/types';
 
 export const initialState = {
     album: undefined,
@@ -9,7 +9,7 @@ export const initialState = {
     fetching: false,
     hasFailed: false,
     imageQueue: undefined,
-    dispatch: (action: Action) => undefined,
+    dispatch: (action: AlbumsAction) => undefined,
 } as AlbumsState;
 
 //the reducer handles actions

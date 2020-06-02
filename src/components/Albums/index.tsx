@@ -4,7 +4,7 @@ import { loadAlbums } from '../../services/Api/';
 import { Grid, Button, Segment, Header } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
-import { ImageReviewStatus, AlbumsActionTypes } from '../../types';
+import { ImageReviewStatus, AlbumsActionTypes } from '../../types/types';
 import SidebarAlbum from './components/SidebarAlbum';
 import AddOrCreateAlbumModal from './components/AddOrCreateAlbumModal';
 

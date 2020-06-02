@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { ThreadsContext } from '../../../services/ThreadsContext';
 import { Segment, Header } from 'semantic-ui-react';
 import ThreadInput from '../ThreadInput';
-import { ThreadsActionTypes } from '../../../types';
+import { ThreadsActionTypes } from '../../../types/types';
 
 const NoThread = () => (
     <Segment>

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { Header, Loader, Icon, Popup } from 'semantic-ui-react';
-import { AlbumsActionTypes } from '../../../../types';
+import { AlbumsActionTypes } from '../../../../types/types';
 import AlbumInput from '../AlbumInput';
 import DeleteAlbumModal from '../DeleteAlbumModal';
 import EditableInput from '../../../EditableInput';

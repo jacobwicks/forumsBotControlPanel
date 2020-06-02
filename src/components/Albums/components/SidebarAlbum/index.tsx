@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Button, Label, Popup } from 'semantic-ui-react';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
-import { ImageReviewStatus, AlbumsActionTypes } from '../../../../types';
+import { ImageReviewStatus, AlbumsActionTypes } from '../../../../types/types';
 
 const SidebarAlbum = ({ album }: { album: string }) => {
     const { dispatch, album: currentAlbum, imageQueue } = useContext(

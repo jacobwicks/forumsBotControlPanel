@@ -1,4 +1,4 @@
-import { AlbumsAction, BotAction } from '../../../../types';
+import { AlbumsAction, BotAction } from '../../../../types/types';
 
 //dispatches all actions
 const dispatchAll = ({

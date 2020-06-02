@@ -3,7 +3,7 @@ import { render, cleanup, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { reducer } from './index';
 import { BotContext, BotProvider, initialState } from './index';
-import { BotState, BotAction, BotActionTypes } from '../../types';
+import { BotState, BotAction, BotActionTypes } from '../../types/types';
 import { Button, Input } from 'semantic-ui-react';
 //import * as localStorage from '../Save';
 

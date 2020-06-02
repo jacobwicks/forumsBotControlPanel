@@ -8,7 +8,7 @@ import { LoginContext } from './services/LoginContext';
 import Providers from './components/Providers';
 import { getHeaders } from './services/Api/services/Headers';
 import authFetch from './services/Api/services/AuthFetch';
-import { LoginActionTypes } from './types';
+import { LoginActionTypes } from './types/types';
 
 const App2 = () => {
     const { isLoggedIn, dispatch } = useContext(LoginContext);

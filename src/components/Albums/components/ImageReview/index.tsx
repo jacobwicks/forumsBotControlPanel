@@ -3,7 +3,7 @@ import usePrevious from '../../../../services/UsePrevious';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { Header, Segment } from 'semantic-ui-react';
 import ImageReviewControls from './components/ImageReviewControls';
-import { ImageReviewStatus, ReviewImage } from '../../../../types';
+import { ImageReviewStatus, ReviewImage } from '../../../../types/types';
 import AnimatedImage from './components/AnimatedImage';
 import ReviewImageDisplay from './components/ReviewImage';
 import { acceptImage, rejectImage } from '../../../../services/Api';

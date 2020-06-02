@@ -9,7 +9,7 @@ import {
     Label,
     Segment,
 } from 'semantic-ui-react';
-import { ThreadsActionTypes } from '../../types';
+import { ThreadsActionTypes } from '../../types/types';
 import CurrentThread from './CurrentThread';
 
 const Threads = () => {

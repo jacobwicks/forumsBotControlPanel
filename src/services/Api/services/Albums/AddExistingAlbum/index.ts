@@ -1,5 +1,5 @@
 import authFetch from '../../AuthFetch';
-import { AlbumsAction, AlbumsActionTypes } from '../../../../../types';
+import { AlbumsAction, AlbumsActionTypes } from '../../../../../types/types';
 
 const addExistingAlbumAPI = async ({
     album,

@@ -8,7 +8,7 @@ import {
     Label,
     TextArea,
 } from 'semantic-ui-react';
-import { AlbumsAction, BotAction } from '../../types';
+import { AlbumsAction, BotAction } from '../../types/types';
 import setValue from '../../services/Api/services/SetValue';
 import setProperty from '../../services/Api/services/SetProperty';
 import dispatchAll from './services/DispatchAll';

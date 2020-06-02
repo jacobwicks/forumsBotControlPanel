@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { EventsState, EventsAction } from '../../types';
+import { EventsState, EventsAction } from '../../types/types';
 
 const initialState = {
     events: [],

@@ -2,7 +2,7 @@ import {
     FrontEndThread,
     ThreadsAction,
     ThreadsActionTypes,
-} from '../../../../types';
+} from '../../../../types/types';
 import { authFetchJSON } from '../AuthFetch';
 
 interface ThreadsResponse {

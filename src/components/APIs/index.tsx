@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { BotContext } from '../../services/BotContext';
 import loadAPIs from '../../services/Api/services/APIs';
-import { BotFetchKeys } from '../../types';
+import { BotFetchKeys } from '../../types/types';
 
 const APIs = () => {
     const { dispatch, hasFailed, fetching, APIs } = useContext(BotContext);

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Segment } from 'semantic-ui-react';
 import { BotContext } from '../../services/BotContext';
-import { BotFetchKeys } from '../../types';
+import { BotFetchKeys } from '../../types/types';
 import { loadSettings } from '../../services/Api';
 import BotStateDisplay from './components/BotStateDisplay';
 import ControlButtons from './components/ControlButtons';

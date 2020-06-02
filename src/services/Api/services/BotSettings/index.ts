@@ -4,7 +4,7 @@ import {
     FrontEndBotSettings,
     BotActionTypes,
     BotAction,
-} from '../../../../types';
+} from '../../../../types/types';
 
 interface BotSettingsResponse {
     settings: FrontEndBotSettings;

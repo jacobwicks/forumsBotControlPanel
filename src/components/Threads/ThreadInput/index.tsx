@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThreadsActionTypes } from '../../../types';
+import { ThreadsActionTypes } from '../../../types/types';
 import { ThreadsContext } from '../../../services/ThreadsContext';
 import EditableInput from '../../EditableInput';
 

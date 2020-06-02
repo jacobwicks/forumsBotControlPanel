@@ -4,7 +4,7 @@ import {
     AlbumsAction,
     AlbumsActionTypes,
     ReviewImage,
-} from '../../../../types';
+} from '../../../../types/types';
 import { acceptImage, rejectImage } from './Images';
 import createNewAlbum from './CreateNewAlbum';
 import deleteAlbum from './DeleteAlbum';

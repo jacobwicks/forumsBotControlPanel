@@ -7,7 +7,7 @@ import {
     BotActionTypes,
     ThreadsAction,
     ThreadsActionTypes,
-} from '../../../../types';
+} from '../../../../types/types';
 
 const listenToEvents = ({
     botDispatch,

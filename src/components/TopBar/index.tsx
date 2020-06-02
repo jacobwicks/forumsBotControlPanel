@@ -4,7 +4,7 @@ import { Header, Icon, Menu } from 'semantic-ui-react';
 import { LoginContext } from '../../services/LoginContext';
 import LoginModal from '../LoginModal';
 import { getBotName } from '../../services/Api';
-import { LoginActionTypes, BotFetchKeys } from '../../types';
+import { LoginActionTypes, BotFetchKeys } from '../../types/types';
 import { BotContext } from '../../services/BotContext';
 import { logout } from '../../services/Api/';
 

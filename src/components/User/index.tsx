@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, Image } from 'semantic-ui-react';
-import { SAUser } from '../../types';
+import { SAUser } from '../../types/types';
 
 const User = ({ avatar, name, regDate, title }: SAUser) => (
     <div>

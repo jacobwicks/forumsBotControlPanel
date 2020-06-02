@@ -1,7 +1,6 @@
 import React, { createContext, useReducer } from 'react';
-import { Action } from '../../types';
 import log from '../Log';
-import { BotAction, FrontEndBotSettings, BotState } from '../../types';
+import { BotAction, FrontEndBotSettings, BotState } from '../../types/types';
 
 export const initialState = {
     APIs: undefined,
@@ -9,7 +8,7 @@ export const initialState = {
     hasFailed: [],
     pending: [],
     settings: undefined,
-    dispatch: (action: Action) => undefined,
+    dispatch: (action: BotAction) => undefined,
 } as BotState;
 
 //don't accept less than 2

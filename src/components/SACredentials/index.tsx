@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { authFetchJSON } from '../../services/Api/services/AuthFetch';
 import { Loader, Message } from 'semantic-ui-react';
 import EditableInput from '../EditableInput';
-import { BotAction, Creds } from '../../types';
+import { BotAction, Creds } from '../../types/types';
 
 interface CredsResponse {
     creds: Creds;

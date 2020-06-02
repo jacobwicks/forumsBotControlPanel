@@ -11,7 +11,7 @@ import { render, cleanup, fireEvent } from '@testing-library/react';
 //extend-expect gives us methods that let us say what we think a component will look like when we test it
 import '@testing-library/jest-dom/extend-expect';
 
-import { BotState } from '../../types';
+import { BotState } from '../../types/types';
 import {
     BotContext,
     BotProvider,
