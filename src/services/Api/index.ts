@@ -19,6 +19,6 @@ export {
 } from './services/Albums';
 export * from './services/Bot';
 export { default as listenToEvents } from './services/Events';
-export { default as loadSettings } from './services/BotSettings';
+export * from './services/BotSettings';
 export { default as login } from './services/Login';
 export { default as logout } from './services/Logout';

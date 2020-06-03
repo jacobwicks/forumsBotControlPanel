@@ -41,11 +41,11 @@ export const reducer = (state: BotState, action: BotAction) => {
                 const { interval } = settings;
 
                 const newInterval = getNewInterval(interval + 1);
-
+                console.log(newInterval);
                 settings.interval = newInterval ? newInterval : interval;
                 return {
                     ...state,
-                    interval: newInterval ? newInterval : interval,
+                    settings,
                 };
             } else return state;
         }

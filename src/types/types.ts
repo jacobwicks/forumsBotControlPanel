@@ -31,6 +31,9 @@ export interface Post {
 
     //the img.src property
     image?: string;
+
+    //link to the post
+    link: string;
 }
 
 export interface Instruction extends Post {

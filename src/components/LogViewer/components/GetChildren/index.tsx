@@ -8,6 +8,7 @@ import ErrorEvent from '../ErrorEvent';
 import ArrayDisplay from '../ArrayDisplay';
 import ObjectDisplay from '../ObjectDisplay';
 import Instructions from '../Instructions';
+import PostMadeByBot from '../PostMadeByBot';
 
 //processes LogEvent data, returns react elements for display in the LogViewer
 const getChildren = (object: KeyStringInterface, newest?: boolean) =>
@@ -15,21 +16,21 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
         switch (key) {
             case LogEventTypes.array: {
                 const array = object[key];
-                const arrayChild = (
+                const child = (
                     <ArrayDisplay key={index} array={array} newest={!!newest} />
                 );
-                children.push(arrayChild);
+                children.push(child);
                 return children;
             }
             case LogEventTypes.error: {
-                const errorChild = (
+                const child = (
                     <ErrorEvent
                         key={index}
                         newest={!!newest}
                         error={object[key]}
                     />
                 );
-                children.push(errorChild);
+                children.push(child);
                 return children;
             }
             case LogEventTypes.instructions: {
@@ -54,6 +55,11 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                 children.push(child);
                 return children;
             }
+            case LogEventTypes.post: {
+                const child = <PostMadeByBot post={object[key]} />;
+                children.push(child);
+                return children;
+            }
             case LogEventTypes.text: {
                 children.push(<span key={index}>{object[key]}</span>);
                 return children;
@@ -61,11 +67,14 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
             case LogEventTypes.setting: {
                 const thisSetting = object[key];
                 const setting = Object.keys(thisSetting)[0];
-                children.push(
+                const child = (
                     <span key={index} style={{ color: 'pink' }}>
                         {setting} is {object[key][setting].toString()}
                     </span>
                 );
+
+                children.push(child);
+
                 return children;
             }
             case LogEventTypes.threads: {
@@ -87,13 +96,16 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                     );
                 });
 
-                children.push(
+                const child = (
                     <ArrayDisplay
                         key={index}
                         array={displayThreads}
                         newest={!!newest}
                     />
                 );
+
+                children.push(child);
+
                 return children;
             }
             default: {
@@ -111,11 +123,13 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                             : <ObjectDisplay object={value} newest={!!newest}/>
                         : value;
 
-                children.push(
+                const child = (
                     <span key={index}>
                         {key}: {display}
                     </span>
                 );
+
+                children.push(child);
             }
         }
         return children;

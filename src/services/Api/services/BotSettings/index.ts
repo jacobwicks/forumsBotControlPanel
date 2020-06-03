@@ -1,4 +1,4 @@
-import { authFetchJSON } from '../AuthFetch';
+import authFetch, { authFetchJSON } from '../AuthFetch';
 import {
     BotFetchKeys,
     FrontEndBotSettings,
@@ -19,7 +19,35 @@ const getSettings = async () => {
     return settings;
 };
 
-const loadSettings = async (dispatch: React.Dispatch<BotAction>) => {
+// const decreaseInterval = async () => {};
+// const increaseInterval = async () => {};
+
+const debounce = (fn: (...args: any) => any) => {
+    const time = 400;
+    let timeout: NodeJS.Timeout;
+
+    return function () {
+        //@ts-ignore
+        const functionCall = () => fn.apply(this, arguments);
+
+        clearTimeout(timeout);
+        timeout = setTimeout(functionCall, time);
+    };
+};
+
+const _setBotInterval = async (interval: number) => {
+    console.log('setting');
+    // const body = { interval };
+    // const route = 'setInterval';
+    // const response = await authFetch(route, true, body);
+    // return response?.status === 200;
+    console.log('_setBotInterval returning cactus');
+    return 'cactus';
+};
+
+export const setBotInterval = (interval: number) => debounce(_setBotInterval);
+
+export const loadSettings = async (dispatch: React.Dispatch<BotAction>) => {
     dispatch({ type: BotActionTypes.fetchAttempt, key: BotFetchKeys.settings });
     const settings = await getSettings();
     if (settings) {
