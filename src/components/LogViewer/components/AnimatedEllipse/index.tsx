@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AnimatedEllipse = () => {
     const [number, setNumber] = useState(3);
@@ -8,13 +8,17 @@ const AnimatedEllipse = () => {
         periods += '.';
     }
 
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
         if (number > 2) {
             setNumber(0);
         } else {
             setNumber(number + 1);
         }
     }, 300);
+
+    useEffect(() => {
+        return () => clearTimeout(timeout);
+    }, [timeout]);
 
     return <span>{periods}</span>;
 };
