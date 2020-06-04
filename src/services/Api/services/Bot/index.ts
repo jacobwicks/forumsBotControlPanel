@@ -1,23 +1,41 @@
 import authFetch from '../AuthFetch';
+import { BotAction, BotActionTypes } from '../../../../types/Bot';
 
-const runOnce = async () => {
+const runOnce = async (dispatch: React.Dispatch<BotAction>) => {
+    dispatch({ type: BotActionTypes.setRunning, running: true });
     const route = 'runOnce';
-    const response = await authFetch(route);
-    console.log(`runOnce ${response?.status === 200}`);
+    const running = (await authFetch(route))?.status === 200;
+
+    !running && dispatch({ type: BotActionTypes.setRunning, running: false });
 };
 
-const startBot = async () => {
+const startBot = async (dispatch: React.Dispatch<BotAction>) => {
+    dispatch({ type: BotActionTypes.start });
     const route = 'startBot';
-    await authFetch(route);
-    //don't do anything with the response
-    //if successful, a server sent event will be sent to the eventlistener
-    //that will propagate to the context and the components
+    const started = (await authFetch(route))?.status === 200;
+
+    !started && dispatch({ type: BotActionTypes.stop });
 };
 
-const stopBot = async () => {
+const stopBot = async ({
+    dispatch,
+    on,
+    running,
+}: {
+    dispatch: React.Dispatch<BotAction>;
+    on: boolean;
+    running: boolean;
+}) => {
+    dispatch({ type: BotActionTypes.stop });
     const route = 'stopBot';
-    const botStopped = await authFetch(route);
-    console.log(`bot stopped response`, botStopped?.status);
+    const stopped = (await authFetch(route))?.status;
+
+    if (stopped) {
+        dispatch({ type: BotActionTypes.setRunning, running: false });
+    } else {
+        on && dispatch({ type: BotActionTypes.start });
+        running && dispatch({ type: BotActionTypes.setRunning, running: true });
+    }
 };
 
 export { startBot, stopBot, runOnce };

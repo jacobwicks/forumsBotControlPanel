@@ -7,7 +7,9 @@ import {
     BotActionTypes,
     ThreadsAction,
     ThreadsActionTypes,
+    LogEventTypes,
 } from '../../../../types/types';
+import { millisToMinutesAndSeconds } from '../../../MillisToMinutesAndSeconds';
 
 const listenToEvents = ({
     botDispatch,
@@ -83,6 +85,14 @@ const listenToEvents = ({
                 }
             };
 
+            const checkIntervalTimeLeft = (ev: any) => {
+                const data = ev?.data;
+                if (data?.hasOwnProperty(LogEventTypes.timeLeft)) {
+                    const timer = millisToMinutesAndSeconds(data.timeLeft);
+                    botDispatch({ type: BotActionTypes.setTimer, timer });
+                }
+            };
+
             const checkThreads = (ev: any) => {
                 const data = ev?.data;
 
@@ -100,7 +110,9 @@ const listenToEvents = ({
             if (Array.isArray(parsedEvent)) {
                 //check each event for settings or threads
                 parsedEvent.forEach((event) => {
-                    checkBotSetting(event);
+                    //Don't dispatch for bot settings
+                    //checkBotSetting(event);
+                    checkIntervalTimeLeft(event);
                     checkThreads(event);
                 });
             } else if (parsedEvent?.data) {

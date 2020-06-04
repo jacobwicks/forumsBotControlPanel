@@ -9,6 +9,7 @@ import ArrayDisplay from '../ArrayDisplay';
 import ObjectDisplay from '../ObjectDisplay';
 import Instructions from '../Instructions';
 import PostMadeByBot from '../PostMadeByBot';
+import { millisToMinutesAndSeconds } from '../../../../services/MillisToMinutesAndSeconds';
 
 //processes LogEvent data, returns react elements for display in the LogViewer
 const getChildren = (object: KeyStringInterface, newest?: boolean) =>
@@ -37,6 +38,18 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                 const child = (
                     <Instructions key={index} instructions={object[key]} />
                 );
+                children.push(child);
+                return children;
+            }
+            case LogEventTypes.timeLeft: {
+                const { minutes, seconds } = millisToMinutesAndSeconds(
+                    object[key]
+                );
+
+                const time = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                const child = <span>Time until next bot run: {time}</span>;
+
                 children.push(child);
                 return children;
             }

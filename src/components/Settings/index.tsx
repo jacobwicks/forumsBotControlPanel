@@ -7,21 +7,20 @@ import BotStateDisplay from './components/BotStateDisplay';
 import ControlButtons from './components/ControlButtons';
 import Interval from './components/Interval';
 import LogViewer from '../LogViewer/';
-
-//add what the bot is doing right now
-//waiting,
-//scanning threads - threadId#
-//processing instructions
-//posting - postAction
+import { loadTimer } from '../../services/Api/services/Timer';
 
 const Settings = () => {
     const { dispatch, hasFailed, fetching, settings } = useContext(BotContext);
 
     useEffect(() => {
-        !fetching.includes(BotFetchKeys.settings) &&
+        if (
+            !fetching.includes(BotFetchKeys.settings) &&
             !hasFailed.includes(BotFetchKeys.settings) &&
-            !settings &&
+            !settings
+        ) {
             loadSettings(dispatch);
+            loadTimer(dispatch);
+        }
     }, [dispatch, fetching, hasFailed, settings]);
 
     return (

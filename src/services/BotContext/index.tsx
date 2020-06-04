@@ -8,6 +8,10 @@ export const initialState = {
     hasFailed: [],
     pending: [],
     settings: undefined,
+    timer: {
+        minutes: 0,
+        seconds: 0,
+    },
     dispatch: (action: BotAction) => undefined,
 } as BotState;
 
@@ -106,6 +110,13 @@ export const reducer = (state: BotState, action: BotAction) => {
                     settings,
                 };
             } else return state;
+        }
+        case 'setTimer': {
+            const { timer } = action;
+            return {
+                ...state,
+                timer,
+            };
         }
         //starts the bot running every interval
         case 'start': {

@@ -24,6 +24,7 @@ export enum BotActionTypes {
     runOnce = 'runOnce',
     setInterval = 'setInterval',
     setRunning = 'setRunning',
+    setTimer = 'setTimer',
     setValueAttempt = 'setValueAttempt',
     setValueFailure = 'setValueFailure',
     setValueSuccess = 'setValueSuccess',
@@ -61,6 +62,9 @@ export type BotAction =
     //sets if the bot is currently running or not
     | { type: BotActionTypes.setRunning; running: boolean }
 
+    //sets the timer
+    | { type: BotActionTypes.setTimer; timer: Timer }
+
     //starts the bot running at current intervals
     | { type: BotActionTypes.start }
 
@@ -89,11 +93,17 @@ export interface FrontEndBotSettings {
     running: boolean;
 }
 
+export interface Timer {
+    minutes: number;
+    seconds: number;
+}
+
 interface BotType {
     APIs?: APIs;
     fetching: string[];
     hasFailed: string[];
     settings?: FrontEndBotSettings;
+    timer: Timer;
 }
 
 //a union type. The LoggedIn state will have a Stats object for any given key

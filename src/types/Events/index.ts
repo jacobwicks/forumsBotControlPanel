@@ -42,6 +42,7 @@ export enum LogEventTypes {
     botStatus = 'botStatus',
     error = 'error',
     instructions = 'instructions',
+    timeLeft = 'timeLeft',
     link = 'link',
     post = 'post',
     setting = 'setting',
