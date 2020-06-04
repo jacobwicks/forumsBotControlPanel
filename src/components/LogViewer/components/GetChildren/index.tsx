@@ -41,18 +41,6 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                 children.push(child);
                 return children;
             }
-            case LogEventTypes.timeLeft: {
-                const { minutes, seconds } = millisToMinutesAndSeconds(
-                    object[key]
-                );
-
-                const time = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-
-                const child = <span>Time until next bot run: {time}</span>;
-
-                children.push(child);
-                return children;
-            }
             case LogEventTypes.link: {
                 const child = (
                     <a
@@ -73,10 +61,6 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                 children.push(child);
                 return children;
             }
-            case LogEventTypes.text: {
-                children.push(<span key={index}>{object[key]}</span>);
-                return children;
-            }
             case LogEventTypes.setting: {
                 const thisSetting = object[key];
                 const setting = Object.keys(thisSetting)[0];
@@ -90,6 +74,11 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
 
                 return children;
             }
+            case LogEventTypes.text: {
+                children.push(<span key={index}>{object[key]}</span>);
+                return children;
+            }
+
             case LogEventTypes.threads: {
                 const threads: FrontEndThread[] = object[key];
                 const displayThreads = threads.map((thread) => {
@@ -121,6 +110,19 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
 
                 return children;
             }
+            case LogEventTypes.timeLeft: {
+                const { minutes, seconds } = millisToMinutesAndSeconds(
+                    object[key]
+                );
+
+                const time = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                const child = <span>Time until next bot run: {time}</span>;
+
+                children.push(child);
+                return children;
+            }
+
             default: {
                 const value = object[key];
                 //the key isn't one of the recognized types, so make a generic display

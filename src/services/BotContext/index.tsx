@@ -22,7 +22,8 @@ const getNewInterval = (interval: number) =>
 //the reducer handles actions
 export const reducer = (state: BotState, action: BotAction) => {
     switch (action.type) {
-        //drops interval by 1 minute
+        //decreases interval by 1 minute
+        //won't go below 2
         case 'decreaseInterval': {
             if (state.settings) {
                 const settings = { ...state.settings };
@@ -53,16 +54,23 @@ export const reducer = (state: BotState, action: BotAction) => {
                 };
             } else return state;
         }
+
+        //add a string to the array of things being fetched
+        //so we don't try and get them again while waiting
         case 'fetchAttempt': {
             const { key } = action;
 
             return {
                 ...state,
+                //if it's fetching, it hasn't failed to fetch
                 hasFailed: state.hasFailed.filter((failed) => failed !== key),
                 fetching: [...state.fetching, key],
                 [key]: undefined,
             };
         }
+        //flags the fetch attempt as failed
+        //components can check if the item has already failed
+        //stops fetching over and over again in a loop
         case 'fetchFailure': {
             const { key } = action;
             return {
@@ -72,6 +80,7 @@ export const reducer = (state: BotState, action: BotAction) => {
                 [key]: undefined,
             };
         }
+        //removes the key from fetching and failed
         case 'fetchSuccess': {
             const { content, key } = action;
             return {
@@ -82,6 +91,7 @@ export const reducer = (state: BotState, action: BotAction) => {
             };
         }
         //sets the bot to run every interval in minutes
+        //won't go below 2 minutes
         case 'setInterval': {
             if (state.settings) {
                 const { interval } = action;
@@ -97,6 +107,7 @@ export const reducer = (state: BotState, action: BotAction) => {
             } else return state;
         }
         //sets the status of bot currently running, rather than idle
+        //running means the bot is actively doing things
         case 'setRunning': {
             const { running } = action;
             if (state.settings) {
@@ -111,14 +122,17 @@ export const reducer = (state: BotState, action: BotAction) => {
                 };
             } else return state;
         }
+        //sets the timer display
         case 'setTimer': {
             const { timer } = action;
+            console.log(`received setTimer`, timer);
             return {
                 ...state,
                 timer,
             };
         }
-        //starts the bot running every interval
+        //turns the bot on
+        //which starts the bot running at every set interval
         case 'start': {
             if (state.settings) {
                 const settings = { ...state.settings };

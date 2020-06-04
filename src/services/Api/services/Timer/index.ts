@@ -9,19 +9,14 @@ interface TimerResponse {
 type TR = TimerResponse | undefined;
 
 //gets the current settings for the bot
-const getTimer = async (): Promise<Timer> => {
+const getTimer = async () => {
     const route = 'timer';
     const response = ((await authFetchJSON(route)) as TR)?.timer;
-
-    return response
-        ? millisToMinutesAndSeconds(response)
-        : {
-              minutes: 0,
-              seconds: 0,
-          };
+    console.log(`timer response`, response);
+    return response && millisToMinutesAndSeconds(response);
 };
 
 export const loadTimer = async (dispatch: React.Dispatch<BotAction>) => {
     const timer = await getTimer();
-    dispatch({ type: BotActionTypes.setTimer, timer });
+    timer && dispatch({ type: BotActionTypes.setTimer, timer });
 };

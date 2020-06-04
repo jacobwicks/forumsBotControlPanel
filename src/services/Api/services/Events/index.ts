@@ -88,6 +88,7 @@ const listenToEvents = ({
             const checkIntervalTimeLeft = (ev: any) => {
                 const data = ev?.data;
                 if (data?.hasOwnProperty(LogEventTypes.timeLeft)) {
+                    console.log(`got a timeleft event`, ev);
                     const timer = millisToMinutesAndSeconds(data.timeLeft);
                     botDispatch({ type: BotActionTypes.setTimer, timer });
                 }
