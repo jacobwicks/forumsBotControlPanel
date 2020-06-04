@@ -9,6 +9,21 @@ const Interval = () => {
     const interval = settings?.interval;
     const [priorValue, setPriorValue] = useState<number | undefined>(undefined);
 
+    const trySetInterval = async (newInterval: number, resetValue: number) => {
+        const didSet = await setBotInterval(newInterval);
+
+        if (didSet) {
+            setPriorValue(undefined);
+        } else {
+            console.log(`failed. resetting to prior value`, resetValue);
+            resetValue &&
+                dispatch({
+                    type: BotActionTypes.setInterval,
+                    interval: resetValue,
+                });
+            setPriorValue(undefined);
+        }
+    };
     return (
         <React.Fragment>
             <Message>
@@ -17,44 +32,100 @@ const Interval = () => {
             </Message>
             <div>
                 <Button
-                    onClick={async () => {
+                    onClick={() => {
                         if (interval) {
                             if (!priorValue) {
                                 setPriorValue(interval);
                             }
-
                             //increases interval in context
                             dispatch({ type: BotActionTypes.increaseInterval });
-
-                            const increased = await setBotInterval(
-                                interval + 1
+                            trySetInterval(
+                                interval + 1,
+                                priorValue ? priorValue : interval
                             );
-
-                            console.log(`setBotInterval returned`, increased);
-                            // !increased &&
-                            //     dispatch({
-                            //         type: BotActionTypes.setInterval,
-                            //         interval,
-                            //     });
                         }
                     }}
                 >
                     Increase
                 </Button>
                 <Button
-                    onClick={() =>
-                        dispatch({ type: BotActionTypes.decreaseInterval })
-                    }
+                    onClick={() => {
+                        if (interval && interval > 2) {
+                            if (!priorValue) {
+                                setPriorValue(interval);
+                            }
+                            //increases interval in context
+                            dispatch({ type: BotActionTypes.decreaseInterval });
+                            trySetInterval(
+                                interval - 1,
+                                priorValue ? priorValue : interval
+                            );
+                        }
+                    }}
                 >
                     Decrease
                 </Button>
                 <Input
-                    onChange={(e, { value }: { value: string }) =>
-                        dispatch({
-                            type: BotActionTypes.setInterval,
-                            interval: Number(value),
-                        })
-                    }
+                    onKeyDown={async ({
+                        key,
+                        target,
+                    }: {
+                        key: string;
+                        target: HTMLInputElement;
+                    }) => {
+                        if (key === 'Enter') {
+                            const { value } = target;
+                            const newInterval = Number(value);
+                            if (
+                                interval &&
+                                !isNaN(newInterval) &&
+                                newInterval > 1 &&
+                                newInterval !== interval
+                            ) {
+                                console.log(
+                                    'keydown priorvalue is',
+                                    priorValue
+                                );
+
+                                if (!priorValue) {
+                                    setPriorValue(interval);
+                                }
+                                dispatch({
+                                    type: BotActionTypes.setInterval,
+                                    interval: newInterval,
+                                });
+
+                                trySetInterval(
+                                    newInterval,
+                                    priorValue ? priorValue : interval
+                                );
+                            }
+                        }
+                    }}
+                    onBlur={async (e: InputEvent) => {
+                        const target = e.target as HTMLInputElement;
+                        const { value } = target;
+                        const newInterval = Number(value);
+                        if (
+                            interval &&
+                            !isNaN(newInterval) &&
+                            newInterval > 1 &&
+                            newInterval !== interval
+                        ) {
+                            if (!priorValue) {
+                                setPriorValue(interval);
+                            }
+                            dispatch({
+                                type: BotActionTypes.setInterval,
+                                interval: newInterval,
+                            });
+
+                            trySetInterval(
+                                newInterval,
+                                priorValue ? priorValue : interval
+                            );
+                        }
+                    }}
                     placeholder="Set Interval..."
                 />
             </div>

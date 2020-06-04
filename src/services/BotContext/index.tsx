@@ -79,13 +79,18 @@ export const reducer = (state: BotState, action: BotAction) => {
         }
         //sets the bot to run every interval in minutes
         case 'setInterval': {
-            //const { interval } = action;
-            //const newInterval = getNewInterval(interval);
-            return state;
-            // return {
-            //     ...state,
-            //     interval: newInterval ? newInterval : state.interval,
-            // };
+            if (state.settings) {
+                const { interval } = action;
+                const newInterval = getNewInterval(interval);
+
+                const settings = { ...state.settings };
+                settings.interval = newInterval ? newInterval : interval;
+
+                return {
+                    ...state,
+                    settings,
+                };
+            } else return state;
         }
         //sets the status of bot currently running, rather than idle
         case 'setRunning': {

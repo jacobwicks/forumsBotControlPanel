@@ -44,6 +44,7 @@ const listenToEvents = ({
                         switch (botSetting) {
                             case 'interval': {
                                 const { interval } = setting;
+                                console.log('got an inteval event', interval);
                                 botDispatch({
                                     type: BotActionTypes.setInterval,
                                     interval,

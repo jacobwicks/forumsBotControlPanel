@@ -21,31 +21,31 @@ const getSettings = async () => {
 
 // const decreaseInterval = async () => {};
 // const increaseInterval = async () => {};
+function debounce(f: (...args: any) => any, waitFor: number = 400) {
+    let timer: any = null;
 
-const debounce = (fn: (...args: any) => any) => {
-    const time = 400;
-    let timeout: NodeJS.Timeout;
-
-    return function () {
-        //@ts-ignore
-        const functionCall = () => fn.apply(this, arguments);
-
-        clearTimeout(timeout);
-        timeout = setTimeout(functionCall, time);
+    return (...args: any) => {
+        clearTimeout(timer);
+        return new Promise((resolve) => {
+            timer = setTimeout(() => resolve(f(...args)), waitFor);
+        });
     };
-};
+}
 
-const _setBotInterval = async (interval: number) => {
-    console.log('setting');
-    // const body = { interval };
-    // const route = 'setInterval';
-    // const response = await authFetch(route, true, body);
-    // return response?.status === 200;
-    console.log('_setBotInterval returning cactus');
-    return 'cactus';
-};
+export const setBotInterval = debounce(async (interval: number) => {
+    const body = { interval };
+    const route = 'setBotInterval';
+    const response = await authFetch(route, true, body);
+    return response?.status === 200;
+}, 400);
 
-export const setBotInterval = (interval: number) => debounce(_setBotInterval);
+// export const setBotInterval = debounce(async (interval: number) => {
+//     const body = { interval };
+//     const route = 'setInterval';
+//     const response = await authFetch(route, true, body);
+//     return 'whaaa';
+//     //return response?.status === 200;
+// });
 
 export const loadSettings = async (dispatch: React.Dispatch<BotAction>) => {
     dispatch({ type: BotActionTypes.fetchAttempt, key: BotFetchKeys.settings });
