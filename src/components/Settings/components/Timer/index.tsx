@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Header, Segment } from 'semantic-ui-react';
 import { BotContext } from '../../../../services/BotContext';
 import { BotActionTypes } from '../../../../types/Bot';
+import usePrevious from '../../../../services/UsePrevious';
+import { loadTimer } from '../../../../services/Api/services/Timer';
 
 const dummy = {
     running: false,
@@ -12,17 +14,11 @@ const dummy = {
 const Timer = () => {
     const { dispatch, settings, timer } = useContext(BotContext);
     const { minutes, seconds } = timer;
-    const { interval, on, running } = settings || dummy;
+    const { on, running } = settings || dummy;
 
     useEffect(() => {
-        dispatch({
-            type: BotActionTypes.setTimer,
-            timer: {
-                minutes: interval,
-                seconds: 0,
-            },
-        });
-    }, [on, interval]);
+        loadTimer(dispatch);
+    }, []);
 
     useEffect(() => {
         if (on) {
@@ -61,7 +57,7 @@ const Timer = () => {
     const noTime = minutes === 0 && seconds === 0;
 
     const getColor = () => {
-        if (on && noTime) return 'lightBlue';
+        if (running && noTime) return 'lightBlue';
         if (on) return 'red';
         return 'gray';
     };

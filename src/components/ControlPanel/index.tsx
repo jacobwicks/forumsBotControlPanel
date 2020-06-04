@@ -9,6 +9,7 @@ import { listenToEvents } from '../../services/Api';
 import { EventsContext } from '../../services/EventsContext';
 import { BotContext } from '../../services/BotContext';
 import { ThreadsContext } from '../../services/ThreadsContext';
+import { BotActionTypes } from '../../types/Bot';
 // edit the config.json file that the bot accesses
 // input api keys and secrets to config.json file
 // Change the bot name
@@ -82,10 +83,10 @@ const ControlPanel = () => {
     const { dispatch: eventsDispatch, failed, listening } = useContext(
         EventsContext
     );
-
-    const { dispatch: botDispatch } = useContext(BotContext);
-
     const { dispatch: threadsDispatch } = useContext(ThreadsContext);
+    const { dispatch: botDispatch, settings } = useContext(BotContext);
+    const on = settings?.on;
+    const interval = settings?.interval;
 
     useEffect(() => {
         !listening &&
@@ -96,6 +97,17 @@ const ControlPanel = () => {
                 threadsDispatch,
             });
     }, [listening, failed, botDispatch, eventsDispatch, threadsDispatch]);
+
+    useEffect(() => {
+        interval &&
+            botDispatch({
+                type: BotActionTypes.setTimer,
+                timer: {
+                    minutes: interval,
+                    seconds: 0,
+                },
+            });
+    }, [interval, on]);
 
     return <Tab panes={tabs} />;
 };
