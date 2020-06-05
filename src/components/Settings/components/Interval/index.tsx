@@ -15,7 +15,6 @@ const Interval = () => {
         if (didSet) {
             setPriorValue(undefined);
         } else {
-            console.log(`failed. resetting to prior value`, resetValue);
             resetValue &&
                 dispatch({
                     type: BotActionTypes.setInterval,
@@ -82,11 +81,6 @@ const Interval = () => {
                                 newInterval > 1 &&
                                 newInterval !== interval
                             ) {
-                                console.log(
-                                    'keydown priorvalue is',
-                                    priorValue
-                                );
-
                                 if (!priorValue) {
                                     setPriorValue(interval);
                                 }

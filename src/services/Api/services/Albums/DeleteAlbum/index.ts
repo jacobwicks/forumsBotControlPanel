@@ -18,7 +18,6 @@ const deleteAlbum = async ({
 
     const success = await deleteAlbumAPI(album);
 
-    console.log(`album ${album} deleted`, success);
     //on failure, display toast
     //prompt user to refresh to reload album
     //requiring a refresh isn't the end of the world here

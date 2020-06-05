@@ -46,7 +46,6 @@ const listenToEvents = ({
                         switch (botSetting) {
                             case 'interval': {
                                 const { interval } = setting;
-                                console.log('got an inteval event', interval);
                                 botDispatch({
                                     type: BotActionTypes.setInterval,
                                     interval,
@@ -88,9 +87,8 @@ const listenToEvents = ({
             const checkIntervalTimeLeft = (ev: any) => {
                 const data = ev?.data;
                 if (data?.hasOwnProperty(LogEventTypes.timeLeft)) {
-                    console.log(`got a timeleft event`, ev);
-                    const timer = millisToMinutesAndSeconds(data.timeLeft);
-                    botDispatch({ type: BotActionTypes.setTimer, timer });
+                    // const timer = millisToMinutesAndSeconds(data.timeLeft);
+                    // botDispatch({ type: BotActionTypes.setTimer, timer });
                 }
             };
 
@@ -113,7 +111,7 @@ const listenToEvents = ({
                 parsedEvent.forEach((event) => {
                     //Don't dispatch for bot settings
                     //checkBotSetting(event);
-                    checkIntervalTimeLeft(event);
+                    //checkIntervalTimeLeft(event);
                     checkThreads(event);
                 });
             } else if (parsedEvent?.data) {

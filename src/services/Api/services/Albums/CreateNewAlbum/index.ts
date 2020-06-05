@@ -47,7 +47,6 @@ const createNewAlbum = async ({
     //ask the api to create the new album
     //if successful, it will return the imgur album hash
     const hash = await createNewAlbumAPI({ album, description });
-    console.log(`got hash of `, hash);
 
     //if we get the hash back, store the hash in AlbumsContext
     hash

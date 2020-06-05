@@ -14,7 +14,6 @@ export const initialState = {
 
 //the reducer handles actions
 export const reducer = (state: AlbumsState, action: AlbumsAction) => {
-    console.log(`received action`, action);
     switch (action.type) {
         case 'accept': {
             const { submittedAt } = action;

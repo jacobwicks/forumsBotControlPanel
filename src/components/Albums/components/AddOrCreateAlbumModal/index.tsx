@@ -31,7 +31,6 @@ const AddOrCreateAlbumModal = () => {
                 <AddExistingAlbumModal
                     showCreateNew={() => setAddExisting(false)}
                     close={() => {
-                        console.log('add existing setting open to false');
                         setOpen(false);
                     }}
                     open={open}
@@ -40,7 +39,6 @@ const AddOrCreateAlbumModal = () => {
                 <CreateAlbumModal
                     addExisting={() => setAddExisting(true)}
                     close={() => {
-                        console.log('create album setting open to false');
                         setOpen(false);
                     }}
                     open={open}

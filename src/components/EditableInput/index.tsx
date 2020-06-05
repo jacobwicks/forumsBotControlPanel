@@ -90,7 +90,6 @@ const EditableInput = ({
 
     const handleBlur = async (value: string | boolean | number | undefined) => {
         setOpen(false);
-        console.log(`handling blur`, value);
 
         if (callback) {
             callback(value);

@@ -12,11 +12,23 @@ type TR = TimerResponse | undefined;
 const getTimer = async () => {
     const route = 'timer';
     const response = ((await authFetchJSON(route)) as TR)?.timer;
-    console.log(`timer response`, response);
     return response && millisToMinutesAndSeconds(response);
 };
 
-export const loadTimer = async (dispatch: React.Dispatch<BotAction>) => {
+export const loadTimer = async (
+    dispatch: React.Dispatch<BotAction>,
+    interval?: number
+) => {
     const timer = await getTimer();
-    timer && dispatch({ type: BotActionTypes.setTimer, timer });
+
+    timer
+        ? dispatch({ type: BotActionTypes.setTimer, timer })
+        : interval &&
+          dispatch({
+              type: BotActionTypes.setTimer,
+              timer: {
+                  minutes: interval,
+                  seconds: 0,
+              },
+          });
 };

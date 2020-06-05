@@ -84,9 +84,7 @@ const ControlPanel = () => {
         EventsContext
     );
     const { dispatch: threadsDispatch } = useContext(ThreadsContext);
-    const { dispatch: botDispatch, settings } = useContext(BotContext);
-    const on = settings?.on;
-    const interval = settings?.interval;
+    const { dispatch: botDispatch } = useContext(BotContext);
 
     useEffect(() => {
         !listening &&
@@ -97,17 +95,6 @@ const ControlPanel = () => {
                 threadsDispatch,
             });
     }, [listening, failed, botDispatch, eventsDispatch, threadsDispatch]);
-
-    useEffect(() => {
-        interval &&
-            botDispatch({
-                type: BotActionTypes.setTimer,
-                timer: {
-                    minutes: interval,
-                    seconds: 0,
-                },
-            });
-    }, [interval, on]);
 
     return <Tab panes={tabs} />;
 };
