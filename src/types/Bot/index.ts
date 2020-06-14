@@ -22,6 +22,7 @@ export enum BotActionTypes {
     fetchFailure = 'fetchFailure',
     fetchSuccess = 'fetchSuccess',
     runOnce = 'runOnce',
+    setCookies = 'setCookies',
     setInterval = 'setInterval',
     setRunning = 'setRunning',
     setTimer = 'setTimer',
@@ -30,6 +31,7 @@ export enum BotActionTypes {
     setValueSuccess = 'setValueSuccess',
     start = 'start',
     stop = 'stop',
+    testCookies = 'testCookies',
 }
 
 export enum BotFetchKeys {
@@ -58,6 +60,7 @@ export type BotAction =
 
     //runs the bot once with current settings, then stops the bot
     | { type: BotActionTypes.runOnce }
+    | { type: BotActionTypes.setCookies; cookies: Cookies }
 
     //sets if the bot is currently running or not
     | { type: BotActionTypes.setRunning; running: boolean }
@@ -72,16 +75,28 @@ export type BotAction =
     | { type: BotActionTypes.stop }
 
     //sets the interval in minutes at which the bot runs
-    | { type: BotActionTypes.setInterval; interval: number };
+    | { type: BotActionTypes.setInterval; interval: number }
+
+    //sets cookies.testing to true
+    | { type: BotActionTypes.testCookies };
 
 //The Dispatch function
 interface BotDispatch {
     dispatch: (action: BotAction) => void;
 }
 
+export interface Cookies {
+    exist?: boolean;
+    refreshing: boolean;
+    testing: boolean;
+    work?: boolean;
+}
+
 export interface FrontEndBotSettings {
     //the name that posters use to get the bot's attention
     botName: string;
+
+    cookies: Cookies;
 
     //how often the bot runs in minutes, must be > 1
     interval: number;

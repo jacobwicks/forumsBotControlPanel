@@ -89,6 +89,15 @@ export const reducer = (state: BotState, action: BotAction) => {
                 [key]: content,
             };
         }
+        case 'setCookies': {
+            if (state.settings) {
+                const settings = { ...state.settings };
+                const { cookies } = action;
+                settings.cookies = cookies;
+
+                return { ...state, settings };
+            } else return state;
+        }
         //sets the bot to run every interval in minutes
         //won't go below 2 minutes
         case 'setInterval': {
@@ -155,6 +164,21 @@ export const reducer = (state: BotState, action: BotAction) => {
             } else return state;
         }
 
+        case 'testCookies': {
+            if (state.settings) {
+                const settings = { ...state.settings };
+
+                settings.cookies = {
+                    ...settings.cookies,
+                    testing: true,
+                };
+
+                return {
+                    ...state,
+                    settings,
+                };
+            } else return state;
+        }
         default:
             //log the bad action
             log('botContext reducer received bad action', action);

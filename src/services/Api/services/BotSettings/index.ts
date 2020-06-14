@@ -47,10 +47,80 @@ export const setBotInterval = debounce(async (interval: number) => {
 //     //return response?.status === 200;
 // });
 
+export const clearCookies = async (dispatch: React.Dispatch<BotAction>) => {
+    dispatch({
+        type: BotActionTypes.setCookies,
+        cookies: {
+            exist: true,
+            refreshing: false,
+            work: undefined,
+            testing: false,
+        },
+    });
+
+    const route = 'clearCookies';
+    const cleared = (await authFetch(route))?.status === 200;
+
+    const cookies = {
+        exist: !cleared,
+        refreshing: false,
+        work: undefined,
+        testing: false,
+    };
+
+    dispatch({ type: BotActionTypes.setCookies, cookies });
+};
+
+export const refreshCookies = async (dispatch: React.Dispatch<BotAction>) => {
+    dispatch({
+        type: BotActionTypes.setCookies,
+        cookies: {
+            exist: false,
+            refreshing: true,
+            work: undefined,
+            testing: false,
+        },
+    });
+
+    const route = 'refreshCookies';
+    const result = (await authFetch(route))?.status === 200;
+
+    const cookies = {
+        exist: result,
+        refreshing: false,
+        work: result ? true : undefined,
+        testing: false,
+    };
+
+    dispatch({ type: BotActionTypes.setCookies, cookies });
+};
+
+export const testCookies = async (dispatch: React.Dispatch<BotAction>) => {
+    dispatch({ type: BotActionTypes.testCookies });
+    const route = 'testCookies';
+    const result = (await authFetch(route))?.status === 200;
+
+    const cookies = {
+        exist: true,
+        refreshing: false,
+        work: !!result,
+        testing: false,
+    };
+
+    dispatch({ type: BotActionTypes.setCookies, cookies });
+};
+
 export const loadSettings = async (dispatch: React.Dispatch<BotAction>) => {
     dispatch({ type: BotActionTypes.fetchAttempt, key: BotFetchKeys.settings });
     const settings = await getSettings();
     if (settings) {
+        settings.cookies = {
+            ...settings.cookies,
+            refreshing: false,
+            testing: false,
+            work: undefined,
+        };
+
         dispatch({
             type: BotActionTypes.fetchSuccess,
             key: BotFetchKeys.settings,

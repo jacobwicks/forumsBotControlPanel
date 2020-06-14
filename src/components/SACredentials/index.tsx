@@ -12,6 +12,7 @@ import {
 } from 'semantic-ui-react';
 import EditableInput from '../EditableInput';
 import { BotAction, Creds } from '../../types/types';
+import Cookies from './Cookies';
 
 interface CredsResponse {
     creds: Creds;
@@ -19,15 +20,6 @@ interface CredsResponse {
 
 type CR = CredsResponse | undefined;
 
-const Cookies = () => {
-    return (
-        <Segment>
-            Cookies: <Icon name="thumbs up outline"></Icon>
-            <Button>Test Cookies</Button>
-            <Button>Get New Cookies</Button>
-        </Segment>
-    );
-};
 const LoginButton = () => {
     const [isFetching, setIsFetching] = useState(false);
     const [success, setSuccess] = useState(false);
