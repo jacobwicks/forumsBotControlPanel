@@ -1,58 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import authFetch, {
-    authFetchJSON,
-} from '../../services/Api/services/AuthFetch';
-import {
-    Button,
-    Loader,
-    Message,
-    Segment,
-    Label,
-    Icon,
-} from 'semantic-ui-react';
+import { authFetchJSON } from '../../services/Api/services/AuthFetch';
+import { Loader, Message, Segment } from 'semantic-ui-react';
 import EditableInput from '../EditableInput';
 import { BotAction, Creds } from '../../types/types';
 import Cookies from './Cookies';
+import LoginButton from './LoginButton';
 
 interface CredsResponse {
     creds: Creds;
 }
 
 type CR = CredsResponse | undefined;
-
-const LoginButton = () => {
-    const [isFetching, setIsFetching] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [hasFetched, setHasFetched] = useState(false);
-
-    const testCreds = async () => {
-        setIsFetching(true);
-        //api route
-        const route = 'testCreds';
-        //expect a JSON response from the fetch request to the route
-        const success = (await authFetch(route))?.status === 200;
-
-        //done trying to fetch
-        setIsFetching(false);
-        setSuccess(success);
-        setHasFetched(true);
-    };
-
-    return (
-        <>
-            <Button onClick={() => testCreds()} loading={isFetching}>
-                Test Login
-            </Button>
-            {hasFetched ? (
-                success ? (
-                    <Icon name="thumbs up outline" />
-                ) : (
-                    <Icon name="thumbs down outline" />
-                )
-            ) : undefined}
-        </>
-    );
-};
 
 const SACredentials = () => {
     const [username, setUsername] = useState('');
