@@ -1,10 +1,45 @@
 import { authFetchJSON } from '../AuthFetch';
-import {
-    BotAction,
-    APIs,
-    BotActionTypes,
-    BotFetchKeys,
-} from '../../../../types/types';
+import { Apis, ApiAction, ApiActionTypes, Api } from '../../../../types/types';
+
+interface ApiResponse {
+    api: Api;
+}
+
+type SingleR = ApiResponse | undefined;
+
+const getApi = async (requestedApi: string) => {
+    const route = `api/${requestedApi}`;
+
+    const api = ((await authFetchJSON(route)) as SingleR)?.api;
+
+    return api;
+};
+
+//loads an Api into the Apicontext
+export const loadApi = async ({
+    api,
+    dispatch,
+}: {
+    api: string;
+    dispatch: React.Dispatch<ApiAction>;
+}) => {
+    //tell the context that we are fetching this api
+    dispatch({ type: ApiActionTypes.fetching, api });
+
+    //get the api contents
+    const value = await getApi(api);
+
+    //if we got api
+    if (value) {
+        //load them into the context
+        dispatch({
+            type: ApiActionTypes.setApi,
+            api,
+            value,
+        });
+        //if not, note that loading failed
+    } else dispatch({ type: ApiActionTypes.failed, api });
+};
 
 interface APIsResponse {
     APIs: string[];
@@ -15,33 +50,38 @@ type AR = APIsResponse | undefined;
 //gets the named APIs that the bot has in its config
 const getAPIs = async () => {
     const route = 'apis';
-    const APIsArray = ((await authFetchJSON(route)) as AR)?.APIs;
+    const apisArray = ((await authFetchJSON(route)) as AR)?.APIs;
 
     //convert the APIsArray, which is an array of strings
     //into the APIs type object that gets loaded into BotContext
     //the actual content of each api will be loaded if/ when the user loads that individual api
-    const APIs = APIsArray
-        ? APIsArray.reduce((acc, cur) => {
+    const apis = apisArray
+        ? apisArray.reduce((acc, cur) => {
               acc[cur] = {};
               return acc;
-          }, {} as APIs)
+          }, {} as Apis)
         : undefined;
 
-    return APIs;
+    return apis;
 };
 
-//loads APIs into the BotContext
-const loadAPIs = async (dispatch: React.Dispatch<BotAction>) => {
-    dispatch({ type: BotActionTypes.fetchAttempt, key: BotFetchKeys.APIs });
-    const APIs = await getAPIs();
-    if (APIs) {
+//loads APIs into the Apicontext
+const loadAPIs = async (dispatch: React.Dispatch<ApiAction>) => {
+    //tell the context that we are fetching all apis
+    dispatch({ type: ApiActionTypes.fetching, api: 'apis' });
+
+    //get the apis object
+    const apis = await getAPIs();
+
+    //if we got apis
+    if (apis) {
+        //load them into the context
         dispatch({
-            type: BotActionTypes.fetchSuccess,
-            key: BotFetchKeys.APIs,
-            content: APIs,
+            type: ApiActionTypes.setApis,
+            apis,
         });
-    } else
-        dispatch({ type: BotActionTypes.fetchFailure, key: BotFetchKeys.APIs });
+        //if not, note that loading failed
+    } else dispatch({ type: ApiActionTypes.failed, api: 'apis' });
 };
 
 export default loadAPIs;

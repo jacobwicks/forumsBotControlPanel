@@ -1,18 +1,4 @@
-enum APITypes {
-    access_token = 'access_token',
-    access_token_secret = 'access_token_secret',
-    bearerToken = 'bearerToken',
-    clientId = 'clientId',
-    clientSecret = 'clientSecret',
-    consumerKey = 'consumerKey',
-    consumerSecret = 'consumerSecret',
-}
-
-type API = { [A in APITypes]?: any };
-
-export interface APIs {
-    [key: string]: API;
-}
+import { Apis } from '../types';
 
 //the types of action that the reducer in BotContext will handle
 export enum BotActionTypes {
@@ -55,7 +41,7 @@ export type BotAction =
     | {
           type: BotActionTypes.fetchSuccess;
           key: BotFetchKeys;
-          content: APIs | FrontEndBotSettings;
+          content: Apis | FrontEndBotSettings;
       }
 
     //runs the bot once with current settings, then stops the bot
@@ -114,7 +100,8 @@ export interface Timer {
 }
 
 interface BotType {
-    APIs?: APIs;
+    api: string;
+    APIs?: Apis;
     fetching: string[];
     hasFailed: string[];
     settings?: FrontEndBotSettings;

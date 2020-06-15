@@ -3,6 +3,7 @@ import log from '../Log';
 import { BotAction, FrontEndBotSettings, BotState } from '../../types/types';
 
 export const initialState = {
+    api: '',
     APIs: undefined,
     fetching: [],
     hasFailed: [],

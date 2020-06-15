@@ -45,6 +45,7 @@ export interface Instruction extends Post {
 }
 
 export * from './Albums';
+export * from './Apis';
 export * from './Bot';
 export * from './Events';
 export * from './Login';

@@ -9,7 +9,7 @@ import { listenToEvents } from '../../services/Api';
 import { EventsContext } from '../../services/EventsContext';
 import { BotContext } from '../../services/BotContext';
 import { ThreadsContext } from '../../services/ThreadsContext';
-import { BotActionTypes } from '../../types/Bot';
+
 // edit the config.json file that the bot accesses
 // input api keys and secrets to config.json file
 // Change the bot name
@@ -36,10 +36,9 @@ const tabs = [
         ),
     },
     {
-        menuItem: 'API Keys',
+        menuItem: 'APIs',
         render: () => (
             <Tab.Pane>
-                Click on an Api to edit its keys and secrets
                 <APIs />
             </Tab.Pane>
         ),
