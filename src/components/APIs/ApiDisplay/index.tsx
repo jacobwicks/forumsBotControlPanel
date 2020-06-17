@@ -21,22 +21,6 @@ const ApiDisplay = ({ api }: { api: string }) => {
     const instructionChild = <Instructions api={api} />;
     const thisApi = apis[api];
 
-    //     <EditableInput
-    //     configKeys={[]}
-    //     callback={(value: string) => console.log('callback', value)}
-    //     input={api}
-    //     labelText={`${api} Key`}
-    //     targetsProperty
-    //     tellParentOpen={(isOpen: boolean) => console.log(isOpen)}
-    //     value={thisApi}
-    // />
-
-    // api,
-    // input,
-    // keys,
-    // type,
-    // value,
-
     const apiChild =
         typeof thisApi === 'string' ? (
             <ApiInput api={api} value={thisApi} />
@@ -51,18 +35,7 @@ const ApiDisplay = ({ api }: { api: string }) => {
                                 <ObjectDisplay object={value} name={key} />
                             )
                         ) : (
-                            <EditableInput
-                                configKeys={[]}
-                                callback={(value: string) =>
-                                    console.log('callback', value)
-                                }
-                                input={key}
-                                targetsProperty
-                                tellParentOpen={(isOpen: boolean) =>
-                                    console.log(isOpen)
-                                }
-                                value={value}
-                            />
+                            <ApiInput api={api} input={key} value={value} />
                         )}
                     </div>
                 );

@@ -43,21 +43,27 @@ const ApiInput = ({
                 api,
                 value,
             });
-
-            const result = await setValue({
-                configKeys,
-                value,
-            });
-
-            if (!result)
-                dispatch({
-                    type: ApiActionTypes.setApi,
-                    api,
-                    value: oldValue,
-                });
         } else {
-            console.log('api is an object, not setting value', oldValue);
+            if (!input) throw new Error('cannot set api value without target');
+
+            dispatch({
+                type: ApiActionTypes.setApi,
+                api,
+                value: { ...oldValue, [input]: value },
+            });
         }
+
+        const result = await setValue({
+            configKeys,
+            value,
+        });
+
+        if (!result)
+            dispatch({
+                type: ApiActionTypes.setApi,
+                api,
+                value: oldValue,
+            });
     };
 
     return (
