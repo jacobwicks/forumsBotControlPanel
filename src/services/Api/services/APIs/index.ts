@@ -1,6 +1,25 @@
 import { authFetchJSON } from '../AuthFetch';
 import { Apis, ApiAction, ApiActionTypes, Api } from '../../../../types/types';
 
+export const getImgurToken = async ({
+    dispatch,
+    username,
+    password,
+}: {
+    dispatch: React.Dispatch<ApiAction>;
+    username: string;
+    password: string;
+}) => {
+    const route = `tokens/imgur`;
+
+    const body = {
+        username,
+        password,
+    };
+
+    const token = await authFetchJSON(route, true, body);
+};
+
 interface ApiResponse {
     api: Api;
 }

@@ -44,6 +44,7 @@ let reducer = (state: ApiState, action: ApiAction) => {
             return {
                 ...state,
                 apis,
+                fetching,
             };
         }
         case 'setApi': {
