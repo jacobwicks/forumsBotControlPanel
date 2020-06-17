@@ -1,4 +1,5 @@
 enum APITypes {
+    accessToken = 'accessToken',
     access_token = 'access_token',
     access_token_secret = 'access_token_secret',
     bearerToken = 'bearerToken',
@@ -8,7 +9,7 @@ enum APITypes {
     consumerSecret = 'consumerSecret',
 }
 
-export type Api = { [A in APITypes]?: any };
+export type Api = string | { [A in APITypes]?: any };
 
 export interface Apis {
     [key: string]: Api;

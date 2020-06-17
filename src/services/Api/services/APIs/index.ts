@@ -1,15 +1,27 @@
 import { authFetchJSON } from '../AuthFetch';
 import { Apis, ApiAction, ApiActionTypes, Api } from '../../../../types/types';
 
+interface TokenResponse {
+    token: string;
+}
+
+type TR = TokenResponse | undefined;
+
 export const getImgurToken = async ({
     dispatch,
+    imgur,
     username,
     password,
 }: {
     dispatch: React.Dispatch<ApiAction>;
+    imgur: Api;
     username: string;
     password: string;
 }) => {
+    dispatch({ type: ApiActionTypes.fetching, api: 'imgur' });
+
+    if (typeof imgur === 'string') throw Error('imgur is not an object');
+
     const route = `tokens/imgur`;
 
     const body = {
@@ -17,7 +29,15 @@ export const getImgurToken = async ({
         password,
     };
 
-    const token = await authFetchJSON(route, true, body);
+    const accessToken = ((await authFetchJSON(route, true, body)) as TR)?.token;
+
+    accessToken
+        ? dispatch({
+              type: ApiActionTypes.setApi,
+              api: 'imgur',
+              value: { ...imgur, accessToken },
+          })
+        : dispatch({ type: ApiActionTypes.failed, api: 'imgur' });
 };
 
 interface ApiResponse {

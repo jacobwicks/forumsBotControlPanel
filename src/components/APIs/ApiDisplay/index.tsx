@@ -5,6 +5,7 @@ import { ApiContext } from '../../../services/ApiContext';
 import ArrayDisplay from '../ArrayDisplay';
 import ObjectDisplay from '../ObjectDisplay';
 import Instructions from '../Instructions';
+import ApiInput from '../ApiInput';
 
 const ApiDisplay = ({ api }: { api: string }) => {
     const { dispatch, apis, failed, fetching } = useContext(ApiContext);
@@ -20,17 +21,25 @@ const ApiDisplay = ({ api }: { api: string }) => {
     const instructionChild = <Instructions api={api} />;
     const thisApi = apis[api];
 
+    //     <EditableInput
+    //     configKeys={[]}
+    //     callback={(value: string) => console.log('callback', value)}
+    //     input={api}
+    //     labelText={`${api} Key`}
+    //     targetsProperty
+    //     tellParentOpen={(isOpen: boolean) => console.log(isOpen)}
+    //     value={thisApi}
+    // />
+
+    // api,
+    // input,
+    // keys,
+    // type,
+    // value,
+
     const apiChild =
         typeof thisApi === 'string' ? (
-            <EditableInput
-                configKeys={[]}
-                callback={(value: string) => console.log('callback', value)}
-                input={api}
-                labelText={`${api} Key`}
-                targetsProperty
-                tellParentOpen={(isOpen: boolean) => console.log(isOpen)}
-                value={thisApi}
-            />
+            <ApiInput api={api} value={thisApi} />
         ) : (
             Object.entries(thisApi).map(([key, value], index) => {
                 return (
