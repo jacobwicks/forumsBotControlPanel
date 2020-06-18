@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { authFetchJSON } from '../../../../services/Api/services/AuthFetch';
 import ReactMarkdown from 'react-markdown/with-html';
 import { Button, Segment, Popup } from 'semantic-ui-react';
@@ -17,16 +17,15 @@ export const GenericInstructions = ({
 
     const getInput = async () => {
         if (!done) {
-            const route = 'markdown';
-            const body = { keys: ['apis', api] };
+            const route = `markdown/apis/${api}`;
+            //const body = { keys: ['apis', api] };
 
             interface MarkdownResponse {
                 markdown: string;
             }
             type MR = MarkdownResponse | undefined;
 
-            const markdown = ((await authFetchJSON(route, true, body)) as MR)
-                ?.markdown;
+            const markdown = ((await authFetchJSON(route)) as MR)?.markdown;
 
             markdown && setInput(markdown);
 
