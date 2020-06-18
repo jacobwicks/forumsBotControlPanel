@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { Button, Icon, Label, Segment } from 'semantic-ui-react';
 import ArrayDisplay from '../ArrayDisplay';
-import EditableInput from '../../EditableInput';
-//import getChildren from '../GetChildren';
+import ApiInput from '../ApiInput';
 
 const ObjectDisplay = ({
+    api,
+    keys,
     object,
     name,
 }: {
+    api: string;
+    keys: string[];
     object: { [key: string]: any };
     name: string;
 }) => {
     const [open, setOpen] = useState(false);
-
+    const configKeys = [...keys, name];
     return (
         <div>
             <span style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}>
@@ -28,24 +31,24 @@ const ObjectDisplay = ({
                             // prettier-ignore
                             value === 'object' 
                             ? Array.isArray(value) 
-                                ? <ArrayDisplay array={value} name={key}/>
+                                ? <ArrayDisplay 
+                                    api={api} 
+                                    array={value} 
+                                    keys={keys} 
+                                    name={key}
+                                    />
                                 : <ObjectDisplay
+                                    api={api}    
                                     object={value}
                                     name={key}
-                                    
+                                    keys={[...keys, key]}
                                 />
-                            :  <EditableInput
-                            configKeys={[]}
-                            callback={(value: string) =>
-                                console.log('callback', value)
-                            }
-                            input={key}
-                            targetsProperty
-                            tellParentOpen={(isOpen: boolean) =>
-                                console.log(isOpen)
-                            }
-                            value={value}
-                        />;
+                            :  <ApiInput
+                                api={api}
+                                keys={configKeys}
+                                input={key}
+                                value={value}
+                                />;
 
                         return <div key={key}>{display}</div>;
                     })}

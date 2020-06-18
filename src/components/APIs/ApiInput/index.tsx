@@ -18,20 +18,16 @@ const ApiInput = ({
 
     //apis can contain objects
     //if so, these keys locate the property for editing
-    keys?: string | string[];
+    keys?: string[];
 
     //the value
     value: string | boolean;
 }) => {
     const { dispatch, apis } = useContext(ApiContext);
-    let configKeys = ['apiKeys', api];
+    let configKeys = keys ? keys : ['apiKeys', api];
 
-    if (keys) {
-        Array.isArray(keys)
-            ? (configKeys = [...configKeys, api].concat(keys))
-            : (configKeys = [...configKeys, api, keys]);
-    }
-
+    //add the named input to the configKeys string[]
+    //if no input value, then the api key just holds a string
     input && (configKeys = [...configKeys, input]);
 
     const oldValue = apis[api];
@@ -45,11 +41,22 @@ const ApiInput = ({
             });
         } else {
             if (!input) throw new Error('cannot set api value without target');
+            let newValue = { ...oldValue };
+            let target = newValue as any;
+
+            configKeys.slice(2).forEach((key, index) => {
+                if (index + 3 === configKeys.length) {
+                    if (target.hasOwnProperty(key)) {
+                        //set the last key equal to the supplied value
+                        target[key] = value;
+                    } else target = undefined as any;
+                } else target = target[key];
+            });
 
             dispatch({
                 type: ApiActionTypes.setApi,
                 api,
-                value: { ...oldValue, [input]: value },
+                value: newValue,
             });
         }
 

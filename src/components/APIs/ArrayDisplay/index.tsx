@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import { Button, Label, Icon, Segment } from 'semantic-ui-react';
 import ObjectDisplay from '../ObjectDisplay';
+import ApiInput from '../ApiInput';
 
-const ArrayDisplay = ({ array, name }: { array: any[]; name: string }) => {
+const ArrayDisplay = ({
+    api,
+    keys,
+    array,
+    name,
+}: {
+    api: string;
+    keys: string[];
+    array: any[];
+    name: string;
+}) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -20,9 +31,9 @@ const ArrayDisplay = ({ array, name }: { array: any[]; name: string }) => {
                         ? el
                          : typeof el === 'object'
                             ? Array.isArray(el) 
-                                ? <ArrayDisplay array={el} name={key.toString()}/>
-                                : <ObjectDisplay object={el} name={key.toString()}/>
-                            : <div key={key}>{el}</div>
+                                ? <ArrayDisplay api={api} array={el} keys={keys} name={key.toString()}/>
+                                : <ObjectDisplay api={api} keys={keys} object={el} name={key.toString()}/>
+                            : <ApiInput api={api} keys={keys} value={el}/>
                     )}
                 </Segment>
             )}

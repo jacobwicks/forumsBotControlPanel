@@ -21,6 +21,8 @@ const ApiDisplay = ({ api }: { api: string }) => {
     const instructionChild = <Instructions api={api} />;
     const thisApi = apis[api];
 
+    const configKeys = ['apiKeys', api];
+
     const apiChild =
         typeof thisApi === 'string' ? (
             <ApiInput api={api} value={thisApi} />
@@ -30,9 +32,19 @@ const ApiDisplay = ({ api }: { api: string }) => {
                     <div key={index}>
                         {typeof value === 'object' ? (
                             Array.isArray(value) ? (
-                                <ArrayDisplay array={value} name={key} />
+                                <ArrayDisplay
+                                    api={api}
+                                    keys={configKeys}
+                                    array={value}
+                                    name={key}
+                                />
                             ) : (
-                                <ObjectDisplay object={value} name={key} />
+                                <ObjectDisplay
+                                    api={api}
+                                    keys={configKeys}
+                                    object={value}
+                                    name={key}
+                                />
                             )
                         ) : (
                             <ApiInput api={api} input={key} value={value} />

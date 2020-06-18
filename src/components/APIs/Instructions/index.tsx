@@ -1,8 +1,8 @@
 import React, { ReactElement, useState } from 'react';
-import CatApiInstructions from './CatApiInstructions';
 import ImgurInstructions from './ImgurInstructions';
 import TwitterInstructions from './TwitterInstructions';
 import { Button, Header, Popup, Segment } from 'semantic-ui-react';
+import GenericInstructions2 from './GenericInstructions';
 
 interface Link {
     link: {
@@ -82,10 +82,9 @@ export const GenericInstructions = ({
 
 const Instructions = ({ api }: { api: string }) => {
     const instructions = {
-        catapi: <CatApiInstructions api={api} />,
         imgur: <ImgurInstructions api={api} />,
         twitter: <TwitterInstructions api={api} />,
-        default: <></>,
+        default: <GenericInstructions2 api={api} />,
     } as { [key: string]: ReactElement };
 
     return instructions[api.toLowerCase()]

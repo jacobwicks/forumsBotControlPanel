@@ -169,7 +169,7 @@ const EditableInput = ({
     // prettier-ignore
     const child = checkbox
         ? checkboxChild
-        : textArea
+        : textArea || (typeof(value) === 'string' && value.length > 19)
             ? textareaChild
             : inputChild;
 
