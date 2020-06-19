@@ -2,42 +2,24 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
 
 const MyMarkdown = (props: any) => {
+    //the maximum width of an image in the markdown
     const maxWidth = props?.maxWidth;
 
     const imageNodes = new Map();
     const nodeKey = (position: any) => JSON.stringify(position.start); // or use your own hash function
 
-    function allowNodes(node: any) {
+    const allowNodes = (node: any) => {
         if (node.type === 'image') imageNodes.set(nodeKey(node.position), node);
         return true;
-    }
+    };
 
+    //ReactMarkdown accepts custom renderers
     const renderers = {
-        image: ({
-            sourcePosition,
-            alt,
-            src,
-            title,
-        }: {
-            sourcePosition: any;
-            alt: any;
-            src: any;
-            title: any;
-        }) => {
-            console.log('processing image. maxWidth is', maxWidth);
-
-            return <img alt={alt} src={src} style={{ maxWidth }} />;
-            //     const node = imageNodes.get(nodeKey(sourcePosition));
-            //     console.log('rendering an image');
-            //     return (
-            //         <img
-            //             alt={alt}
-            //             src={src}
-            //             title={title}
-            //             {...node.data.hProperties}
-            //         />
-            //     );
-        },
+        //This custom renderer changes how images are rendered
+        //we use it to constrain the max width of an image to its container
+        image: ({ alt, src, title }: { alt: any; src: any; title: any }) => (
+            <img alt={alt} src={src} title={title} style={{ maxWidth }} />
+        ),
     };
 
     return (

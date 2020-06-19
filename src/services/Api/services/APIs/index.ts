@@ -18,9 +18,9 @@ export const getImgurToken = async ({
     username: string;
     password: string;
 }) => {
-    dispatch({ type: ApiActionTypes.fetching, api: 'imgur' });
-
     if (typeof imgur === 'string') throw Error('imgur is not an object');
+
+    dispatch({ type: ApiActionTypes.fetching, api: 'imgur' });
 
     const route = `tokens/imgur`;
 

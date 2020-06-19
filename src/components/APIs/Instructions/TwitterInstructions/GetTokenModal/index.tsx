@@ -3,14 +3,26 @@ import { Button, Icon, Input, Modal } from 'semantic-ui-react';
 import { ApiContext } from '../../../../../services/ApiContext';
 import { getImgurToken } from '../../../../../services/Api/services/APIs';
 import { Api, ApiAction } from '../../../../../types/Apis';
+import { authFetchJSON } from '../../../../../services/Api/services/AuthFetch';
 
-const getTwitterToken = ({
+interface BearerTokenResponse {
+    bearerToken: string;
+}
+
+type BR = BearerTokenResponse | undefined;
+
+const getTwitterToken = async ({
     dispatch,
     twitter,
 }: {
     dispatch: React.Dispatch<ApiAction>;
     twitter: Api;
-}) => {};
+}) => {
+    const route = 'tokens/twitter';
+    const bearerToken = ((await authFetchJSON(route)) as BR)?.bearerToken;
+
+    console.log('response is', bearerToken);
+};
 
 const GetTokenModal = ({
     close,
