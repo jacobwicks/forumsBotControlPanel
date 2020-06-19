@@ -109,12 +109,18 @@ export const GenericInstructions = ({
         children.push({ ...child, key: index.toString() })
     );
 
+    const noInstructions = done && !input;
+
     return (
         <div ref={divRef} style={{ marginBottom: 20 }}>
             <Popup
-                trigger={<Button onClick={() => setOpen(!open)}>{api}</Button>}
+                trigger={
+                    <Button onClick={() => input && setOpen(!open)}>
+                        {api}
+                    </Button>
+                }
                 content="click for instructions"
-                disabled={open}
+                disabled={open || noInstructions}
             />
             {open && <Segment children={children} />}
         </div>

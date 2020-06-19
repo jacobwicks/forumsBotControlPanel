@@ -1,8 +1,23 @@
-import React from 'react';
-import { Segment } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Button } from 'semantic-ui-react';
+import GenericInstructions from '../GenericInstructions';
+import GetTokenModal from './GetTokenModal';
 
 const TwitterInstructions = ({ api }: { api: string }) => {
-    return <Segment>Twitter is the worst website on the planet</Segment>;
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const getTokenButton = (
+        <Button onClick={() => setModalOpen(true)}>Get Token</Button>
+    );
+
+    const addChildren = [getTokenButton];
+
+    return (
+        <>
+            <GenericInstructions api={api} addChildren={addChildren} />
+            <GetTokenModal close={() => setModalOpen(false)} open={modalOpen} />
+        </>
+    );
 };
 
 export default TwitterInstructions;
