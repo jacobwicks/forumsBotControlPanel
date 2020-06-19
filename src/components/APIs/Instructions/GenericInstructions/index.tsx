@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { authFetchJSON } from '../../../../services/Api/services/AuthFetch';
 //import ReactMarkdown from 'react-markdown/with-html';
 import { Button, Segment, Popup } from 'semantic-ui-react';
 import ReactMarkdown from '../../../Markdown';
 
 const useResize = (myRef: any) => {
-    const getWidth = () => myRef?.current?.offsetWidth;
+    const getWidth = useCallback(() => myRef?.current?.offsetWidth, [myRef]);
 
     const [width, setWidth] = useState<number | undefined>(undefined);
 
@@ -23,7 +23,7 @@ const useResize = (myRef: any) => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [myRef]);
+    }, [getWidth, myRef]);
 
     return width && width > 25 ? width - 25 : width;
 };
@@ -43,7 +43,7 @@ export const GenericInstructions = ({
     const [input, setInput] = useState('');
     const [done, setDone] = useState(false);
 
-    const getInput = async () => {
+    const getInput = useCallback(async () => {
         if (!done) {
             const route = `markdown/apis/${api}`;
             //const body = { keys: ['apis', api] };
@@ -59,7 +59,7 @@ export const GenericInstructions = ({
 
             setDone(true);
         }
-    };
+    }, [api, done, setDone, setInput]);
 
     useEffect(() => {
         getInput();

@@ -7,9 +7,8 @@ import {
     BotActionTypes,
     ThreadsAction,
     ThreadsActionTypes,
-    LogEventTypes,
 } from '../../../../types/types';
-import { millisToMinutesAndSeconds } from '../../../MillisToMinutesAndSeconds';
+//import { millisToMinutesAndSeconds } from '../../../MillisToMinutesAndSeconds';
 
 const listenToEvents = ({
     botDispatch,
@@ -84,13 +83,13 @@ const listenToEvents = ({
                 }
             };
 
-            const checkIntervalTimeLeft = (ev: any) => {
-                const data = ev?.data;
-                if (data?.hasOwnProperty(LogEventTypes.timeLeft)) {
-                    // const timer = millisToMinutesAndSeconds(data.timeLeft);
-                    // botDispatch({ type: BotActionTypes.setTimer, timer });
-                }
-            };
+            // const checkIntervalTimeLeft = (ev: any) => {
+            //     const data = ev?.data;
+            //     if (data?.hasOwnProperty(LogEventTypes.timeLeft)) {
+            //         // const timer = millisToMinutesAndSeconds(data.timeLeft);
+            //         // botDispatch({ type: BotActionTypes.setTimer, timer });
+            //     }
+            // };
 
             const checkThreads = (ev: any) => {
                 const data = ev?.data;

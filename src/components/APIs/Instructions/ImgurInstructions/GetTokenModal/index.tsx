@@ -22,7 +22,7 @@ const GetTokenModal = ({
 
     useEffect(() => {
         !isFetching && close();
-    }, [isFetching]);
+    }, [close, isFetching]);
 
     return (
         <Modal

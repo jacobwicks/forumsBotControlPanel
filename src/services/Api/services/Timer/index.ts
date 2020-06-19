@@ -1,4 +1,4 @@
-import { BotAction, BotActionTypes, Timer } from '../../../../types/types';
+import { BotAction, BotActionTypes } from '../../../../types/types';
 import { authFetchJSON } from '../AuthFetch';
 import { millisToMinutesAndSeconds } from '../../../MillisToMinutesAndSeconds';
 

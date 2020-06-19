@@ -40,13 +40,13 @@ const ApiInput = ({
                 value,
             });
         } else {
-            if (!input) throw new Error('cannot set api value without target');
+            //if (!input) throw new Error('cannot set api value without target');
             let newValue = { ...oldValue };
             let target = newValue as any;
 
             configKeys.slice(2).forEach((key, index) => {
                 if (index + 3 === configKeys.length) {
-                    if (target.hasOwnProperty(key)) {
+                    if (Array.isArray(target) || target.hasOwnProperty(key)) {
                         //set the last key equal to the supplied value
                         target[key] = value;
                     } else target = undefined as any;

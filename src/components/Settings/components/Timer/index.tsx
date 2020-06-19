@@ -48,7 +48,7 @@ const Timer = () => {
                 },
             });
         }
-    }, [dispatch, prevInterval, settings?.interval, on]);
+    }, [dispatch, prevInterval, settings, on]);
 
     //when the bot stops running, load the timer
     useEffect(() => {

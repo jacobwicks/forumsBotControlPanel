@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import { loadApi } from '../../../services/Api/services/APIs';
-import EditableInput from '../../EditableInput';
 import { ApiContext } from '../../../services/ApiContext';
 import ArrayDisplay from '../ArrayDisplay';
 import ObjectDisplay from '../ObjectDisplay';

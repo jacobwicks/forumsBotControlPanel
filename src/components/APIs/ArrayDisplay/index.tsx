@@ -25,16 +25,36 @@ const ArrayDisplay = ({
             </span>
             {open && (
                 <Segment style={{ marginBottom: 10 }}>
-                    {array.map((el, key) =>
-                        // prettier-ignore
-                        React.isValidElement(el)
-                        ? el
-                         : typeof el === 'object'
-                            ? Array.isArray(el) 
-                                ? <ArrayDisplay api={api} array={el} keys={keys} name={key.toString()}/>
-                                : <ObjectDisplay api={api} keys={keys} object={el} name={key.toString()}/>
-                            : <ApiInput api={api} keys={keys} value={el}/>
-                    )}
+                    {array.map((el, key) => {
+                        const elKeys = [...keys, name];
+
+                        return React.isValidElement(el) ? (
+                            el
+                        ) : typeof el === 'object' ? (
+                            Array.isArray(el) ? (
+                                <ArrayDisplay
+                                    api={api}
+                                    array={el}
+                                    keys={elKeys}
+                                    name={key.toString()}
+                                />
+                            ) : (
+                                <ObjectDisplay
+                                    api={api}
+                                    keys={elKeys}
+                                    object={el}
+                                    name={key.toString()}
+                                />
+                            )
+                        ) : (
+                            <ApiInput
+                                api={api}
+                                input={key.toString()}
+                                keys={[...elKeys]}
+                                value={el}
+                            />
+                        );
+                    })}
                 </Segment>
             )}
         </div>

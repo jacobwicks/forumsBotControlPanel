@@ -16,7 +16,8 @@ const deleteAlbum = async ({
 }) => {
     dispatch({ type: AlbumsActionTypes.deleteAlbum, album });
 
-    const success = await deleteAlbumAPI(album);
+    // const success = await deleteAlbumAPI(album);
+    deleteAlbumAPI(album);
 
     //on failure, display toast
     //prompt user to refresh to reload album

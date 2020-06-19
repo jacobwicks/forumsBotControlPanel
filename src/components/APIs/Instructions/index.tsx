@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import ImgurInstructions from './ImgurInstructions';
 import TwitterInstructions from './TwitterInstructions';
 import GenericInstructions from './GenericInstructions';

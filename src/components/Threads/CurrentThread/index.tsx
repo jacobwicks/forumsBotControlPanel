@@ -42,7 +42,7 @@ const CurrentThread = () => {
     const currentThread = threads?.find((t) => t.threadId === thread);
     if (!currentThread) return <NoThread />;
 
-    const { name, title, threadId } = currentThread;
+    const { name, title } = currentThread;
 
     return (
         <>
