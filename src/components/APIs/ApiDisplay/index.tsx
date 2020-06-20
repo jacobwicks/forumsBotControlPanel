@@ -20,7 +20,7 @@ const ApiDisplay = ({ api }: { api: string }) => {
     const instructionChild = <Instructions api={api} />;
     const thisApi = apis[api];
 
-    const configKeys = ['apiKeys', api];
+    const configKeys = ['apis', api];
 
     const apiChild =
         typeof thisApi === 'string' ? (

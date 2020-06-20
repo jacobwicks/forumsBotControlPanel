@@ -24,7 +24,7 @@ const ApiInput = ({
     value: string | boolean;
 }) => {
     const { dispatch, apis } = useContext(ApiContext);
-    let configKeys = keys ? keys : ['apiKeys', api];
+    let configKeys = keys ? keys : ['apis', api];
 
     //add the named input to the configKeys string[]
     //if no input value, then the api key just holds a string
