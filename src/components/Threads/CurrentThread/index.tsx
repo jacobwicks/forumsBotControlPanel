@@ -4,7 +4,7 @@ import { Segment, Header, Label, Checkbox } from 'semantic-ui-react';
 import ThreadInput from '../ThreadInput';
 import { ThreadsActionTypes } from '../../../types/types';
 import EditableInput from '../../EditableInput';
-import { unbookmarkThread } from '../../../services/Api';
+import { bookmarkThread, unbookmarkThread } from '../../../services/Api';
 
 const NoThread = () => (
     <Segment>
@@ -45,7 +45,11 @@ const CurrentThread = () => {
             </div>
             <br />
             <ThreadInput
-                callback={() => unbookmarkThread({ dispatch, threadId })}
+                callback={() =>
+                    bookmarked
+                        ? unbookmarkThread({ dispatch, threadId })
+                        : bookmarkThread({ dispatch, threadId })
+                }
                 checkbox
                 input={'bookmarked'}
                 threadId={threadId}
