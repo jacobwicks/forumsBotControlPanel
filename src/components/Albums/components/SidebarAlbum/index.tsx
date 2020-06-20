@@ -14,12 +14,26 @@ const SidebarAlbum = ({ album }: { album: string }) => {
     ).length;
 
     return (
-        <div style={{ padding: 10 }}>
+        <div style={{ marginBottom: 10, marginTop: 10 }}>
+            <Label
+                color={album === currentAlbum ? 'green' : undefined}
+                style={{ cursor: 'pointer' }}
+                onClick={() =>
+                    dispatch({
+                        type: AlbumsActionTypes.setAlbum,
+                        album,
+                    })
+                }
+            >
+                {album}
+            </Label>
             <Popup
                 content={`Click to review images for ${album}`}
                 disabled={!images}
                 trigger={
-                    <Button
+                    <Label
+                        style={{ cursor: 'pointer' }}
+                        size="large"
                         color={images ? 'red' : undefined}
                         onClick={() => {
                             dispatch({
@@ -34,21 +48,9 @@ const SidebarAlbum = ({ album }: { album: string }) => {
                         }}
                     >
                         {images}
-                    </Button>
+                    </Label>
                 }
             />
-            <Label
-                color={album === currentAlbum ? 'green' : undefined}
-                style={{ cursor: 'pointer' }}
-                onClick={() =>
-                    dispatch({
-                        type: AlbumsActionTypes.setAlbum,
-                        album,
-                    })
-                }
-            >
-                {album}
-            </Label>
         </div>
     );
 };

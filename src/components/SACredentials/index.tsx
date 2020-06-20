@@ -80,8 +80,6 @@ const SACredentials = () => {
                     labelText="Bot SA Username"
                     value={username}
                 />
-                <br />
-                <br />
                 <EditableInput
                     configKeys={configKeys}
                     dispatch={({ value }) => setPassword(value)}
@@ -94,7 +92,6 @@ const SACredentials = () => {
                     password
                     value={password}
                 />
-                <br />
                 <LoginButton />
             </Segment>
             <Cookies />

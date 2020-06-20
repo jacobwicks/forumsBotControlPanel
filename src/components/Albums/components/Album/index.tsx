@@ -94,16 +94,12 @@ const Album = ({ album }: { album: string }) => {
                 type={AlbumsActionTypes.setDescription}
                 value={thisAlbum.description}
             />
-            <br />
-            <br />
             <AlbumInput
                 album={album}
                 input="hash"
                 type={AlbumsActionTypes.setHash}
                 value={thisAlbum.hash}
             />
-            <br />
-            <br />
             <AlbumInput
                 album={album}
                 input="status"

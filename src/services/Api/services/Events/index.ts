@@ -91,31 +91,31 @@ const listenToEvents = ({
             //     }
             // };
 
-            const checkThreads = (ev: any) => {
-                const data = ev?.data;
+            // const checkThreads = (ev: any) => {
+            //     const data = ev?.data;
 
-                if (data?.hasOwnProperty('threads')) {
-                    const { threads } = data;
+            //     if (data?.hasOwnProperty('threads')) {
+            //         const { threads } = data;
 
-                    threadsDispatch({
-                        type: ThreadsActionTypes.setThreads,
-                        threads,
-                    });
-                }
-            };
+            //         threadsDispatch({
+            //             type: ThreadsActionTypes.setThreads,
+            //             threads,
+            //         });
+            //     }
+            // };
 
             //received an array of events
             if (Array.isArray(parsedEvent)) {
                 //check each event for settings or threads
-                parsedEvent.forEach((event) => {
-                    //Don't dispatch for bot settings
-                    //checkBotSetting(event);
-                    //checkIntervalTimeLeft(event);
-                    checkThreads(event);
-                });
+                // parsedEvent.forEach((event) => {
+                //     //Don't dispatch for bot settings
+                //     //checkBotSetting(event);
+                //     //checkIntervalTimeLeft(event);
+                //     //checkThreads(event);
+                // });
             } else if (parsedEvent?.data) {
                 checkBotSetting(parsedEvent);
-                checkThreads(parsedEvent);
+                //checkThreads(parsedEvent);
             }
         };
     } catch (err) {

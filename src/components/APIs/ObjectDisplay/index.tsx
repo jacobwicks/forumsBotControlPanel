@@ -17,7 +17,7 @@ const ObjectDisplay = ({
     const [open, setOpen] = useState(false);
     const configKeys = [...keys, name];
     return (
-        <div>
+        <div style={{ marginTop: 10, marginBottom: 10 }}>
             <span style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}>
                 <Button icon="edit" />
                 <Label size="large">{name}</Label>

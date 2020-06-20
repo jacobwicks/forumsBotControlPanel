@@ -174,8 +174,13 @@ const EditableInput = ({
             : inputChild;
 
     return (
-        <div>
-            <Button disabled={checkbox} icon onClick={() => setOpen(!open)}>
+        <div style={{ marginTop: 10, marginBottom: 10 }}>
+            <Button
+                icon
+                onClick={() =>
+                    checkbox ? handleBlur(!!!value) : setOpen(!open)
+                }
+            >
                 <Icon name="edit" />
             </Button>
             <Label size="large" content={`${labelText ? labelText : input}`} />{' '}

@@ -8,6 +8,7 @@ import {
     Message,
     Label,
     Segment,
+    Popup,
 } from 'semantic-ui-react';
 import { ThreadsActionTypes } from '../../types/types';
 import CurrentThread from './CurrentThread';
@@ -32,26 +33,49 @@ const Threads = () => {
                 <Grid.Column width={4}>
                     <Header as="h2">Threads</Header>
                     {threads?.map((t) => {
-                        const { name, title, threadId } = t;
+                        const {
+                            bookmarked,
+                            name,
+                            title,
+                            threadId,
+                            unreadPosts,
+                        } = t;
                         return (
-                            <div style={{ padding: 10 }}>
-                                <Label
-                                    color={
-                                        threadId === thread
-                                            ? 'green'
-                                            : undefined
+                            <div
+                                style={{
+                                    cursor: 'pointer',
+                                    padding: 10,
+                                }}
+                                onClick={() =>
+                                    dispatch({
+                                        type: ThreadsActionTypes.currentThread,
+                                        threadId,
+                                    })
+                                }
+                            >
+                                <Popup
+                                    disabled={!name}
+                                    content={title}
+                                    trigger={
+                                        <Label
+                                            color={
+                                                threadId === thread
+                                                    ? 'green'
+                                                    : bookmarked
+                                                    ? 'blue'
+                                                    : undefined
+                                            }
+                                        >
+                                            {name ? name : title}
+                                        </Label>
                                     }
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() =>
-                                        dispatch({
-                                            type:
-                                                ThreadsActionTypes.currentThread,
-                                            threadId,
-                                        })
-                                    }
-                                >
-                                    {name ? name : title}
-                                </Label>
+                                />
+                                {bookmarked && (
+                                    <Label
+                                        color={unreadPosts ? 'blue' : undefined}
+                                        content={unreadPosts}
+                                    />
+                                )}
                             </div>
                         );
                     })}

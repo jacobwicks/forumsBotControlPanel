@@ -4,6 +4,7 @@ import {
     ThreadsActionTypes,
 } from '../../../../types/types';
 import { authFetchJSON } from '../AuthFetch';
+import unbookmarkThread from './UnbookmarkThread';
 
 interface ThreadsResponse {
     threads: FrontEndThread[];
@@ -12,18 +13,19 @@ interface ThreadsResponse {
 type TR = ThreadsResponse | undefined;
 
 //gets the imgur albums for the bot from the API
-const getAlbums = async () => {
+const getThreads = async () => {
     const route = 'threads';
     const response = (await authFetchJSON(route)) as TR;
     const threads = response?.threads;
 
+    console.log(`got threads`, threads);
     return threads;
 };
 
 //loads albums into the albumsContext
 const loadThreads = async (dispatch: React.Dispatch<ThreadsAction>) => {
     dispatch({ type: ThreadsActionTypes.fetchAttempt });
-    const threads = await getAlbums();
+    const threads = await getThreads();
     if (threads) {
         dispatch({
             type: ThreadsActionTypes.setThreads,
@@ -32,4 +34,4 @@ const loadThreads = async (dispatch: React.Dispatch<ThreadsAction>) => {
     } else dispatch({ type: ThreadsActionTypes.failed });
 };
 
-export { loadThreads };
+export { loadThreads, unbookmarkThread };

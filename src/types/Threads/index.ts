@@ -9,7 +9,7 @@ interface ThreadLimits {
 export interface FrontEndThread {
     //active is true if it was bookmarked
     //the last time we got bookmarked threads from the forums page
-    active: boolean;
+    bookmarked: boolean;
 
     //     lastScannedPage?: number;
     //     lastScannedPost?: number;
@@ -33,6 +33,8 @@ export interface FrontEndThread {
 
     //the unique identifying number of the thread
     threadId: number;
+
+    unreadPosts: number;
 }
 
 export enum ThreadsActionTypes {
@@ -40,6 +42,7 @@ export enum ThreadsActionTypes {
     currentThread = 'currentThread',
     failed = 'failed',
     fetchAttempt = 'fetchAttempt',
+    setBookmarked = 'setBookmarked',
     setName = 'setName',
     setThreads = 'setThreads',
 }
@@ -60,8 +63,16 @@ export type ThreadsAction =
     //fetching threads from API
     | { type: ThreadsActionTypes.fetchAttempt }
 
+    //set if a thread is bookmarked
+    | {
+          type: ThreadsActionTypes.setBookmarked;
+          threadId: number;
+          value: boolean;
+      }
+
     //set the name of a thread
     | { type: ThreadsActionTypes.setName; threadId: number; value?: string }
+
     //set the whole array of threads
     | { type: ThreadsActionTypes.setThreads; threads: FrontEndThread[] };
 

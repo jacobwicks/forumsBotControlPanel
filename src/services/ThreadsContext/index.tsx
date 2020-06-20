@@ -47,6 +47,26 @@ let reducer = (state: ThreadsState, action: ThreadsAction) => {
                 fetching: true,
             };
         }
+        case 'setBookmarked': {
+            const { threadId, value } = action;
+            const { threads } = state;
+            const index = threads?.findIndex((t) => t.threadId === threadId);
+
+            if (!threads || index === undefined || index === -1) return state;
+
+            const newThread = threads[index];
+
+            newThread.bookmarked = value;
+
+            const newThreads = [...threads];
+
+            newThreads[index] = newThread;
+
+            return {
+                ...state,
+                threads: newThreads,
+            };
+        }
         case 'setName': {
             const { threadId, value } = action;
             const { threads } = state;
@@ -58,7 +78,10 @@ let reducer = (state: ThreadsState, action: ThreadsAction) => {
 
             newThread.name = value;
 
-            const newThreads = [...threads].splice(index, 1, newThread);
+            const newThreads = [...threads];
+
+            newThreads[index] = newThread;
+
             return {
                 ...state,
                 threads: newThreads,

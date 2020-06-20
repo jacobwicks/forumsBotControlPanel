@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import { ThreadsContext } from '../../../services/ThreadsContext';
-import { Segment, Header } from 'semantic-ui-react';
+import { Segment, Header, Label, Checkbox } from 'semantic-ui-react';
 import ThreadInput from '../ThreadInput';
 import { ThreadsActionTypes } from '../../../types/types';
+import EditableInput from '../../EditableInput';
+import { unbookmarkThread } from '../../../services/Api';
 
 const NoThread = () => (
     <Segment>
@@ -10,49 +12,58 @@ const NoThread = () => (
     </Segment>
 );
 
-// //a thread that the bot monitors
-// export interface FrontEndThread {
-//     //active is true if it was bookmarked
-//     //the last time we got bookmarked threads from the forums page
-//     active: boolean;
-
 //     //optional limits on scanning the thread
 //     //start at X page, post, stop at Y page, post
 //     limit?: ThreadLimits;
 
-//     //a link to the thread
-//     link: string;
-
-//     //human readable name
-//     //designated by you, the person running the bot
-//     //goes in the logs
-//     name?: string;
-
-//     //title from the forums
-//     //this is often changed
-//     title?: string;
-
-//     //the unique identifying number of the thread
-//     threadId: number;
-// }
-
+//set limits? nah
+//set last read
+//probably want to track pages to set last read
 const CurrentThread = () => {
-    const { thread, threads } = useContext(ThreadsContext);
+    const { dispatch, thread, threads } = useContext(ThreadsContext);
 
     const currentThread = threads?.find((t) => t.threadId === thread);
     if (!currentThread) return <NoThread />;
 
-    const { name, title } = currentThread;
+    const {
+        bookmarked,
+        link,
+        name,
+        threadId,
+        title,
+        unreadPosts,
+    } = currentThread;
 
     return (
         <>
             <Header as="h2">Current thread: {name ? name : title}</Header>
+            <div>
+                <Label size="large" content={'threadId:'} />{' '}
+                <a href={link} target="_blank" rel="noopener noreferrer">
+                    {threadId}
+                </a>
+            </div>
+            <br />
             <ThreadInput
-                thread={thread}
+                callback={() => unbookmarkThread({ dispatch, threadId })}
+                checkbox
+                input={'bookmarked'}
+                threadId={threadId}
+                value={bookmarked}
+            />
+            <ThreadInput
+                threadId={threadId}
                 input={'name'}
                 type={ThreadsActionTypes.setName}
                 value={name}
             />
+            <div>
+                <Label size="large" content={'Title:'} /> {title}
+            </div>
+            <br />
+            <div>
+                <Label size="large" content={'Unread Posts:'} /> {unreadPosts}
+            </div>
         </>
     );
 };

@@ -4,23 +4,29 @@ import { ThreadsContext } from '../../../services/ThreadsContext';
 import EditableInput from '../../EditableInput';
 
 const ThreadInput = ({
-    thread,
+    threadId,
+    callback,
     checkbox,
     input,
+    labelText,
     textArea,
     type,
     value,
 }: {
-    thread: number;
+    threadId: number;
+
+    callback?: (args: any) => void;
 
     //render a checkbox
     checkbox?: boolean;
 
     //the type of action to set the input value
-    type: ThreadsActionTypes;
+    type?: ThreadsActionTypes;
 
     //the input
     input: string;
+
+    labelText?: string;
 
     //render a textarea
     textArea?: boolean;
@@ -30,22 +36,26 @@ const ThreadInput = ({
 }) => {
     const { dispatch } = useContext(ThreadsContext);
 
-    const configKeys = ['threads', thread.toString()];
+    const configKeys = ['threads', threadId.toString()];
 
     return (
         <EditableInput
+            callback={callback}
             checkbox={checkbox}
             configKeys={configKeys}
             dispatch={dispatch}
-            dispatchBefore={[{ type, thread } as any]}
-            dispatchOnFailure={[
-                {
-                    type,
-                    thread,
-                    value,
-                } as any,
-            ]}
+            dispatchBefore={type && [{ type, thread: threadId } as any]}
+            dispatchOnFailure={
+                type && [
+                    {
+                        type,
+                        thread: threadId,
+                        value,
+                    } as any,
+                ]
+            }
             input={input}
+            labelText={labelText}
             textArea={textArea}
             value={value}
         />

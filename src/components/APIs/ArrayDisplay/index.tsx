@@ -17,7 +17,7 @@ const ArrayDisplay = ({
     const [open, setOpen] = useState(false);
 
     return (
-        <div>
+        <div style={{ marginTop: 10, marginBottom: 10 }}>
             <span style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}>
                 <Button icon="edit" />
                 <Label size="large">{name}</Label>
