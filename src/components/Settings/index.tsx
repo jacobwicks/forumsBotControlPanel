@@ -26,12 +26,12 @@ const Settings = () => {
     return (
         <div>
             <Segment>
+                <LogViewer />
+            </Segment>
+            <Segment>
                 <ControlButtons />
                 <BotStateDisplay />
                 <Interval />
-            </Segment>
-            <Segment>
-                <LogViewer />
             </Segment>
         </div>
     );

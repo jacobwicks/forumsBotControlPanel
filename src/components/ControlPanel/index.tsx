@@ -28,7 +28,7 @@ import { ThreadsContext } from '../../services/ThreadsContext';
 
 const tabs = [
     {
-        menuItem: 'Settings',
+        menuItem: 'Controls',
         render: () => (
             <Tab.Pane>
                 <Settings />
@@ -36,10 +36,10 @@ const tabs = [
         ),
     },
     {
-        menuItem: 'APIs',
+        menuItem: 'Threads',
         render: () => (
             <Tab.Pane>
-                <APIs />
+                <Threads />
             </Tab.Pane>
         ),
     },
@@ -52,7 +52,7 @@ const tabs = [
         ),
     },
     {
-        menuItem: 'Responses',
+        menuItem: 'Actions',
         render: () => (
             <Tab.Pane>
                 Placeholder- set the botName variable, lets you turn different
@@ -69,10 +69,10 @@ const tabs = [
         ),
     },
     {
-        menuItem: 'Threads',
+        menuItem: 'APIs',
         render: () => (
             <Tab.Pane>
-                <Threads />
+                <APIs />
             </Tab.Pane>
         ),
     },

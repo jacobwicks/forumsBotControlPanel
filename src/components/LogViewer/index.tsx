@@ -9,7 +9,10 @@ const LogViewer = () => {
     const eventsEndRef = useRef(null) as MutableRefObject<any>;
 
     const scrollToBottom = () => {
-        eventsEndRef?.current?.scrollIntoView({ behavior: 'smooth' });
+        eventsEndRef?.current?.scrollIntoView({
+            block: 'end',
+            behavior: 'smooth',
+        });
     };
 
     useEffect(scrollToBottom, [events]);
