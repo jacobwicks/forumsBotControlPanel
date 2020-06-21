@@ -9,7 +9,8 @@ import {
     markLastRead,
     loadThreads,
 } from '../../../services/Api';
-import setValue from '../../../services/Api/services/SetValue';
+import RunOnceForThreadButton from '../RunOnceForThreadButton';
+import SetLastRead from '../SetLastRead';
 
 const NoThread = () => (
     <Segment>
@@ -21,7 +22,6 @@ const NoThread = () => (
 //set last read
 //probably want to track pages to set last read
 const CurrentThread = () => {
-    const [lastRead, setLastRead] = useState<number | undefined>(undefined);
     const { dispatch, thread, threads } = useContext(ThreadsContext);
 
     const currentThread = threads?.find((t) => t.threadId === thread);
@@ -47,6 +47,9 @@ const CurrentThread = () => {
                 <a href={link} target="_blank" rel="noopener noreferrer">
                     {threadId}
                 </a>
+            </div>
+            <div style={style}>
+                <RunOnceForThreadButton threadId={threadId} />
             </div>
             <ThreadInput
                 callback={async () =>
@@ -77,36 +80,7 @@ const CurrentThread = () => {
                 <Label size="large" content={'Unread Posts:'} />{' '}
                 {unreadPosts !== undefined ? unreadPosts : '???'}
             </div>
-            {pages && (
-                <div style={style}>
-                    <Label size="large" content={'Set Last Read Page: '} />
-                    <input
-                        value={lastRead}
-                        onChange={({ target }) => {
-                            const { value } = target;
-                            if (!value) {
-                                setLastRead(undefined);
-                            } else {
-                                const number = Number(value.replace(/\D/, ''));
-                                setLastRead(number);
-                            }
-                        }}
-                    />
-                    <Button
-                        disabled={!lastRead || lastRead > pages}
-                        onClick={async () =>
-                            lastRead &&
-                            (await markLastRead({
-                                page: lastRead,
-                                threadId,
-                            })) &&
-                            loadThreads(dispatch)
-                        }
-                    >
-                        Go
-                    </Button>
-                </div>
-            )}
+            {pages && <SetLastRead threadId={threadId} />}
         </>
     );
 };

@@ -11,13 +11,22 @@ import {
 } from 'semantic-ui-react';
 import CurrentThread from './CurrentThread';
 import SideBarThreads from './SideBarThreads';
+import { BotContext } from '../../services/BotContext';
+import usePrevious from '../../services/UsePrevious';
 
 const Threads = () => {
     const { dispatch, failed, fetching, threads } = useContext(ThreadsContext);
+    const { settings } = useContext(BotContext);
+    const running = !!settings?.running;
+    const wasRunning = usePrevious(running);
 
     useEffect(() => {
         !fetching && !failed && !threads && loadThreads(dispatch);
     }, [dispatch, fetching, failed, threads]);
+
+    useEffect(() => {
+        !fetching && !failed && !running && wasRunning && loadThreads(dispatch);
+    }, [fetching, failed, running, wasRunning]);
 
     if (!threads && fetching) return <Loader active />;
 

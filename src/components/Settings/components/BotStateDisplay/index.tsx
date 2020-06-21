@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { BotContext } from '../../../../services/BotContext';
 import { Icon, Message, Label, Grid } from 'semantic-ui-react';
-import { motion } from 'framer-motion';
 import Timer from '../Timer';
+import RotatingCog from '../../../RotatingCog';
 
 const BotStateDisplay = () => {
     const { settings } = useContext(BotContext);
@@ -20,20 +20,7 @@ const BotStateDisplay = () => {
                     >
                         <div>
                             {running ? (
-                                <motion.div
-                                    animate={{
-                                        rotate: 360,
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        ease: 'easeInOut',
-                                        times: [0, 0.2, 0.5, 0.8, 1],
-                                        loop: Infinity,
-                                        repeatDelay: 1,
-                                    }}
-                                >
-                                    <Icon size="huge" name="cog" />
-                                </motion.div>
+                                <RotatingCog size="huge" />
                             ) : (
                                 <Icon size="huge" name={on ? 'play' : 'stop'} />
                             )}

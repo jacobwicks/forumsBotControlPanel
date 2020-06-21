@@ -9,6 +9,22 @@ const runOnce = async (dispatch: React.Dispatch<BotAction>) => {
     !running && dispatch({ type: BotActionTypes.setRunning, running: false });
 };
 
+const runOnceForThread = async ({
+    dispatch,
+    threadId,
+}: {
+    dispatch: React.Dispatch<BotAction>;
+    threadId: number;
+}) => {
+    dispatch({ type: BotActionTypes.setRunning, running: true });
+    const route = 'runOnceForThread';
+
+    const running =
+        (await authFetch(route, true, { threadId }))?.status === 200;
+
+    !running && dispatch({ type: BotActionTypes.setRunning, running: false });
+};
+
 const startBot = async (dispatch: React.Dispatch<BotAction>) => {
     dispatch({ type: BotActionTypes.start });
     const route = 'startBot';
@@ -38,4 +54,4 @@ const stopBot = async ({
     }
 };
 
-export { startBot, stopBot, runOnce };
+export { startBot, stopBot, runOnce, runOnceForThread };
