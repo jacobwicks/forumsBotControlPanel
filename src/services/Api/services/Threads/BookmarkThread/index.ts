@@ -23,14 +23,16 @@ const bookmarkThread = async ({
         value: true,
     });
 
-    const threadUnbookmarked = await bookmarkThreadApi(threadId);
+    const threadBookmarked = await bookmarkThreadApi(threadId);
 
-    !threadUnbookmarked &&
+    !threadBookmarked &&
         dispatch({
             type: ThreadsActionTypes.setBookmarked,
             threadId,
             value: false,
         });
+
+    return threadBookmarked;
 };
 
 export default bookmarkThread;

@@ -34,6 +34,8 @@ export interface FrontEndThread {
     //the unique identifying number of the thread
     threadId: number;
 
+    pages: number;
+
     unreadPosts: number;
 }
 

@@ -6,6 +6,7 @@ import {
 import { authFetchJSON } from '../AuthFetch';
 import unbookmarkThread from './UnbookmarkThread';
 import bookmarkThread from './BookmarkThread';
+import markLastRead from './MarkLastRead';
 
 interface ThreadsResponse {
     threads: FrontEndThread[];
@@ -19,7 +20,6 @@ const getThreads = async () => {
     const response = (await authFetchJSON(route)) as TR;
     const threads = response?.threads;
 
-    console.log(`got threads`, threads);
     return threads;
 };
 
@@ -35,4 +35,4 @@ const loadThreads = async (dispatch: React.Dispatch<ThreadsAction>) => {
     } else dispatch({ type: ThreadsActionTypes.failed });
 };
 
-export { bookmarkThread, loadThreads, unbookmarkThread };
+export { bookmarkThread, loadThreads, markLastRead, unbookmarkThread };

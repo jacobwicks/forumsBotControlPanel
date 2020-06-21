@@ -13,6 +13,65 @@ import setValue from '../../services/Api/services/SetValue';
 import setProperty from '../../services/Api/services/SetProperty';
 import dispatchAll from './services/DispatchAll';
 
+const CheckboxChild = ({
+    handleBlur,
+    value,
+}: {
+    handleBlur: (arg: boolean) => void;
+    value?: string | boolean;
+}) => (
+    <Checkbox
+        data-testid="status"
+        checked={!!value}
+        onChange={(e, { checked }) => handleBlur(!!checked)}
+    />
+);
+
+interface ChildProps {
+    handleBlur: (arg?: string | boolean) => void;
+    setTemp: (arg?: string | boolean) => void;
+    temp?: string | boolean;
+}
+
+interface InputChildProps extends ChildProps {
+    password: boolean;
+}
+const InputChild = ({
+    handleBlur,
+    password,
+    setTemp,
+    temp,
+}: InputChildProps) => (
+    <Input
+        onBlur={(e: InputEvent) => {
+            const target = e.target as HTMLInputElement;
+            handleBlur(target.value);
+        }}
+        onKeyPress={({ key }: { key: string }) => {
+            if (key === 'Enter') handleBlur(temp);
+        }}
+        onChange={({ target }) => setTemp(target.value)}
+        type={password ? 'password' : undefined}
+        value={temp}
+    />
+);
+
+const TextAreaChild = ({ handleBlur, temp, setTemp }: ChildProps) => (
+    <Form>
+        <TextArea
+            onKeyPress={({ key }: { key: string }) => {
+                if (key === 'Enter') handleBlur(temp);
+            }}
+            value={temp as string | undefined}
+            onChange={(e, { value }) => setTemp(value ? value.toString() : '')}
+            onBlur={(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                handleBlur(target.value);
+            }}
+        />
+    </Form>
+);
+
 //lots of props, but it's a very capable input component
 interface EditableInputProps {
     //function called instead of dispatch before
@@ -126,44 +185,24 @@ const EditableInput = ({
     };
 
     const checkboxChild = (
-        <Checkbox
+        <CheckboxChild
             data-testid="status"
-            checked={!!value}
-            onChange={(e, { checked }) => handleBlur(checked)}
+            handleBlur={handleBlur}
+            value={value}
         />
     );
 
     const inputChild = (
-        <Input
-            onBlur={(e: InputEvent) => {
-                const target = e.target as HTMLInputElement;
-                handleBlur(target.value);
-            }}
-            onKeyPress={({ key }: { key: string }) => {
-                if (key === 'Enter') handleBlur(temp);
-            }}
-            onChange={({ target }) => setTemp(target.value)}
-            type={password ? 'password' : undefined}
-            value={temp}
+        <InputChild
+            handleBlur={handleBlur}
+            temp={temp}
+            setTemp={setTemp}
+            password={!!password}
         />
     );
 
     const textareaChild = (
-        <Form>
-            <TextArea
-                onKeyPress={({ key }: { key: string }) => {
-                    if (key === 'Enter') handleBlur(temp);
-                }}
-                value={temp as string | undefined}
-                onChange={(e, { value }) =>
-                    setTemp(value ? value.toString() : '')
-                }
-                onBlur={(e: InputEvent) => {
-                    const target = e.target as HTMLInputElement;
-                    handleBlur(target.value);
-                }}
-            />
-        </Form>
+        <TextAreaChild handleBlur={handleBlur} temp={temp} setTemp={setTemp} />
     );
 
     // prettier-ignore

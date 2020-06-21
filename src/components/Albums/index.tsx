@@ -32,27 +32,6 @@ const Albums = () => {
     return (
         <div>
             <Segment>
-                {imageQueue && (
-                    <Button
-                        onClick={() =>
-                            album
-                                ? dispatch({
-                                      type: AlbumsActionTypes.setAlbum,
-                                      album: '',
-                                  })
-                                : dispatch({
-                                      type: AlbumsActionTypes.setReview,
-                                      review: !review,
-                                  })
-                        }
-                    >
-                        There {singular ? 'is' : 'are'}{' '}
-                        {toReview ? toReview : 'no'} image
-                        {!singular && 's'} waiting for review
-                    </Button>
-                )}
-                <br />
-                <br />
                 <Grid columns={2} divided>
                     <Grid.Column width={4}>
                         <Header as="h2">
@@ -73,6 +52,25 @@ const Albums = () => {
                     </Grid.Column>
                 </Grid>
             </Segment>
+            {imageQueue && (
+                <Button
+                    onClick={() =>
+                        album
+                            ? dispatch({
+                                  type: AlbumsActionTypes.setAlbum,
+                                  album: '',
+                              })
+                            : dispatch({
+                                  type: AlbumsActionTypes.setReview,
+                                  review: !review,
+                              })
+                    }
+                >
+                    There {singular ? 'is' : 'are'} {toReview ? toReview : 'no'}{' '}
+                    image
+                    {!singular && 's'} waiting for review
+                </Button>
+            )}
             {review && <ImageReview album={album} />}
         </div>
     );

@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ThreadsContext } from '../../../services/ThreadsContext';
-import { Segment, Header, Label, Checkbox } from 'semantic-ui-react';
+import { Segment, Header, Label, Button } from 'semantic-ui-react';
 import ThreadInput from '../ThreadInput';
 import { ThreadsActionTypes } from '../../../types/types';
-import EditableInput from '../../EditableInput';
-import { bookmarkThread, unbookmarkThread } from '../../../services/Api';
+import {
+    bookmarkThread,
+    unbookmarkThread,
+    markLastRead,
+    loadThreads,
+} from '../../../services/Api';
+import setValue from '../../../services/Api/services/SetValue';
 
 const NoThread = () => (
     <Segment>
@@ -12,14 +17,11 @@ const NoThread = () => (
     </Segment>
 );
 
-//     //optional limits on scanning the thread
-//     //start at X page, post, stop at Y page, post
-//     limit?: ThreadLimits;
-
 //set limits? nah
 //set last read
 //probably want to track pages to set last read
 const CurrentThread = () => {
+    const [lastRead, setLastRead] = useState<number | undefined>(undefined);
     const { dispatch, thread, threads } = useContext(ThreadsContext);
 
     const currentThread = threads?.find((t) => t.threadId === thread);
@@ -29,26 +31,29 @@ const CurrentThread = () => {
         bookmarked,
         link,
         name,
+        pages,
         threadId,
         title,
         unreadPosts,
     } = currentThread;
 
+    const style = { marginTop: 10, marginBottom: 10 };
+
     return (
         <>
-            <Header as="h2">Current thread: {name ? name : title}</Header>
-            <div>
+            <Header as="h2">{name ? name : title}</Header>
+            <div style={style}>
                 <Label size="large" content={'threadId:'} />{' '}
                 <a href={link} target="_blank" rel="noopener noreferrer">
                     {threadId}
                 </a>
             </div>
-            <br />
             <ThreadInput
-                callback={() =>
+                callback={async () =>
                     bookmarked
                         ? unbookmarkThread({ dispatch, threadId })
-                        : bookmarkThread({ dispatch, threadId })
+                        : (await bookmarkThread({ dispatch, threadId })) &&
+                          loadThreads(dispatch)
                 }
                 checkbox
                 input={'bookmarked'}
@@ -61,13 +66,47 @@ const CurrentThread = () => {
                 type={ThreadsActionTypes.setName}
                 value={name}
             />
-            <div>
+            <div style={style}>
                 <Label size="large" content={'Title:'} /> {title}
             </div>
-            <br />
-            <div>
-                <Label size="large" content={'Unread Posts:'} /> {unreadPosts}
+            <div style={style}>
+                <Label size="large" content={'Pages:'} />{' '}
+                {pages ? pages : '???'}
             </div>
+            <div style={style}>
+                <Label size="large" content={'Unread Posts:'} />{' '}
+                {unreadPosts !== undefined ? unreadPosts : '???'}
+            </div>
+            {pages && (
+                <div style={style}>
+                    <Label size="large" content={'Set Last Read Page: '} />
+                    <input
+                        value={lastRead}
+                        onChange={({ target }) => {
+                            const { value } = target;
+                            if (!value) {
+                                setLastRead(undefined);
+                            } else {
+                                const number = Number(value.replace(/\D/, ''));
+                                setLastRead(number);
+                            }
+                        }}
+                    />
+                    <Button
+                        disabled={!lastRead || lastRead > pages}
+                        onClick={async () =>
+                            lastRead &&
+                            (await markLastRead({
+                                page: lastRead,
+                                threadId,
+                            })) &&
+                            loadThreads(dispatch)
+                        }
+                    >
+                        Go
+                    </Button>
+                </div>
+            )}
         </>
     );
 };

@@ -26,10 +26,9 @@ const APIs = () => {
                         Object.keys(apis)
                             .sort()
                             .map((api, index) => (
-                                <>
+                                <div key={index}>
                                     <div
                                         style={{ cursor: 'pointer' }}
-                                        key={index}
                                         onClick={() =>
                                             dispatch({
                                                 type: ApiActionTypes.setCurrent,
@@ -48,7 +47,7 @@ const APIs = () => {
                                         </Label>
                                     </div>
                                     <br />
-                                </>
+                                </div>
                             ))}
                 </div>
             </Grid.Column>
