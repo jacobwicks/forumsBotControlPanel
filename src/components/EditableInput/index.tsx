@@ -1,83 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Button,
-    Checkbox,
-    Form,
-    Icon,
-    Input,
-    Label,
-    TextArea,
-} from 'semantic-ui-react';
-import { AlbumsAction, BotAction } from '../../types/types';
+import { Button, Icon, Label } from 'semantic-ui-react';
+import { AlbumsAction, BotAction, ThreadsAction } from '../../types/types';
 import setValue from '../../services/Api/services/SetValue';
 import setProperty from '../../services/Api/services/SetProperty';
 import dispatchAll from './services/DispatchAll';
+import CheckboxChild from './components/CheckboxChild';
+import InputChild from './components/InputChild';
+import TextAreaChild from './components/TextAreaChild';
 
-const CheckboxChild = ({
-    handleBlur,
-    value,
-}: {
-    handleBlur: (arg: boolean) => void;
-    value?: string | boolean;
-}) => (
-    <Checkbox
-        data-testid="status"
-        checked={!!value}
-        onChange={(e, { checked }) => handleBlur(!!checked)}
-    />
-);
-
-interface ChildProps {
-    handleBlur: (arg?: string | boolean) => void;
-    setTemp: (arg?: string | boolean) => void;
-    temp?: string | boolean;
-}
-
-interface InputChildProps extends ChildProps {
-    password: boolean;
-}
-const InputChild = ({
-    handleBlur,
-    password,
-    setTemp,
-    temp,
-}: InputChildProps) => (
-    <Input
-        onBlur={(e: InputEvent) => {
-            const target = e.target as HTMLInputElement;
-            handleBlur(target.value);
-        }}
-        onKeyPress={({ key }: { key: string }) => {
-            if (key === 'Enter') handleBlur(temp);
-        }}
-        onChange={({ target }) => setTemp(target.value)}
-        type={password ? 'password' : undefined}
-        value={temp}
-    />
-);
-
-const TextAreaChild = ({ handleBlur, temp, setTemp }: ChildProps) => (
-    <Form>
-        <TextArea
-            onKeyPress={({ key }: { key: string }) => {
-                if (key === 'Enter') handleBlur(temp);
-            }}
-            value={temp as string | undefined}
-            onChange={(e, { value }) => setTemp(value ? value.toString() : '')}
-            onBlur={(e: InputEvent) => {
-                const target = e.target as HTMLInputElement;
-                handleBlur(target.value);
-            }}
-        />
-    </Form>
-);
+type ActionArray = [AlbumsAction | BotAction | ThreadsAction];
 
 //lots of props, but it's a very capable input component
 interface EditableInputProps {
-    //function called instead of dispatch before
+    //function called instead of dispatchBefore
     //lets you use editableInput for something besides dispatching actions
     callback?: (...args: any) => void;
 
+    //display a checkbox
     checkbox?: boolean;
 
     //the path of the variable that the input edits
@@ -86,16 +25,15 @@ interface EditableInputProps {
 
     //dispatch to the appropriate config
     dispatch?: (action: any) => void;
-    //dispatch: React.Dispatch<AlbumsAction> | React.Dispatch<BotAction>;
 
     //dispatch actions before calling setValue
-    dispatchBefore?: [AlbumsAction | BotAction];
+    dispatchBefore?: ActionArray;
 
     //dispatch actions if setValue fails
-    dispatchOnFailure?: [AlbumsAction | BotAction];
+    dispatchOnFailure?: ActionArray;
 
     //dispatch actions is setValue succeeds
-    dispatchOnSuccess?: [AlbumsAction | BotAction];
+    dispatchOnSuccess?: ActionArray;
 
     //the name of the input
     //this is used as the key in the key: value pair
@@ -114,9 +52,10 @@ interface EditableInputProps {
     targetsProperty?: boolean;
 
     //show a textarea when open instead of an input
+    //right now, will automatically choose textarea if value is longer than 19 char
     textArea?: boolean;
 
-    //if the parent compnent wants to know about opening
+    //the parent comppnent wants to know the EditableInput is open for editing
     tellParentOpen?: (open: boolean) => void;
 
     //the starting value

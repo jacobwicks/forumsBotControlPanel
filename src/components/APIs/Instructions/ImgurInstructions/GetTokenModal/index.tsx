@@ -64,7 +64,8 @@ const GetTokenModal = ({
                         })
                     }
                 >
-                    <Icon name="checkmark" /> Get Token
+                    <Icon name="checkmark" />
+                    Get Token
                 </Button>
             </Modal.Actions>
         </Modal>

@@ -14,6 +14,7 @@ const TwitterInstructions = ({ api }: { api: string }) => {
     const consumerKey = twitter?.consumerKey;
     //@ts-ignore
     const consumerSecret = twitter?.consumerSecret;
+
     //disable the get token button if there isn't a consumerKey and consumerSecret
     const disabled = isFetching || !consumerKey || !consumerSecret;
 

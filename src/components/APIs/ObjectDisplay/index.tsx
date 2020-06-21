@@ -27,6 +27,8 @@ const ObjectDisplay = ({
                 <Segment style={{ marginBottom: 10 }}>
                     {Object.keys(object).map((key: string) => {
                         const value = object[key];
+
+                        //display it as an array, object, or string
                         const display =
                             // prettier-ignore
                             value === 'object' 

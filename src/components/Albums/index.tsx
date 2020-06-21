@@ -5,8 +5,8 @@ import { Grid, Button, Segment, Header } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
 import { ImageReviewStatus, AlbumsActionTypes } from '../../types/types';
-import SidebarAlbum from './components/SidebarAlbum';
 import AddOrCreateAlbumModal from './components/AddOrCreateAlbumModal';
+import SideBar from './components/SideBar';
 
 const Albums = () => {
     const {
@@ -37,15 +37,7 @@ const Albums = () => {
                         <Header as="h2">
                             Albums <AddOrCreateAlbumModal />
                         </Header>
-                        {albums &&
-                            Object.keys(albums)
-                                .sort()
-                                .map((thisAlbum, index) => (
-                                    <SidebarAlbum
-                                        album={thisAlbum}
-                                        key={index}
-                                    />
-                                ))}
+                        <SideBar />
                     </Grid.Column>
                     <Grid.Column>
                         {album && <Album album={album} key={album} />}
