@@ -11,9 +11,11 @@ import {
 } from 'semantic-ui-react';
 import { ActionsContext } from '../../services/ActionsContext';
 import { ActionsActionTypes } from '../../types/types';
+import CurrentAction from './CurrentAction';
+import { reviver } from '../../services/JSONParseRegExReviver';
 
 interface ActionResponse {
-    actions: any;
+    actions: string;
 }
 
 type AR = ActionResponse | undefined;
@@ -25,10 +27,19 @@ const Actions = () => {
 
     const getActions = async () => {
         const route = 'actions';
-        const actions = ((await authFetchJSON(route)) as AR)?.actions;
-        actions && Object.keys(actions).length
-            ? dispatch({ type: ActionsActionTypes.setActions, actions })
-            : dispatch({ type: ActionsActionTypes.failed });
+        const actionsString = ((await authFetchJSON(route)) as AR)?.actions;
+        if (actionsString) {
+            try {
+                const actions = JSON.parse(actionsString, reviver);
+
+                Object.keys(actions).length
+                    ? dispatch({ type: ActionsActionTypes.setActions, actions })
+                    : dispatch({ type: ActionsActionTypes.failed });
+            } catch (err) {
+                dispatch({ type: ActionsActionTypes.failed });
+            }
+        } else dispatch({ type: ActionsActionTypes.failed });
+        //const parsed = JSON.parse(JSON.stringify(o, replacer, 2), reviver);
     };
 
     useEffect(() => {
@@ -48,7 +59,9 @@ const Actions = () => {
                     <Header as="h2">Actions </Header>
                     <SideBarActions />
                 </Grid.Column>
-                <Grid.Column width={12}>Current Action placeholder</Grid.Column>
+                <Grid.Column width={12}>
+                    <CurrentAction />
+                </Grid.Column>
             </Grid>
         </Segment>
     );
