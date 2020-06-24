@@ -44,6 +44,7 @@ export interface Instruction extends Post {
     link: string;
 }
 
+export * from './Actions';
 export * from './Albums';
 export * from './Apis';
 export * from './Bot';

@@ -5,19 +5,22 @@ import { BotProvider } from '../../services/BotContext';
 import { EventsProvider } from '../../services/EventsContext';
 import { LoginProvider } from '../../services/LoginContext';
 import { ThreadsProvider } from '../../services/ThreadsContext';
+import { ActionsProvider } from '../../services/ActionsContext';
 
 const Providers = (props: any) => (
-    <ApiProvider>
-        <AlbumsProvider>
-            <BotProvider>
-                <EventsProvider>
-                    <LoginProvider>
-                        <ThreadsProvider {...props} />
-                    </LoginProvider>
-                </EventsProvider>
-            </BotProvider>
-        </AlbumsProvider>
-    </ApiProvider>
+    <ActionsProvider>
+        <ApiProvider>
+            <AlbumsProvider>
+                <BotProvider>
+                    <EventsProvider>
+                        <LoginProvider>
+                            <ThreadsProvider {...props} />
+                        </LoginProvider>
+                    </EventsProvider>
+                </BotProvider>
+            </AlbumsProvider>
+        </ApiProvider>
+    </ActionsProvider>
 );
 
 export default Providers;

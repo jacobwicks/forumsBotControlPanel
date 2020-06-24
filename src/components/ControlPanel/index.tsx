@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { Tab } from 'semantic-ui-react';
+import Actions from '../Actions';
+import Albums from '../Albums';
 import APIs from '../APIs';
 import SACredentials from '../SACredentials';
-import Albums from '../Albums';
 import Settings from '../Settings';
 import Threads from '../Threads';
 import { listenToEvents } from '../../services/Api';
@@ -55,8 +56,7 @@ const tabs = [
         menuItem: 'Actions',
         render: () => (
             <Tab.Pane>
-                Placeholder- set the botName variable, lets you turn different
-                responses on and off. Also, ignore users by name or userId
+                <Actions />
             </Tab.Pane>
         ),
     },
