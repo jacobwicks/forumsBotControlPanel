@@ -26,7 +26,7 @@ const Threads = () => {
 
     useEffect(() => {
         !fetching && !failed && !running && wasRunning && loadThreads(dispatch);
-    }, [fetching, failed, running, wasRunning]);
+    }, [dispatch, fetching, failed, running, wasRunning]);
 
     if (!threads && fetching) return <Loader active />;
 

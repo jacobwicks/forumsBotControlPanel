@@ -1,6 +1,5 @@
 import React from 'react';
-import { Label, Popup } from 'semantic-ui-react';
-import { Trigger } from '../../../types/types';
+import { Label } from 'semantic-ui-react';
 
 const SideBarAction = ({
     labelColor,

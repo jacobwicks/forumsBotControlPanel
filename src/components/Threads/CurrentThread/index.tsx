@@ -1,12 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { ThreadsContext } from '../../../services/ThreadsContext';
-import { Segment, Header, Label, Button } from 'semantic-ui-react';
+import { Segment, Header, Label } from 'semantic-ui-react';
 import ThreadInput from '../ThreadInput';
 import { ThreadsActionTypes } from '../../../types/types';
 import {
     bookmarkThread,
     unbookmarkThread,
-    markLastRead,
     loadThreads,
 } from '../../../services/Api';
 import RunOnceForThreadButton from '../RunOnceForThreadButton';

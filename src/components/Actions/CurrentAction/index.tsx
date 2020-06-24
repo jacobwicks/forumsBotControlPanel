@@ -1,9 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { Segment, Header, Label, Button } from 'semantic-ui-react';
-import {
-    ActionsActionTypes,
-    Trigger as TriggerType,
-} from '../../../types/types';
+import React, { useContext } from 'react';
+import { Segment, Header, Label } from 'semantic-ui-react';
+import { Trigger as TriggerType } from '../../../types/types';
 import { ActionsContext } from '../../../services/ActionsContext';
 import EditableInput from '../../EditableInput';
 
@@ -47,7 +44,7 @@ const Triggers = ({ triggers }: { triggers: TriggerType[] }) => (
 //set last read
 //probably want to track pages to set last read
 const CurrentAction = () => {
-    const { dispatch, action, actions } = useContext(ActionsContext);
+    const { action, actions } = useContext(ActionsContext);
 
     const currentAction = action && actions[action];
     if (!currentAction) return <NoAction />;

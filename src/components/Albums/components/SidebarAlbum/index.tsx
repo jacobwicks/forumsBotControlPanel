@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Label, Popup } from 'semantic-ui-react';
+import { Label, Popup } from 'semantic-ui-react';
 import { AlbumsContext } from '../../../../services/AlbumsContext';
 import { ImageReviewStatus, AlbumsActionTypes } from '../../../../types/types';
 

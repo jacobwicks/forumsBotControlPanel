@@ -1,14 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useCallback } from 'react';
 import { authFetchJSON } from '../../services/Api/services/AuthFetch';
 import SideBarActions from './SideBarActions';
-import {
-    Loader,
-    Message,
-    Segment,
-    Grid,
-    Button,
-    Header,
-} from 'semantic-ui-react';
+import { Loader, Message, Segment, Grid, Header } from 'semantic-ui-react';
 import { ActionsContext } from '../../services/ActionsContext';
 import { ActionsActionTypes } from '../../types/types';
 import CurrentAction from './CurrentAction';
@@ -21,11 +14,9 @@ interface ActionResponse {
 type AR = ActionResponse | undefined;
 
 const Actions = () => {
-    const { dispatch, actions, action, fetching, failed } = useContext(
-        ActionsContext
-    );
+    const { dispatch, actions, fetching, failed } = useContext(ActionsContext);
 
-    const getActions = async () => {
+    const getActions = useCallback(async () => {
         const route = 'actions';
         const actionsString = ((await authFetchJSON(route)) as AR)?.actions;
         if (actionsString) {
@@ -40,7 +31,7 @@ const Actions = () => {
             }
         } else dispatch({ type: ActionsActionTypes.failed });
         //const parsed = JSON.parse(JSON.stringify(o, replacer, 2), reviver);
-    };
+    }, [dispatch]);
 
     useEffect(() => {
         const actionsLength = !!Object.keys(actions).length;
