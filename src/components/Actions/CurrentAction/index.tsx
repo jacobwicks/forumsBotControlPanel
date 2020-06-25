@@ -7,8 +7,8 @@ import {
 import { ActionsContext } from '../../../services/ActionsContext';
 import EditableInput from '../../EditableInput';
 import Instructions from '../Instructions';
-
-const spacing = { marginTop: 10, marginBottom: 10 };
+import { spacing } from '../../../services/Spacing';
+import TriggerInstruction from '../TriggerInstruction';
 
 const actionsConfigKeys = ['actions'];
 
@@ -59,7 +59,10 @@ const CurrentAction = () => {
 
     return (
         <>
-            <Instructions action={action as string} />
+            <Instructions
+                action={action as string}
+                addChildren={[<TriggerInstruction triggers={triggers} />]}
+            />
             {/* <Header as="h2">{name}</Header> */}
             <EditableInput
                 checkbox={true}

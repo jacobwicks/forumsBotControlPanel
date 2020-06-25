@@ -38,6 +38,9 @@ export const Instructions = ({
         getInput();
     }, [done, setDone, getInput, setInput]);
 
+    useEffect(() => {
+        setOpen(false);
+    }, [action, setOpen]);
     const children = [
         <ReactMarkdown
             key="markdown"
