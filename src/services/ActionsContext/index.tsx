@@ -31,26 +31,15 @@ let reducer = (state: ActionsState, action: ActionsAction) => {
                 fetching: true,
             };
         }
-        // case 'setBookmarked': {
-        //     const { threadId, value } = action;
-        //     const { threads } = state;
-        //     const index = threads?.findIndex((t) => t.threadId === threadId);
-
-        //     if (!threads || index === undefined || index === -1) return state;
-
-        //     const newThread = threads[index];
-
-        //     newThread.bookmarked = value;
-
-        //     const newThreads = [...threads];
-
-        //     newThreads[index] = newThread;
-
-        //     return {
-        //         ...state,
-        //         threads: newThreads,
-        //     };
-        // }
+        case 'setAction': {
+            const { key, value } = action;
+            const newActions = { ...state.actions };
+            newActions[key] = value;
+            return {
+                ...state,
+                actions: newActions,
+            };
+        }
         case 'setActions': {
             const { actions } = action;
             return {
