@@ -59,7 +59,7 @@ const CurrentAction = () => {
 
     return (
         <>
-            <Instructions />
+            <Instructions action={action as string} />
             {/* <Header as="h2">{name}</Header> */}
             <EditableInput
                 checkbox={true}
