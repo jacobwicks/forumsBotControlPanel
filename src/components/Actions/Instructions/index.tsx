@@ -16,10 +16,10 @@ export const Instructions = ({
     const [open, setOpen] = useState(false);
 
     const [input, setInput] = useState('');
-    const [done, setDone] = useState(false);
+    const [done, setDone] = useState<boolean | string>(false);
 
     const getInput = useCallback(async () => {
-        if (!done) {
+        if (!done || done !== action) {
             const route = `actionInstruction/${action}`;
             interface MarkdownResponse {
                 markdown: string;
@@ -30,17 +30,14 @@ export const Instructions = ({
 
             markdown && setInput(markdown);
 
-            setDone(true);
+            setDone(action);
         }
     }, [action, done, setDone, setInput]);
 
     useEffect(() => {
         getInput();
-    }, [done, setDone, getInput, setInput]);
+    }, [action]);
 
-    useEffect(() => {
-        setOpen(false);
-    }, [action, setOpen]);
     const children = [
         <ReactMarkdown
             key="markdown"
@@ -54,7 +51,7 @@ export const Instructions = ({
         children.push({ ...child, key: index.toString() })
     );
 
-    const noInstructions = done && !input;
+    const noInstructions = !!done && !input;
 
     return (
         <div ref={divRef} style={{ marginBottom: 20 }}>
