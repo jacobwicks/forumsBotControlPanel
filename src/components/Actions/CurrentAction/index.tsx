@@ -6,6 +6,7 @@ import {
 } from '../../../types/types';
 import { ActionsContext } from '../../../services/ActionsContext';
 import EditableInput from '../../EditableInput';
+import Instructions from '../Instructions';
 
 const spacing = { marginTop: 10, marginBottom: 10 };
 
@@ -58,7 +59,8 @@ const CurrentAction = () => {
 
     return (
         <>
-            <Header as="h2">{name}</Header>
+            <Instructions />
+            {/* <Header as="h2">{name}</Header> */}
             <EditableInput
                 checkbox={true}
                 configKeys={configKeys}

@@ -2,6 +2,7 @@ export type Trigger = string | RegExp;
 
 export interface DisplayAction {
     active: boolean;
+    instructions?: string;
     name: string;
     triggers: Trigger[];
 }
