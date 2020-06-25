@@ -60,6 +60,19 @@ let reducer = (state: ActionsState, action: ActionsAction) => {
                 actions,
             };
         }
+        case 'setActive': {
+            const { key, value } = action;
+            const newActions = { ...state.actions };
+            const newAction = { ...newActions[key] };
+            newAction.active = value;
+
+            newActions[key] = newAction;
+
+            return {
+                ...state,
+                actions: newActions,
+            };
+        }
         default: {
             console.log(`actionsContext default`, action);
             //throw new Error();

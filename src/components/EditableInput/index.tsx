@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Icon, Label } from 'semantic-ui-react';
-import { AlbumsAction, BotAction, ThreadsAction } from '../../types/types';
+import {
+    ActionsAction,
+    AlbumsAction,
+    BotAction,
+    ThreadsAction,
+} from '../../types/types';
 import setValue from '../../services/Api/services/SetValue';
 import setProperty from '../../services/Api/services/SetProperty';
 import dispatchAll from './services/DispatchAll';
@@ -8,7 +13,9 @@ import CheckboxChild from './components/CheckboxChild';
 import InputChild from './components/InputChild';
 import TextAreaChild from './components/TextAreaChild';
 
-type ActionArray = [AlbumsAction | BotAction | ThreadsAction];
+export type ActionArray = [
+    ActionsAction | AlbumsAction | BotAction | ThreadsAction
+];
 
 //lots of props, but it's a very capable input component
 interface EditableInputProps {
@@ -120,6 +127,17 @@ const EditableInput = ({
                   //normally, to reset value to prior value
                   //because change failed
                   dispatchAll({ dispatch, actions: dispatchOnFailure });
+        } else {
+            //call api to attempt changeValue
+            targetsProperty
+                ? await setProperty({
+                      configKeys: [...configKeys, input],
+                      value,
+                  })
+                : await setValue({
+                      configKeys: [...configKeys, input],
+                      value,
+                  });
         }
     };
 

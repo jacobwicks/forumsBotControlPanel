@@ -7,6 +7,7 @@ interface setValueProps {
 
 //sets a value in the config file that the Bot uses
 const setValue = async (jsonBody: setValueProps) => {
+    console.log(`setValue called`, jsonBody);
     //the API route that the request will be sent to
     const route = 'setValue';
 

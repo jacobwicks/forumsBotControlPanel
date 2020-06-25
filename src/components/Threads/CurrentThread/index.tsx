@@ -17,9 +17,6 @@ const NoThread = () => (
     </Segment>
 );
 
-//set limits? nah
-//set last read
-//probably want to track pages to set last read
 const CurrentThread = () => {
     const { dispatch, thread, threads } = useContext(ThreadsContext);
 

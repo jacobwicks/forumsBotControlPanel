@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
 import { Segment, Header, Label } from 'semantic-ui-react';
-import { Trigger as TriggerType } from '../../../types/types';
+import {
+    Trigger as TriggerType,
+    ActionsActionTypes,
+} from '../../../types/types';
 import { ActionsContext } from '../../../services/ActionsContext';
 import EditableInput from '../../EditableInput';
 
@@ -44,19 +47,35 @@ const Triggers = ({ triggers }: { triggers: TriggerType[] }) => (
 //set last read
 //probably want to track pages to set last read
 const CurrentAction = () => {
-    const { action, actions } = useContext(ActionsContext);
+    const { dispatch, action, actions } = useContext(ActionsContext);
 
     const currentAction = action && actions[action];
     if (!currentAction) return <NoAction />;
 
     const { active, name, triggers } = currentAction;
 
+    const configKeys = [...actionsConfigKeys, action as string];
+
     return (
         <>
             <Header as="h2">{name}</Header>
             <EditableInput
                 checkbox={true}
-                configKeys={actionsConfigKeys}
+                configKeys={configKeys}
+                dispatch={dispatch}
+                dispatchBefore={[
+                    {
+                        type: ActionsActionTypes.setActive,
+                        key: action as string,
+                    } as any,
+                ]}
+                dispatchOnFailure={[
+                    {
+                        type: ActionsActionTypes.setActive,
+                        key: action as string,
+                        value: active,
+                    } as any,
+                ]}
                 input={'active'}
                 value={active}
             />

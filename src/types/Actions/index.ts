@@ -11,6 +11,8 @@ export enum ActionsActionTypes {
     fetchAttempt = 'fetchAttempt',
     failed = 'failed',
     setActions = 'setActions',
+    setAction = 'setAction',
+    setActive = 'setActive',
 }
 
 export type ActionsAction =
@@ -26,7 +28,14 @@ export type ActionsAction =
     | { type: ActionsActionTypes.failed }
 
     //currently fetching
-    | { type: ActionsActionTypes.fetchAttempt };
+    | { type: ActionsActionTypes.fetchAttempt }
+
+    //set the value of an action
+    | { type: ActionsActionTypes.setAction; key: string; value: DisplayAction }
+
+    //set the active value of an action
+    //refer to action as 'key'
+    | { type: ActionsActionTypes.setActive; key: string; value: boolean };
 
 //The Dispatch function
 interface ActionsDispatch {
