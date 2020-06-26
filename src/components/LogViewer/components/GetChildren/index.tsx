@@ -66,7 +66,7 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
                 const setting = Object.keys(thisSetting)[0];
                 const child = (
                     <span key={index} style={{ color: 'pink' }}>
-                        {setting} is {object[key][setting].toString()}
+                        {setting} is {object[key][setting]?.toString()}
                     </span>
                 );
 

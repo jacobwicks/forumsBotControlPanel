@@ -23,3 +23,4 @@ export * from './services/BotSettings';
 export { default as login } from './services/Login';
 export { default as logout } from './services/Logout';
 export * from './services/Threads';
+export * from './services/Actions';

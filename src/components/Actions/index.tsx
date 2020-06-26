@@ -47,7 +47,18 @@ const Actions = () => {
         <Segment>
             <Grid columns={2} divided>
                 <Grid.Column width={4}>
-                    <Header as="h2">Actions </Header>
+                    <Header
+                        as="h2"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() =>
+                            dispatch({
+                                type: ActionsActionTypes.currentAction,
+                                key: '',
+                            })
+                        }
+                    >
+                        Actions{' '}
+                    </Header>
                     <SideBarActions />
                 </Grid.Column>
                 <Grid.Column width={12}>
