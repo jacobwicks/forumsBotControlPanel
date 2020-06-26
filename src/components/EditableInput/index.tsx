@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Button, Icon, Label, SemanticCOLORS } from 'semantic-ui-react';
 import {
     ActionsAction,
     AlbumsAction,
@@ -47,6 +47,7 @@ interface EditableInputProps {
     //when editing the config file in the API/Bot
     input: string;
 
+    labelColor?: SemanticCOLORS;
     //human readable label text if the input name isn't good
     labelText?: string;
 
@@ -78,6 +79,7 @@ const EditableInput = ({
     dispatchOnFailure,
     dispatchOnSuccess,
     input,
+    labelColor,
     labelText,
     password,
     targetsProperty,
@@ -179,7 +181,11 @@ const EditableInput = ({
             >
                 <Icon name="edit" />
             </Button>
-            <Label size="large" content={`${labelText ? labelText : input}`} />{' '}
+            <Label
+                size="large"
+                content={`${labelText ? labelText : input}`}
+                color={labelColor}
+            />{' '}
             {
                 // prettier-ignore
                 checkbox 
