@@ -36,7 +36,7 @@ export const Instructions = ({
 
     useEffect(() => {
         getInput();
-    }, [action]);
+    }, [action, getInput]);
 
     const children = [
         <ReactMarkdown

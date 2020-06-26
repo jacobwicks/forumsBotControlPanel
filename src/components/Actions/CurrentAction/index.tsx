@@ -51,7 +51,7 @@ const CurrentAction = () => {
                 input={'active'}
                 value={active}
             />
-            <Triggers triggers={triggers} />
+            <Triggers action={action as string} triggers={triggers} />
         </>
     );
 };

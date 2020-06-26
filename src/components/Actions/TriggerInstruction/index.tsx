@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { spacing } from '../../../services/Spacing';
-import { Label, Segment, Header } from 'semantic-ui-react';
+import { Segment, Header } from 'semantic-ui-react';
 import { Trigger as TriggerType } from '../../../types/types';
 import { BotContext } from '../../../services/BotContext';
 import RegexTriggerDisplay from '../RegexTriggerDisplay';

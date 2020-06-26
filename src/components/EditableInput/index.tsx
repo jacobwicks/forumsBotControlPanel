@@ -48,6 +48,7 @@ interface EditableInputProps {
     input: string;
 
     labelColor?: SemanticCOLORS;
+
     //human readable label text if the input name isn't good
     labelText?: string;
 
@@ -59,12 +60,12 @@ interface EditableInputProps {
     //it is an object property of albums
     targetsProperty?: boolean;
 
+    //the parent comppnent wants to know the EditableInput is open for editing
+    tellParentOpen?: (open: boolean) => void;
+
     //show a textarea when open instead of an input
     //right now, will automatically choose textarea if value is longer than 19 char
     textArea?: boolean;
-
-    //the parent comppnent wants to know the EditableInput is open for editing
-    tellParentOpen?: (open: boolean) => void;
 
     //the starting value
     value?: string | boolean;

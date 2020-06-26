@@ -30,7 +30,7 @@ export const RegexTriggerDisplay = () => {
 
     useEffect(() => {
         getInput();
-    }, [action]);
+    }, [action, getInput]);
 
     const noExample = !!done && !input;
 
