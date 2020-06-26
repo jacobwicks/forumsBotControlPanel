@@ -55,6 +55,7 @@ interface EditableInputProps {
     //password mask the input
     password?: boolean;
 
+    renameValueTo?: string;
     //target is an object property, not a value
     //e.g. the album name is used as a key for the value of the album
     //it is an object property of albums
@@ -83,6 +84,7 @@ const EditableInput = ({
     labelColor,
     labelText,
     password,
+    renameValueTo,
     targetsProperty,
     tellParentOpen,
     textArea,
@@ -105,11 +107,18 @@ const EditableInput = ({
             //if requested, dispatch the attempt to context
             dispatchAll({
                 dispatch,
-                actions: dispatchBefore?.map((action) => ({
-                    ...action,
-                    //add the current value to the action
-                    value,
-                })) as any,
+                actions: dispatchBefore?.map((action) =>
+                    renameValueTo
+                        ? {
+                              ...action,
+                              [renameValueTo]: value,
+                          }
+                        : {
+                              ...action,
+                              //add the current value to the action
+                              value,
+                          }
+                ) as any,
             });
 
             //call api to attempt changeValue

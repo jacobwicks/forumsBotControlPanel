@@ -8,6 +8,7 @@ export enum BotActionTypes {
     fetchFailure = 'fetchFailure',
     fetchSuccess = 'fetchSuccess',
     runOnce = 'runOnce',
+    setBotName = 'setBotName',
     setCookies = 'setCookies',
     setInterval = 'setInterval',
     setRunning = 'setRunning',
@@ -46,6 +47,11 @@ export type BotAction =
 
     //runs the bot once with current settings, then stops the bot
     | { type: BotActionTypes.runOnce }
+
+    //sets the bot name
+    | { type: BotActionTypes.setBotName; botName: string }
+
+    //sets the Forum Cookies
     | { type: BotActionTypes.setCookies; cookies: Cookies }
 
     //sets if the bot is currently running or not

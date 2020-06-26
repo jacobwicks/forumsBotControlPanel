@@ -5,6 +5,7 @@ import EditableInput from '../EditableInput';
 import { BotAction, Creds } from '../../types/types';
 import Cookies from './Cookies';
 import LoginButton from './LoginButton';
+import BotName from './BotName';
 
 interface CredsResponse {
     creds: Creds;
@@ -12,7 +13,9 @@ interface CredsResponse {
 
 type CR = CredsResponse | undefined;
 
-const SACredentials = () => {
+export const settingsConfigKeys = ['settings'];
+
+const Credentials = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -55,7 +58,7 @@ const SACredentials = () => {
         }
     };
 
-    const configKeys = ['settings', 'creds'];
+    const configKeys = [...settingsConfigKeys, 'creds'];
 
     return (!hasFailed && !hasFetched) || isFetching ? (
         <Loader active />
@@ -68,6 +71,7 @@ const SACredentials = () => {
         </Message>
     ) : (
         <>
+            <BotName />
             <Segment>
                 <EditableInput
                     configKeys={configKeys}
@@ -99,4 +103,4 @@ const SACredentials = () => {
     );
 };
 
-export default SACredentials;
+export default Credentials;

@@ -3,7 +3,7 @@ import { Tab } from 'semantic-ui-react';
 import Actions from '../Actions';
 import Albums from '../Albums';
 import APIs from '../APIs';
-import SACredentials from '../SACredentials';
+import Credentials from '../Credentials';
 import Settings from '../Settings';
 import Threads from '../Threads';
 import { listenToEvents } from '../../services/Api';
@@ -45,10 +45,10 @@ const tabs = [
         ),
     },
     {
-        menuItem: 'SA Credentials',
+        menuItem: 'Credentials',
         render: () => (
             <Tab.Pane>
-                <SACredentials />
+                <Credentials />
             </Tab.Pane>
         ),
     },

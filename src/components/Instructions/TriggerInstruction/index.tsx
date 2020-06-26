@@ -7,7 +7,7 @@ import RegexTriggerDisplay from '../RegexTriggerDisplay';
 
 const Trigger = ({ trigger }: { trigger: TriggerType }) => {
     const { settings } = useContext(BotContext);
-    const botName = settings?.botName;
+    const botName = 'zeroCool'; //settings?.botName;
     return (
         <Segment>
             {botName} {trigger.toString()}
@@ -15,7 +15,13 @@ const Trigger = ({ trigger }: { trigger: TriggerType }) => {
     );
 };
 
-const TriggerInstruction = ({ triggers }: { triggers: TriggerType[] }) => {
+const TriggerInstruction = ({
+    example,
+    triggers,
+}: {
+    example?: string;
+    triggers: TriggerType[];
+}) => {
     const hasRegExp = triggers.some((el) => el instanceof RegExp);
 
     return !!triggers.length ? (
@@ -29,7 +35,7 @@ const TriggerInstruction = ({ triggers }: { triggers: TriggerType[] }) => {
                         )
                 )}
             </div>
-            {hasRegExp && <RegexTriggerDisplay />}
+            {hasRegExp && <RegexTriggerDisplay input={example} />}
         </Segment>
     ) : (
         <Segment>

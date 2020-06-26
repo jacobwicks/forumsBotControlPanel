@@ -90,6 +90,15 @@ export const reducer = (state: BotState, action: BotAction) => {
                 [key]: content,
             };
         }
+        case 'setBotName': {
+            if (state.settings) {
+                const settings = { ...state.settings };
+                const { botName } = action;
+                settings.botName = botName;
+
+                return { ...state, settings };
+            } else return state;
+        }
         case 'setCookies': {
             if (state.settings) {
                 const settings = { ...state.settings };

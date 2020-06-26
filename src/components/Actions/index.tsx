@@ -41,7 +41,7 @@ const Actions = () => {
     if (!actions && fetching) return <Loader active />;
 
     if (!actions && failed)
-        return <Message warning>Failed to load threads</Message>;
+        return <Message warning>Failed to load Actions</Message>;
 
     return (
         <Segment>
