@@ -49,5 +49,6 @@ export * from './Albums';
 export * from './Apis';
 export * from './Bot';
 export * from './Events';
+export * from './Instructions';
 export * from './Login';
 export * from './Threads';

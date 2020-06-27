@@ -6,6 +6,7 @@ import { EventsProvider } from '../../services/EventsContext';
 import { LoginProvider } from '../../services/LoginContext';
 import { ThreadsProvider } from '../../services/ThreadsContext';
 import { ActionsProvider } from '../../services/ActionsContext';
+import { InstructionsProvider } from '../../services/InstructionsContext';
 
 const Providers = (props: any) => (
     <ActionsProvider>
@@ -13,9 +14,11 @@ const Providers = (props: any) => (
             <AlbumsProvider>
                 <BotProvider>
                     <EventsProvider>
-                        <LoginProvider>
-                            <ThreadsProvider {...props} />
-                        </LoginProvider>
+                        <InstructionsProvider>
+                            <LoginProvider>
+                                <ThreadsProvider {...props} />
+                            </LoginProvider>
+                        </InstructionsProvider>
                     </EventsProvider>
                 </BotProvider>
             </AlbumsProvider>

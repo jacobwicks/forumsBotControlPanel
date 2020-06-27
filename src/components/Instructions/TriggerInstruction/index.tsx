@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { spacing } from '../../../services/Spacing';
 import { Segment, Header } from 'semantic-ui-react';
 import { Trigger as TriggerType } from '../../../types/types';
-import { BotContext } from '../../../services/BotContext';
 import RegexTriggerDisplay from '../RegexTriggerDisplay';
+import { InstructionsContext } from '../../../services/InstructionsContext';
 
 const Trigger = ({ trigger }: { trigger: TriggerType }) => {
-    const { settings } = useContext(BotContext);
-    const botName = 'zeroCool'; //settings?.botName;
+    const { botName } = useContext(InstructionsContext);
     return (
         <Segment>
             {botName} {trigger.toString()}
@@ -35,7 +34,9 @@ const TriggerInstruction = ({
                         )
                 )}
             </div>
-            {hasRegExp && <RegexTriggerDisplay input={example} />}
+            {hasRegExp && (
+                <RegexTriggerDisplay input={example} triggers={triggers} />
+            )}
         </Segment>
     ) : (
         <Segment>
