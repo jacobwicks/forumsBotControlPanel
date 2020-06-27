@@ -9,8 +9,8 @@ import {
     Segment,
     Button,
 } from 'semantic-ui-react';
-import CurrentThread from './CurrentThread';
-import SideBarThreads from './SideBarThreads';
+import CurrentThread from './components/CurrentThread';
+import SideBarThreads from './components/SideBarThreads';
 import { BotContext } from '../../services/BotContext';
 import usePrevious from '../../services/UsePrevious';
 

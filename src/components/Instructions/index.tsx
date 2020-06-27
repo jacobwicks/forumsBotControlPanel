@@ -1,8 +1,8 @@
 import React, { useEffect, useContext, useCallback } from 'react';
 import { Loader, Message } from 'semantic-ui-react';
 import { Container } from 'semantic-ui-react';
-import Instruction from './Instruction';
-import TriggerInstruction from './TriggerInstruction';
+import Instruction from './components/Instruction';
+import TriggerInstruction from './components/TriggerInstruction';
 import { getInstructions, getBotName } from '../../services/Api';
 import { InstructionsContext } from '../../services/InstructionsContext';
 import { InstructionsActionTypes } from '../../types/types';

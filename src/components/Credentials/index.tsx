@@ -3,9 +3,9 @@ import { authFetchJSON } from '../../services/Api/services/AuthFetch';
 import { Loader, Message, Segment } from 'semantic-ui-react';
 import EditableInput from '../EditableInput';
 import { BotAction, Creds } from '../../types/types';
-import Cookies from './Cookies';
-import LoginButton from './LoginButton';
-import BotName from './BotName';
+import Cookies from './components/Cookies';
+import LoginButton from './components/LoginButton';
+import BotName from './components/BotName';
 
 interface CredsResponse {
     creds: Creds;

@@ -3,7 +3,7 @@ import loadAPIs from '../../services/Api/services/APIs';
 import { ApiActionTypes } from '../../types/types';
 import { Header, Label, Grid } from 'semantic-ui-react';
 import { ApiContext } from '../../services/ApiContext';
-import ApiDisplay from './ApiDisplay';
+import ApiDisplay from './components/ApiDisplay';
 
 const APIs = () => {
     const { dispatch, apis, current, failed, fetching } = useContext(
