@@ -10,7 +10,9 @@ const SidebarAlbum = ({ album }: { album: string }): JSX.Element => {
 
     //filter the image queue to the pending images for this albumg
     const images = imageQueue?.filter(
-        (img) => img.album === album && img.status === ImageReviewStatus.pending
+        (img) =>
+            img.album.toLowerCase() === album.toLowerCase() &&
+            img.status === ImageReviewStatus.pending
     ).length;
 
     return (

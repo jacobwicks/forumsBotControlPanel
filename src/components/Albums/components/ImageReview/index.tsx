@@ -56,7 +56,7 @@ const ImageReview = ({ album }: { album?: string }) => {
         (album
             ? imageQueue?.filter(
                   (i) =>
-                      i.album === album &&
+                      i.album.toLowerCase() === album.toLowerCase() &&
                       i.status === ImageReviewStatus.pending
               )
             : imageQueue?.filter(

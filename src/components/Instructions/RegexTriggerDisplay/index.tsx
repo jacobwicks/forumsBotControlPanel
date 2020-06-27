@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from '../../Markdown';
 import useResize from '../../APIs/Instructions/GenericInstructions/services/UseResize';
-import { Segment, Header } from 'semantic-ui-react';
+import { Segment, Header, Label } from 'semantic-ui-react';
 import { Trigger } from '../../../types/types';
 import { spacing } from '../../../services/Spacing';
 
@@ -35,7 +35,8 @@ export const RegexTriggerDisplay = ({
                         .filter((trigger) => trigger instanceof RegExp)
                         .map((trigger, index) => (
                             <div key={index} style={spacing}>
-                                {index + 1}: {trigger.toString()}
+                                <Label color="blue">RegExp</Label>{' '}
+                                {trigger.toString()}
                             </div>
                         ))}
                 </>
