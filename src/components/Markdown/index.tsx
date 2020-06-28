@@ -26,6 +26,7 @@ const MyMarkdown = (props: any) => {
         <ReactMarkdown
             {...props}
             allowNodes={allowNodes}
+            linkTarget={'_blank'}
             renderers={renderers}
             rawSourcePos
         />
