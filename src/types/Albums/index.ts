@@ -25,7 +25,9 @@ export enum AlbumsActionTypes {
     removeImage = 'removeImage',
     setAlbum = 'setAlbum',
     setDescription = 'setDescription',
+    setFetchingImageQueue = 'setFetchingImageQueue',
     setHash = 'setHash',
+    setImageQueue = 'setImageQueue',
     setName = 'setName',
     setReview = 'setReview',
     setStatus = 'setStatus',
@@ -93,6 +95,17 @@ export type AlbumsAction =
           value: string;
       }
 
+    //sets the fetching boolean
+    | {
+          type: AlbumsActionTypes.setFetchingImageQueue;
+          fetching: boolean;
+      }
+
+    //sets the image queue array
+    | {
+          type: AlbumsActionTypes.setImageQueue;
+          imageQueue: ReviewImage[];
+      }
     //sets the name of the album
     | {
           type: AlbumsActionTypes.setName;

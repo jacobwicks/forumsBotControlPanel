@@ -16,6 +16,7 @@ export {
     createNewAlbum,
     deleteAlbum,
     loadAlbums,
+    loadImageQueue,
     rejectImage,
 } from './services/Albums';
 export * from './services/Bot';

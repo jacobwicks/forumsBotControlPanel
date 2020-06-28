@@ -24,7 +24,6 @@ const numbers = {
 
 const ImageReview = ({ album }: { album?: string }) => {
     const { dispatch, imageQueue } = useContext(AlbumsContext);
-
     //the index in the filtered queue
     //of the image that you are currently looking at
     const [qIndex, setQIndex] = useState(0);

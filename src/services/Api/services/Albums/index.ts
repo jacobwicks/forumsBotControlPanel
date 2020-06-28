@@ -5,7 +5,7 @@ import {
     AlbumsActionTypes,
     ReviewImage,
 } from '../../../../types/types';
-import { acceptImage, rejectImage } from './Images';
+import { acceptImage, loadImageQueue, rejectImage } from './Images';
 import createNewAlbum from './CreateNewAlbum';
 import deleteAlbum from './DeleteAlbum';
 
@@ -42,4 +42,11 @@ const loadAlbums = async (dispatch: React.Dispatch<AlbumsAction>) => {
     } else dispatch({ type: AlbumsActionTypes.fetchAlbumsFailure });
 };
 
-export { acceptImage, createNewAlbum, deleteAlbum, loadAlbums, rejectImage };
+export {
+    acceptImage,
+    createNewAlbum,
+    deleteAlbum,
+    loadImageQueue,
+    loadAlbums,
+    rejectImage,
+};

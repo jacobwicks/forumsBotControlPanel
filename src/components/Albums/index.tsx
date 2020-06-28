@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AlbumsContext } from '../../services/AlbumsContext';
-import { loadAlbums } from '../../services/Api/';
+import { loadAlbums, loadImageQueue } from '../../services/Api/';
 import { Grid, Button, Segment, Header } from 'semantic-ui-react';
 import Album from './components/Album';
 import ImageReview from './components/ImageReview';
@@ -9,6 +9,7 @@ import AddOrCreateAlbumModal from './components/AddOrCreateAlbumModal';
 import SideBar from './components/SideBar';
 
 const Albums = () => {
+    const [loaded, setLoaded] = useState(false);
     const {
         dispatch,
         album,
@@ -22,6 +23,13 @@ const Albums = () => {
     useEffect(() => {
         !fetching && !hasFailed && !albums && loadAlbums(dispatch);
     }, [dispatch, fetching, hasFailed, albums]);
+
+    useEffect(() => {
+        if (!fetching && !loaded) {
+            loadImageQueue(dispatch);
+            setLoaded(true);
+        }
+    }, [dispatch, fetching, loaded, setLoaded]);
 
     const toReview = imageQueue?.filter(
         (img) => img.status === ImageReviewStatus.pending

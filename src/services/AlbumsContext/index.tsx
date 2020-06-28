@@ -145,6 +145,20 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
                 },
             };
         }
+        case 'setFetchingImageQueue': {
+            const { fetching } = action;
+            return {
+                ...state,
+                fetching,
+            };
+        }
+        case 'setImageQueue': {
+            const { imageQueue } = action;
+            return {
+                ...state,
+                imageQueue,
+            };
+        }
         case 'setHash': {
             const { album, value } = action;
             const { albums } = state;

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext } from 'react';
 import { spacing } from '../../../../services/Spacing';
 import { Segment, Header } from 'semantic-ui-react';
 import { Trigger as TriggerType } from '../../../../types/types';
@@ -25,7 +25,7 @@ const TriggerInstruction = ({
 
     return !!triggers.length ? (
         <Segment>
-            <Header as="h2">How to trigger this action</Header>
+            <Header as="h3">How to trigger this action</Header>
             <div style={spacing}>
                 {triggers.map(
                     (trigger, index) =>
