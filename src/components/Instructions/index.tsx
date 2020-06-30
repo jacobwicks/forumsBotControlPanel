@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useCallback } from 'react';
-import { Loader, Message } from 'semantic-ui-react';
+import { Loader, Message, Grid } from 'semantic-ui-react';
 import { Container } from 'semantic-ui-react';
 import Instruction from './components/Instruction';
 import { getInstructions, getBotName } from '../../services/Api';
@@ -7,11 +7,18 @@ import { InstructionsContext } from '../../services/InstructionsContext';
 import { InstructionsActionTypes } from '../../types/types';
 import ActionsInstructions from './components/ActionsInstructions';
 import AlbumInstructions from './components/AlbumInstructions';
+import User from '../User';
 
 const Instructions = () => {
-    const { dispatch, actions, done, fetching, failed, general } = useContext(
-        InstructionsContext
-    );
+    const {
+        dispatch,
+        actions,
+        bot,
+        done,
+        fetching,
+        failed,
+        general,
+    } = useContext(InstructionsContext);
 
     useEffect(() => {
         !fetching && !done && !failed && getInstructions(dispatch);
@@ -38,18 +45,23 @@ const Instructions = () => {
     addChildren.push(<ActionsInstructions key="actions" />);
 
     return (
-        <Container>
-            {general ? (
-                <Instruction
-                    name=""
-                    input={general}
-                    addChildren={addChildren}
-                    forceOpen={true}
-                />
-            ) : (
-                <Loader active />
-            )}
-        </Container>
+        <Grid>
+            <Grid.Column width={3}>{bot && <User {...bot} />}</Grid.Column>
+            <Grid.Column width={13}>
+                <Container>
+                    {general ? (
+                        <Instruction
+                            name=""
+                            input={general}
+                            addChildren={addChildren}
+                            forceOpen={true}
+                        />
+                    ) : (
+                        <Loader active />
+                    )}
+                </Container>
+            </Grid.Column>
+        </Grid>
     );
 };
 

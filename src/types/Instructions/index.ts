@@ -1,4 +1,4 @@
-import { Trigger } from '../types';
+import { Trigger, SAUser } from '../types';
 
 export interface ActionInstruction {
     example?: string;
@@ -40,6 +40,7 @@ export type InstructionsAction =
           instructions: {
               actions: ActionInstruction[];
               albums: AlbumInstruction[];
+              bot: SAUser;
               general: string;
           };
       };
@@ -52,6 +53,7 @@ interface InstructionsDispatch {
 export interface InstructionsType {
     actions: ActionInstruction[];
     albums: AlbumInstruction[];
+    bot: SAUser;
     botName: string;
     done: boolean;
     fetching: boolean;

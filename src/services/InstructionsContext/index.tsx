@@ -1,9 +1,14 @@
 import React, { createContext, useReducer } from 'react';
-import { InstructionsState, InstructionsAction } from '../../types/types';
+import {
+    InstructionsState,
+    InstructionsAction,
+    dummySAUser,
+} from '../../types/types';
 
 const initialState = {
     actions: [],
     albums: [],
+    bot: dummySAUser,
     botName: '',
     done: false,
     fetching: false,
@@ -50,13 +55,14 @@ let reducer = (state: InstructionsState, action: InstructionsAction) => {
         }
         case 'setInstructions': {
             const { instructions } = action;
-            const { actions, albums, general } = instructions;
+            const { actions, albums, bot, general } = instructions;
             return {
                 ...state,
                 failed: false,
                 fetching: false,
                 actions,
                 albums,
+                bot,
                 general,
             };
         }

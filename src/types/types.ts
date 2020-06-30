@@ -16,6 +16,15 @@ export interface SAUser {
     regDate: string;
 }
 
+export const dummySAUser: SAUser = {
+    avatar: undefined,
+    id: 0,
+    name: '',
+    title: undefined,
+    profile: '',
+    regDate: '',
+};
+
 export interface Post {
     //the name of the user that wrote the post
     author: SAUser;

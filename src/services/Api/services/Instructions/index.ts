@@ -5,6 +5,7 @@ import {
     InstructionsAction,
     InstructionsActionTypes,
     SAUser,
+    dummySAUser,
 } from '../../../../types/types';
 import { reviver } from '../../../JSONParseRegExReviver';
 
@@ -33,7 +34,6 @@ export const getInstructions = async (
 
     const bot = instructions?.bot;
 
-    console.log('instructions got bot', bot);
     const general = instructions?.general || '';
 
     dispatch({
@@ -41,6 +41,7 @@ export const getInstructions = async (
         instructions: {
             actions,
             albums,
+            bot: bot ? bot : dummySAUser,
             general,
         },
     });
