@@ -4,12 +4,14 @@ import {
     AlbumInstruction,
     InstructionsAction,
     InstructionsActionTypes,
+    SAUser,
 } from '../../../../types/types';
 import { reviver } from '../../../JSONParseRegExReviver';
 
 interface InstructionsResponse {
     actions: string;
     albums: AlbumInstruction[];
+    bot: SAUser;
     general: string;
 }
 
@@ -29,6 +31,9 @@ export const getInstructions = async (
 
     const albums = instructions?.albums || [];
 
+    const bot = instructions?.bot;
+
+    console.log('instructions got bot', bot);
     const general = instructions?.general || '';
 
     dispatch({

@@ -19,8 +19,6 @@ const getSettings = async () => {
     return settings;
 };
 
-// const decreaseInterval = async () => {};
-// const increaseInterval = async () => {};
 function debounce(f: (...args: any) => any, waitFor: number = 400) {
     let timer: any = null;
 
@@ -38,14 +36,6 @@ export const setBotInterval = debounce(async (interval: number) => {
     const response = await authFetch(route, true, body);
     return response?.status === 200;
 }, 400);
-
-// export const setBotInterval = debounce(async (interval: number) => {
-//     const body = { interval };
-//     const route = 'setInterval';
-//     const response = await authFetch(route, true, body);
-//     return 'whaaa';
-//     //return response?.status === 200;
-// });
 
 export const clearCookies = async (dispatch: React.Dispatch<BotAction>) => {
     dispatch({

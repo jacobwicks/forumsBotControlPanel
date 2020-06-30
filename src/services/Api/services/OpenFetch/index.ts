@@ -24,7 +24,7 @@ const openFetch = async (
 
         return fetch(url, options);
     } catch (err) {
-        console.log(`authfetch caught error`, err);
+        console.log(`openFetch caught error`, err);
         //log(err);
         return undefined;
     }
