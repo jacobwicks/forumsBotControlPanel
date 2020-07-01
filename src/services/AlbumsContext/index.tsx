@@ -16,12 +16,10 @@ export const initialState = {
 export const reducer = (state: AlbumsState, action: AlbumsAction) => {
     switch (action.type) {
         case 'accept': {
-            const { submittedAt } = action;
+            const { hash } = action;
             if (state.imageQueue) {
                 const imageQueue = [...state.imageQueue];
-                const image = imageQueue.find(
-                    (image) => image.submittedAt === submittedAt
-                );
+                const image = imageQueue.find((image) => image.hash === hash);
                 image?.status && (image.status = ImageReviewStatus.accepted);
                 return { ...state, imageQueue };
             } else return state;
@@ -44,12 +42,10 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
             };
         }
         case 'delete': {
-            const { submittedAt } = action;
+            const { hash } = action;
             const { imageQueue } = state;
             if (!imageQueue) return state;
-            const newQueue = imageQueue.filter(
-                (image) => image.submittedAt !== submittedAt
-            );
+            const newQueue = imageQueue.filter((image) => image.hash !== hash);
             return { ...state, imageQueue: newQueue };
         }
         case 'deleteAlbum': {
@@ -105,23 +101,27 @@ export const reducer = (state: AlbumsState, action: AlbumsAction) => {
             };
         }
         case 'pending': {
-            const { submittedAt } = action;
+            const { hash } = action;
             if (state.imageQueue) {
                 const imageQueue = [...state.imageQueue];
-                const image = imageQueue.find(
-                    (image) => image.submittedAt === submittedAt
-                );
-                image?.status && (image.status = ImageReviewStatus.pending);
-                return { ...state, imageQueue };
+                const image = imageQueue.find((image) => image.hash === hash);
+
+                if (!image) return state;
+
+                image.status && (image.status = ImageReviewStatus.pending);
+
+                const newImageQueue = imageQueue
+                    .filter((image) => image.hash !== hash)
+                    .push(image);
+
+                return { ...state, newImageQueue };
             } else return state;
         }
         case 'reject': {
-            const { submittedAt } = action;
+            const { hash } = action;
             if (state.imageQueue) {
                 const imageQueue = [...state.imageQueue];
-                const image = imageQueue.find(
-                    (image) => image.submittedAt === submittedAt
-                );
+                const image = imageQueue.find((image) => image.hash === hash);
                 image?.status && (image.status = ImageReviewStatus.rejected);
                 return { ...state, imageQueue };
             } else return state;

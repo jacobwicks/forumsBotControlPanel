@@ -2,11 +2,12 @@ import authFetch from '../../../AuthFetch';
 import { AlbumsAction, AlbumsActionTypes } from '../../../../../../types/types';
 import { Dispatch } from 'react';
 
-const rejectImageAPI = async (submittedAt: string) => {
+const rejectImageAPI = async (hash: number) => {
     const route = 'rejectImage';
 
     try {
-        const response = await authFetch(route, true, { submittedAt });
+        const body = { hash };
+        const response = await authFetch(route, true, body);
         return response?.status === 200;
     } catch (err) {
         return undefined;
@@ -15,20 +16,20 @@ const rejectImageAPI = async (submittedAt: string) => {
 
 export const rejectImage = async ({
     dispatch,
-    submittedAt,
+    hash,
 }: {
     dispatch: Dispatch<AlbumsAction>;
-    submittedAt: string;
+    hash: number;
 }) => {
     //dispatch action to AlbumsContext
-    dispatch({ type: AlbumsActionTypes.reject, submittedAt });
+    dispatch({ type: AlbumsActionTypes.reject, hash });
 
     //return true if status === 200, else false
-    (await rejectImageAPI(submittedAt))
+    (await rejectImageAPI(hash))
         ? //maybe display a message with a link? Or not, who cares
           console.log(`image successfully rejected`)
         : //should probably display a failure alert... reject failed, added back to queue
-          dispatch({ type: AlbumsActionTypes.pending, submittedAt });
+          dispatch({ type: AlbumsActionTypes.pending, hash });
 };
 
 export default rejectImage;

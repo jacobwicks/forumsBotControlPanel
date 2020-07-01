@@ -6,14 +6,18 @@ interface AcceptImageResponse {
     uploadedImageUrl: string;
 }
 
-const acceptImageAPI = async (submittedAt: string) => {
+const acceptImageAPI = async (hash: number) => {
     const route = 'acceptImage';
 
     try {
         //call fetch at the loginUrl
-        const response = (await authFetchJSON(route, true, {
-            submittedAt,
-        })) as AcceptImageResponse | undefined;
+        const body = {
+            hash,
+        };
+
+        const response = (await authFetchJSON(route, true, body)) as
+            | AcceptImageResponse
+            | undefined;
 
         return response?.uploadedImageUrl;
     } catch (err) {
@@ -23,20 +27,20 @@ const acceptImageAPI = async (submittedAt: string) => {
 
 const acceptImage = async ({
     dispatch,
-    submittedAt,
+    hash,
 }: {
     dispatch: Dispatch<AlbumsAction>;
-    submittedAt: string;
+    hash: number;
 }) => {
     //dispatch action to AlbumsContext
-    dispatch({ type: AlbumsActionTypes.accept, submittedAt });
+    dispatch({ type: AlbumsActionTypes.accept, hash });
 
-    const uploadedImageUrl = await acceptImageAPI(submittedAt);
+    const uploadedImageUrl = await acceptImageAPI(hash);
     uploadedImageUrl
         ? //maybe display a message with a link? Or not, who cares
           console.log(`image successfully uploaded to`, uploadedImageUrl)
         : //should probably display a failure alert... Upload failed, added back to queue
-          dispatch({ type: AlbumsActionTypes.pending, submittedAt });
+          dispatch({ type: AlbumsActionTypes.pending, hash });
 };
 
 export default acceptImage;

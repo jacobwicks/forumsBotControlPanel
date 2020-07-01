@@ -65,9 +65,9 @@ const ImageReview = ({ album }: { album?: string }) => {
     //the current poster submitted image being reviewed
     const reviewImage = filteredQueue[qIndex];
 
-    //submitted at timestamp is unique to each image
+    //hash is unique to each image
     //so its used by the actions/context reducer to identify images
-    const submittedAt = reviewImage?.submittedAt;
+    const hash = reviewImage?.hash;
 
     //keep these previous references around
     //to complete animating an image offscreen
@@ -121,6 +121,10 @@ const ImageReview = ({ album }: { album?: string }) => {
         setQIndex(0);
     }, [album, setQIndex]);
 
+    useEffect(() => {
+        if (qIndex > filteredQueue.length) setQIndex(filteredQueue.length - 1);
+    }, [qIndex, filteredQueue.length, setQIndex]);
+
     const nextImage = () => {
         if (qIndex + 1 < filteredQueue.length) {
             setQIndex(qIndex + 1);
@@ -167,8 +171,8 @@ const ImageReview = ({ album }: { album?: string }) => {
         <Segment>
             <Header as="h2" content={getHeaderContent()} />
             <ImageReviewControls
-                acceptImage={() => acceptImage({ dispatch, submittedAt })}
-                rejectImage={() => rejectImage({ dispatch, submittedAt })}
+                acceptImage={() => acceptImage({ dispatch, hash })}
+                rejectImage={() => rejectImage({ dispatch, hash })}
                 firstImage={() => selectImage(0)}
                 lastImage={() => selectImage(filteredQueue.length - 1)}
                 nextImage={animatedNextImage}

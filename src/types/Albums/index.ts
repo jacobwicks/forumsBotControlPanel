@@ -35,7 +35,7 @@ export enum AlbumsActionTypes {
 
 export type AlbumsAction =
     //accepts adds an image to an album
-    | { type: AlbumsActionTypes.accept; submittedAt: string }
+    | { type: AlbumsActionTypes.accept; hash: number }
 
     //adds an exisiting imgur album
     | {
@@ -55,7 +55,7 @@ export type AlbumsAction =
       }
 
     //deletes an image from the queue
-    | { type: AlbumsActionTypes.delete; submittedAt: string }
+    | { type: AlbumsActionTypes.delete; hash: number }
 
     //delete an album. From the bot? or from imgur altogether?
     | { type: AlbumsActionTypes.deleteAlbum; album: string }
@@ -74,10 +74,10 @@ export type AlbumsAction =
       }
 
     //sets the status of an image to pending
-    | { type: AlbumsActionTypes.pending; submittedAt: string }
+    | { type: AlbumsActionTypes.pending; hash: number }
 
     //reject adding an image to an album
-    | { type: AlbumsActionTypes.reject; submittedAt: string }
+    | { type: AlbumsActionTypes.reject; hash: number }
 
     //remove an image from an album
     | { type: AlbumsActionTypes.removeImage }
@@ -164,6 +164,7 @@ export enum ImageReviewStatus {
 
 export interface ReviewImage {
     album: string;
+    hash: number;
     image: string;
     submittedAt: string;
     submittedBy: SAUser;

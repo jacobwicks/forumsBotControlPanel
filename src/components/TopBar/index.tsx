@@ -7,6 +7,7 @@ import { getBotName } from '../../services/Api';
 import { LoginActionTypes, BotFetchKeys } from '../../types/types';
 import { BotContext } from '../../services/BotContext';
 import { logout } from '../../services/Api/';
+import { InstructionsContext } from '../../services/InstructionsContext';
 
 const ControlPanelLink = () => {
     const { dispatch, isLoggedIn } = useContext(LoginContext);
@@ -31,7 +32,14 @@ const ControlPanelLink = () => {
 
 const Title = () => {
     const { fetching, settings } = useContext(BotContext);
-    const [botName, setBotName] = useState('');
+    const { botName: instructionsBotName } = useContext(InstructionsContext);
+    const [botName, setBotName] = useState(
+        instructionsBotName
+            ? instructionsBotName
+            : settings?.botName
+            ? settings.botName
+            : ''
+    );
     const [botNameFetching, setBotNameFetching] = useState(false);
     const [hasFailed, setHasFailed] = useState(false);
 
