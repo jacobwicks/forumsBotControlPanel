@@ -6,14 +6,20 @@ import { Trigger } from '../../../../types/types';
 import { spacing } from '../../../../services/Spacing';
 
 export const RegexTriggerDisplay = ({
+    album,
     input,
     triggers,
 }: {
+    album?: string;
     input?: string;
     triggers: Trigger[];
 }) => {
     const divRef = React.useRef<HTMLDivElement>(null);
     const maxWidth = useResize(divRef);
+
+    if (album) {
+        input = input?.replace(/\${album}/g, album);
+    }
 
     return (
         <Segment>

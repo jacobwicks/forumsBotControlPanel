@@ -2,6 +2,7 @@ import React, { useEffect, useRef, MutableRefObject, useContext } from 'react';
 import { Loader, Segment } from 'semantic-ui-react';
 import LogEvent from './components/LogEvent';
 import { EventsContext } from '../../services/EventsContext';
+import getLineHeight from '../../services/GetLineHeight';
 
 const LogViewer = ({ lines }: { lines?: number }) => {
     const { events } = useContext(EventsContext);
@@ -20,17 +21,7 @@ const LogViewer = ({ lines }: { lines?: number }) => {
     const getHeight = () => {
         if (!lines) return 250;
 
-        //to get the line height
-        const root = document.getElementById('root');
-        const text = document.createElement('span');
-        text.innerHTML = 'Hello';
-        //add an element containing some text
-        root?.appendChild(text);
-
-        //find the height
-        const lineHeight = parseInt(window.getComputedStyle(text).fontSize, 10);
-        //remove the element
-        root?.removeChild(text);
+        const lineHeight = getLineHeight();
 
         //multiply by lines + 1 to get the desired height
         return lineHeight ? lineHeight * (lines + 1) : 250;

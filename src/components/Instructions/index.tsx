@@ -5,9 +5,9 @@ import Instruction from './components/Instruction';
 import { getInstructions, getBotName } from '../../services/Api';
 import { InstructionsContext } from '../../services/InstructionsContext';
 import { InstructionsActionTypes } from '../../types/types';
-import ActionsInstructions from './components/ActionsInstructions';
-import AlbumInstructions from './components/AlbumInstructions';
 import User from '../User';
+import Threads from './components/Threads';
+import ActionsInstructions from './components/ActionsInstructions';
 
 const Instructions = () => {
     const {
@@ -18,7 +18,6 @@ const Instructions = () => {
         fetching,
         failed,
         general,
-        threads,
     } = useContext(InstructionsContext);
 
     useEffect(() => {
@@ -40,11 +39,6 @@ const Instructions = () => {
     if (!actions && done)
         return <Message warning>Failed to load Instructions</Message>;
 
-    const addChildren = [];
-
-    //addChildren.push(<AlbumInstructions key="albums" />);
-    //addChildren.push(<ActionsInstructions key="actions" />);
-
     return (
         <Grid>
             <Grid.Column width={3}>{bot && <User {...bot} />}</Grid.Column>
@@ -57,17 +51,8 @@ const Instructions = () => {
                                 input={general}
                                 forceOpen={true}
                             />
-                            {threads.map((thread, index) => (
-                                <div key={index}>
-                                    <a
-                                        href={thread.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {thread.title}
-                                    </a>
-                                </div>
-                            ))}
+                            <Threads />
+                            <ActionsInstructions />
                         </>
                     ) : (
                         <Loader active />

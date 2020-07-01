@@ -2,6 +2,7 @@ import { Trigger, SAUser } from '../types';
 import { FrontEndThread } from '../Threads';
 
 export interface ActionInstruction {
+    albums: boolean;
     example?: string;
     instructions?: string;
     key: string;
