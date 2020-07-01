@@ -1,4 +1,5 @@
 import { Trigger, SAUser } from '../types';
+import { FrontEndThread } from '../Threads';
 
 export interface ActionInstruction {
     example?: string;
@@ -42,6 +43,7 @@ export type InstructionsAction =
               albums: AlbumInstruction[];
               bot: SAUser;
               general: string;
+              threads: FrontEndThread[];
           };
       };
 
@@ -59,6 +61,7 @@ export interface InstructionsType {
     fetching: boolean;
     failed: boolean;
     general: string;
+    threads: FrontEndThread[];
 }
 
 //a union type

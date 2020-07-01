@@ -18,6 +18,7 @@ const Instructions = () => {
         fetching,
         failed,
         general,
+        threads,
     } = useContext(InstructionsContext);
 
     useEffect(() => {
@@ -41,8 +42,8 @@ const Instructions = () => {
 
     const addChildren = [];
 
-    addChildren.push(<AlbumInstructions key="albums" />);
-    addChildren.push(<ActionsInstructions key="actions" />);
+    //addChildren.push(<AlbumInstructions key="albums" />);
+    //addChildren.push(<ActionsInstructions key="actions" />);
 
     return (
         <Grid>
@@ -50,12 +51,24 @@ const Instructions = () => {
             <Grid.Column width={13}>
                 <Container>
                     {general ? (
-                        <Instruction
-                            name=""
-                            input={general}
-                            addChildren={addChildren}
-                            forceOpen={true}
-                        />
+                        <>
+                            <Instruction
+                                name=""
+                                input={general}
+                                forceOpen={true}
+                            />
+                            {threads.map((thread, index) => (
+                                <div key={index}>
+                                    <a
+                                        href={thread.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {thread.title}
+                                    </a>
+                                </div>
+                            ))}
+                        </>
                     ) : (
                         <Loader active />
                     )}

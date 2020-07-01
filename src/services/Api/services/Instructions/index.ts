@@ -6,6 +6,7 @@ import {
     InstructionsActionTypes,
     SAUser,
     dummySAUser,
+    FrontEndThread,
 } from '../../../../types/types';
 import { reviver } from '../../../JSONParseRegExReviver';
 
@@ -14,6 +15,7 @@ interface InstructionsResponse {
     albums: AlbumInstruction[];
     bot: SAUser;
     general: string;
+    threads: FrontEndThread[];
 }
 
 type IR = InstructionsResponse | undefined;
@@ -32,17 +34,20 @@ export const getInstructions = async (
 
     const albums = instructions?.albums || [];
 
-    const bot = instructions?.bot;
+    const bot = instructions?.bot || dummySAUser;
 
     const general = instructions?.general || '';
+
+    const threads = instructions?.threads || [];
 
     dispatch({
         type: InstructionsActionTypes.setInstructions,
         instructions: {
             actions,
             albums,
-            bot: bot ? bot : dummySAUser,
+            bot,
             general,
+            threads,
         },
     });
 
