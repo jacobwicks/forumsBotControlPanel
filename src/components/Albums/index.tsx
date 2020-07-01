@@ -42,9 +42,28 @@ const Albums = () => {
             <Segment>
                 <Grid columns={2} divided>
                     <Grid.Column width={4}>
-                        <Header as="h2">
-                            Albums <AddOrCreateAlbumModal />
+                        <Header
+                            as="h2"
+                            onClick={() =>
+                                dispatch({
+                                    type: AlbumsActionTypes.setAlbum,
+                                    album: '',
+                                })
+                            }
+                            style={{ cursor: 'pointer' }}
+                        >
+                            Albums
+                            <Button
+                                disabled={fetching}
+                                onClick={() => loadAlbums(dispatch)}
+                                floated="right"
+                                icon="refresh"
+                            />
                         </Header>
+                        <div>
+                            Add album {'   '}
+                            <AddOrCreateAlbumModal />
+                        </div>
                         <SideBar />
                     </Grid.Column>
                     <Grid.Column>

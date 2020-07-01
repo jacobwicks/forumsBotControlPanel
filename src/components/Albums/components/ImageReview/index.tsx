@@ -181,8 +181,8 @@ const ImageReview = ({ album }: { album?: string }) => {
                             custom={{ enterDirection, exitDirection }}
                             image={
                                 overrideImage
-                                    ? previousReviewImage.image
-                                    : reviewImage.image
+                                    ? previousReviewImage?.image
+                                    : reviewImage?.image
                             }
                             keyProp={overrideImage ? previousKey : key}
                         />

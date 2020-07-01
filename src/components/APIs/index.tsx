@@ -20,7 +20,18 @@ const APIs = () => {
     return (
         <Grid divided>
             <Grid.Column width={4}>
-                <Header as="h2">APIs </Header>
+                <Header
+                    as="h2"
+                    onClick={() =>
+                        dispatch({
+                            type: ApiActionTypes.setCurrent,
+                            current: '',
+                        })
+                    }
+                    style={{ cursor: 'pointer' }}
+                >
+                    APIs{' '}
+                </Header>
                 <div>
                     {apis &&
                         Object.keys(apis)

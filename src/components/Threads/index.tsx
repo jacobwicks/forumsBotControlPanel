@@ -13,6 +13,7 @@ import CurrentThread from './components/CurrentThread';
 import SideBarThreads from './components/SideBarThreads';
 import { BotContext } from '../../services/BotContext';
 import usePrevious from '../../services/UsePrevious';
+import { ThreadsActionTypes } from '../../types/types';
 
 const Threads = () => {
     const { dispatch, failed, fetching, threads } = useContext(ThreadsContext);
@@ -37,7 +38,16 @@ const Threads = () => {
         <Segment>
             <Grid columns={2} divided>
                 <Grid.Column width={4}>
-                    <Header as="h2">
+                    <Header
+                        as="h2"
+                        onClick={() =>
+                            dispatch({
+                                type: ThreadsActionTypes.currentThread,
+                                threadId: 0,
+                            })
+                        }
+                        style={{ cursor: 'pointer' }}
+                    >
                         Threads{' '}
                         <Button
                             disabled={fetching}
