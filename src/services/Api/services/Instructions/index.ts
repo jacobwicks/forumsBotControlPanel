@@ -9,6 +9,7 @@ import {
     FrontEndThread,
 } from '../../../../types/types';
 import { reviver } from '../../../JSONParseRegExReviver';
+import authFetch from '../AuthFetch';
 
 interface InstructionsResponse {
     actions: string;
@@ -52,4 +53,15 @@ export const getInstructions = async (
     });
 
     dispatch({ type: InstructionsActionTypes.done });
+};
+
+export const saveInstructions = async (instructions: any) => {
+    const route = 'saveInstructions';
+
+    const body = { instructions };
+    const success = (await authFetch(route, true, body))?.status === 200;
+
+    success
+        ? console.log('instructions saved')
+        : console.log('failed to save instructions');
 };

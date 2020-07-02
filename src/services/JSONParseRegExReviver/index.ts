@@ -1,5 +1,10 @@
 export const regExpPrefix = '__REGEXP ';
 
+export const replacer = (key: string, value: any) => {
+    if (value instanceof RegExp) return regExpPrefix + value.toString();
+    else return value;
+};
+
 export const reviver = (key: string, value: any, test?: boolean) => {
     if (value.toString().indexOf(regExpPrefix) === 0) {
         try {

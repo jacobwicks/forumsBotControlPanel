@@ -1,34 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Header, Icon, Menu } from 'semantic-ui-react';
-//import { botName } from '../../config.json';
-import { LoginContext } from '../../services/LoginContext';
+import { Header, Menu } from 'semantic-ui-react';
 import LoginModal from '../LoginModal';
 import { getBotName } from '../../services/Api';
-import { LoginActionTypes, BotFetchKeys } from '../../types/types';
+import { BotFetchKeys } from '../../types/types';
 import { BotContext } from '../../services/BotContext';
-import { logout } from '../../services/Api/';
 import { InstructionsContext } from '../../services/InstructionsContext';
-
-const ControlPanelLink = () => {
-    const { dispatch, isLoggedIn } = useContext(LoginContext);
-    return isLoggedIn ? (
-        <Icon
-            title="Bot Instructions Page"
-            name="file outline"
-            link
-            onClick={() => logout(dispatch)}
-            size="large"
-        />
-    ) : (
-        <Icon
-            title="Bot Control Panel"
-            name="setting"
-            link
-            onClick={() => dispatch({ type: LoginActionTypes.openModal })}
-            size="large"
-        />
-    );
-};
+import ControlPanelLink from './components/ControlPanelLink';
+import SaveInstructionsButton from './components/SaveInstructionsButton';
 
 const Title = () => {
     const { fetching, settings } = useContext(BotContext);
@@ -70,9 +48,14 @@ const Title = () => {
 const menuItems = [
     <ControlPanelLink />,
     <Title />,
-    <LoginModal />,
+    <SaveInstructionsButton />,
 ].map((element, index) => <Menu.Item key={index}>{element}</Menu.Item>);
 
-const TopBar = () => <Menu children={menuItems} color="green" inverted />;
+const TopBar = () => (
+    <>
+        <Menu children={menuItems} color="green" inverted />
+        <LoginModal />
+    </>
+);
 
 export default TopBar;

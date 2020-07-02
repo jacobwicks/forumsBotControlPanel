@@ -1,5 +1,6 @@
 import { getHeaders } from '../Headers';
 import { apiUrl } from '../..';
+import { replacer } from '../../../JSONParseRegExReviver';
 
 interface Options {
     method: string;
@@ -25,7 +26,7 @@ const authFetch = async (
 
         try {
             body && typeof body === 'object'
-                ? (options.body = JSON.stringify(body))
+                ? (options.body = JSON.stringify(body, replacer, 2))
                 : (options.body = body);
 
             return fetch(url, options);
