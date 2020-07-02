@@ -1,4 +1,4 @@
-import { openFetchJSON } from '../OpenFetch';
+import openFetch, { openFetchJSON } from '../OpenFetch';
 import {
     ActionInstruction,
     AlbumInstruction,
@@ -55,11 +55,10 @@ export const getInstructions = async (
     dispatch({ type: InstructionsActionTypes.done });
 };
 
-export const saveInstructions = async (instructions: any) => {
+export const saveInstructions = async () => {
     const route = 'saveInstructions';
 
-    const body = { instructions };
-    const success = (await authFetch(route, true, body))?.status === 200;
+    const success = (await openFetch(route))?.status === 200;
 
     success
         ? console.log('instructions saved')
