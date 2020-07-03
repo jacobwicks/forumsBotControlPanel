@@ -70,7 +70,7 @@ const AlbumActionInstruction = ({
         : [
               <AlbumTriggersInstruction
                   key="placeholder"
-                  album={'example'}
+                  album={'placeHolder'}
                   description={
                       'This bot has no active albums. This placeholder is here as an example'
                   }
