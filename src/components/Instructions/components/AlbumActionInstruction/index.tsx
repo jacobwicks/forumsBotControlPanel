@@ -57,15 +57,27 @@ const AlbumActionInstruction = ({
 
     const { example, instructions, key, name, triggers } = actionInstruction;
 
-    const addChildren = albums.map(({ album, description }, key) => (
-        <AlbumTriggersInstruction
-            key={key}
-            album={album}
-            description={description}
-            example={example}
-            triggers={triggers}
-        />
-    ));
+    const addChildren = !!albums.length
+        ? albums.map(({ album, description }, key) => (
+              <AlbumTriggersInstruction
+                  key={key}
+                  album={album}
+                  description={description}
+                  example={example}
+                  triggers={triggers}
+              />
+          ))
+        : [
+              <AlbumTriggersInstruction
+                  key="placeholder"
+                  album={'example'}
+                  description={
+                      'This bot has no active albums. This placeholder is here as an example'
+                  }
+                  example={example}
+                  triggers={triggers}
+              />,
+          ];
 
     return (
         <Instruction
