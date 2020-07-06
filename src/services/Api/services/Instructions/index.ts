@@ -16,6 +16,7 @@ interface InstructionsResponse {
     albums: AlbumInstruction[];
     bot: SAUser;
     general: string;
+    homepage?: string;
     threads: FrontEndThread[];
 }
 
@@ -39,6 +40,8 @@ export const getInstructions = async (
 
     const general = instructions?.general || '';
 
+    const homepage = instructions?.homepage || '';
+
     const threads = instructions?.threads || [];
 
     dispatch({
@@ -48,6 +51,7 @@ export const getInstructions = async (
             albums,
             bot,
             general,
+            homepage,
             threads,
         },
     });
@@ -63,4 +67,6 @@ export const saveInstructions = async () => {
     success
         ? console.log('instructions saved')
         : console.log('failed to save instructions');
+
+    return success;
 };

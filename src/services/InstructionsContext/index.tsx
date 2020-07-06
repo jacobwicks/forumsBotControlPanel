@@ -14,6 +14,7 @@ const initialState = {
     fetching: false,
     failed: false,
     general: '',
+    homepage: '',
     threads: [],
     dispatch: (action: InstructionsAction) => undefined,
 } as InstructionsState;
@@ -56,7 +57,14 @@ let reducer = (state: InstructionsState, action: InstructionsAction) => {
         }
         case 'setInstructions': {
             const { instructions } = action;
-            const { actions, albums, bot, general, threads } = instructions;
+            const {
+                actions,
+                albums,
+                bot,
+                general,
+                homepage,
+                threads,
+            } = instructions;
             return {
                 ...state,
                 failed: false,
@@ -65,6 +73,7 @@ let reducer = (state: InstructionsState, action: InstructionsAction) => {
                 albums,
                 bot,
                 general,
+                homepage,
                 threads,
             };
         }

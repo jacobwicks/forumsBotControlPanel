@@ -44,6 +44,7 @@ export type InstructionsAction =
               albums: AlbumInstruction[];
               bot: SAUser;
               general: string;
+              homepage?: string;
               threads: FrontEndThread[];
           };
       };
@@ -62,6 +63,7 @@ export interface InstructionsType {
     fetching: boolean;
     failed: boolean;
     general: string;
+    homepage?: string;
     threads: FrontEndThread[];
 }
 

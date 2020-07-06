@@ -7,6 +7,7 @@ import { BotContext } from '../../services/BotContext';
 import { InstructionsContext } from '../../services/InstructionsContext';
 import ControlPanelLink from './components/ControlPanelLink';
 import SaveInstructionsButton from './components/SaveInstructionsButton';
+import InstructionsLink from './components/InstructionsLink';
 
 const Title = () => {
     const { fetching, settings } = useContext(BotContext);
@@ -49,6 +50,7 @@ const menuItems = [
     <ControlPanelLink />,
     <Title />,
     <SaveInstructionsButton />,
+    <InstructionsLink />,
 ].map((element, index) => <Menu.Item key={index}>{element}</Menu.Item>);
 
 const TopBar = () => (
