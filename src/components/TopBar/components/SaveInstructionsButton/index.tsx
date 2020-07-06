@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Popup, Icon } from 'semantic-ui-react';
-import { InstructionsContext } from '../../../../services/InstructionsContext';
 import { saveInstructions } from '../../../../services/Api';
 
 const SaveInstructionsButton = () => {
@@ -14,7 +13,7 @@ const SaveInstructionsButton = () => {
                     ? 'Saving Instructions'
                     : failed
                     ? 'Error saving'
-                    : 'Save instructions'
+                    : 'Save instructions and upload to GitHub Pages'
             }
             trigger={
                 <Icon
@@ -35,4 +34,5 @@ const SaveInstructionsButton = () => {
         />
     );
 };
+
 export default SaveInstructionsButton;
