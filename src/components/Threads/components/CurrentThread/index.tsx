@@ -70,6 +70,9 @@ const CurrentThread = () => {
                 threadId={threadId}
                 value={bookmarked}
             />
+            Forums thread titles can change. <br />
+            You can add your own custom name to a thread. <br />
+            The thread name will appear in the control panel and the log. <br />
             <ThreadInput
                 threadId={threadId}
                 input={'name'}
@@ -87,6 +90,13 @@ const CurrentThread = () => {
                 <Label size="large" content={'Unread Posts:'} />{' '}
                 {unreadPosts !== undefined ? unreadPosts : '???'}
             </div>
+            {pages && (
+                <div>
+                    You can set the last page that the bot has read. <br />
+                    The bot will only scan posts after the last page it has
+                    read.
+                </div>
+            )}
             {pages && <SetLastRead threadId={threadId} />}
         </>
     );

@@ -17,7 +17,7 @@ const ApiDisplay = ({ api }: { api: string }) => {
             loadApi({ api, dispatch });
     }, [dispatch, apis, api, failed, fetching]);
 
-    const instructionChild = <Instructions api={api} />;
+    const instructionChild = <Instructions key={api} api={api} />;
     const thisApi = apis[api];
 
     const configKeys = ['apis', api];
