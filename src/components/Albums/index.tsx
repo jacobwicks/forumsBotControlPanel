@@ -8,6 +8,19 @@ import { ImageReviewStatus, AlbumsActionTypes } from '../../types/types';
 import AddOrCreateAlbumModal from './components/AddOrCreateAlbumModal';
 import SideBar from './components/SideBar';
 
+const NoAlbum = () => (
+    <div>
+        <Header as="h2">No Album Selected</Header>
+        The bot can access albums that are hosted on Imgur.
+        <br />
+        You need to add an Imgur API key to the bot for this feature to work.
+        <br />
+        You can use the API tab to add the Imgur API key. <br />
+        You can add existing Imgur Albums that you own. <br />
+        You can also create new Imgur Albums using the control panel.
+    </div>
+);
+
 const Albums = () => {
     const [loaded, setLoaded] = useState(false);
     const {
@@ -67,7 +80,11 @@ const Albums = () => {
                         <SideBar />
                     </Grid.Column>
                     <Grid.Column>
-                        {album && <Album album={album} key={album} />}
+                        {album ? (
+                            <Album album={album} key={album} />
+                        ) : (
+                            <NoAlbum />
+                        )}
                     </Grid.Column>
                 </Grid>
             </Segment>

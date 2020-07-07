@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Segment, Header } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import { ActionsActionTypes } from '../../../../types/types';
 import { ActionsContext } from '../../../../services/ActionsContext';
 import EditableInput from '../../../EditableInput';
@@ -10,9 +10,26 @@ import Triggers from './components/Triggers';
 const actionsConfigKeys = ['actions'];
 
 const NoAction = () => (
-    <Segment>
-        <Header>No Action Selected</Header>
-    </Segment>
+    <div>
+        <Header as="h2">No Action Selected</Header>
+        Actions are things that the bot can do when it receives an instruction.
+        <br />
+        The bot receives instructions by reading posts.
+        <br />
+        A post that begins with the botName is an instruction.
+        <br />
+        An instruction that matches an action trigger will trigger that action.
+        <br />
+        Most actions will cause the bot to make a post.
+        <br />
+        <a
+            href="https://jacobwicks.github.io/2020/07/02/write-forums-bot-action.html"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            You can make new actions and add them to the bot.
+        </a>
+    </div>
 );
 
 const CurrentAction = () => {

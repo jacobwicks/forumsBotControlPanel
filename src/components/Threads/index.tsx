@@ -19,6 +19,7 @@ const Threads = () => {
     const { dispatch, failed, fetching, threads } = useContext(ThreadsContext);
     const { settings } = useContext(BotContext);
     const running = !!settings?.running;
+    //this may not work!
     const wasRunning = usePrevious(running);
 
     useEffect(() => {

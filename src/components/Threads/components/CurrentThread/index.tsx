@@ -14,6 +14,17 @@ import SetLastRead from '../SetLastRead';
 const NoThread = () => (
     <Segment>
         <Header>No Thread Selected</Header>
+        The bot will automatically grab all threads that are bookmarked by the
+        assigned SA forums account.
+        <br />
+        If you want the bot to watch a thread, log in to SA and bookmark the
+        thread.
+        <br />
+        If you want the bot to stop watching a thread, you can use the
+        unbookmark thread button in this control panel.
+        <br />
+        You can also log in to SA and unbookmark the thread.
+        <br />
     </Segment>
 );
 

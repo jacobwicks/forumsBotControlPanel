@@ -5,6 +5,17 @@ import { Header, Label, Grid } from 'semantic-ui-react';
 import { ApiContext } from '../../services/ApiContext';
 import ApiDisplay from './components/ApiDisplay';
 
+const NoAPI = () => (
+    <div>
+        <Header as="h2">No API Selected</Header>
+        Some of the bot actions need access to API keys to work.
+        <br />
+        You can use this screen to manage the API keys. <br />
+        If you need to add an API that is not listed, edit the forumsBot
+        config.json file directly.
+    </div>
+);
+
 const APIs = () => {
     const { dispatch, apis, current, failed, fetching } = useContext(
         ApiContext
@@ -63,7 +74,11 @@ const APIs = () => {
                 </div>
             </Grid.Column>
             <Grid.Column width={12}>
-                {current && apis?.[current] && <ApiDisplay api={current} />}
+                {current ? (
+                    apis?.[current] && <ApiDisplay api={current} />
+                ) : (
+                    <NoAPI />
+                )}
             </Grid.Column>
         </Grid>
     );

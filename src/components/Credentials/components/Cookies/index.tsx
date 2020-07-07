@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Icon, Segment } from 'semantic-ui-react';
+import { Button, Icon, Segment, Header } from 'semantic-ui-react';
 import { BotContext } from '../../../../services/BotContext';
 import { Cookies as ICookies } from '../../../../types/Bot';
 import {
@@ -22,7 +22,8 @@ const Cookies = () => {
 
     return (
         <Segment>
-            Cookies: {exist ? 'Stored cookies found' : 'No stored cookies'}
+            <Header>Cookies</Header>
+            {exist ? 'Stored cookies found' : 'No stored cookies'}
             <br />
             <br />
             <Button

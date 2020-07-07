@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { authFetchJSON } from '../../services/Api/services/AuthFetch';
-import { Loader, Message, Segment } from 'semantic-ui-react';
+import { Loader, Message, Segment, Header } from 'semantic-ui-react';
 import EditableInput from '../EditableInput';
 import { BotAction, Creds } from '../../types/types';
 import Cookies from './components/Cookies';
@@ -75,6 +75,8 @@ const Credentials = () => {
             <BotName />
             <Signature />
             <Segment>
+                <Header>SA Credentials</Header>
+                This is the SA forums username and password that the bot uses.
                 <EditableInput
                     configKeys={configKeys}
                     dispatch={({ value }) => setUsername(value)}

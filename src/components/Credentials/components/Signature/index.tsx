@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { BotContext } from '../../../../services/BotContext';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Header } from 'semantic-ui-react';
 import EditableInput from '../../../EditableInput';
 import { settingsConfigKeys } from '../..';
 import { BotActionTypes, BotAction } from '../../../../types/Bot';
@@ -14,6 +14,11 @@ const Signature = () => {
 
     return (
         <Segment>
+            <Header>Signature</Header>
+            The bot signature may be added to the end of every post. <br />
+            Turning on 'Link Instructions' will add a link to the bot
+            instructions hosted on GitHub pages, if you have that feature turned
+            on. <br />
             <EditableInput
                 checkbox={true}
                 configKeys={settingsConfigKeys}
@@ -34,6 +39,7 @@ const Signature = () => {
                 value={sigLinkInstructions}
                 renameValueTo={'sigLinkInstructions'}
             />
+            You can add custom text to each post by the bot.
             <EditableInput
                 checkbox={true}
                 configKeys={settingsConfigKeys}
