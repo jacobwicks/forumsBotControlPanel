@@ -6,6 +6,7 @@ import { BotAction, Creds } from '../../types/types';
 import Cookies from './components/Cookies';
 import LoginButton from './components/LoginButton';
 import BotName from './components/BotName';
+import Signature from './components/Signature';
 
 interface CredsResponse {
     creds: Creds;
@@ -72,6 +73,7 @@ const Credentials = () => {
     ) : (
         <>
             <BotName />
+            <Signature />
             <Segment>
                 <EditableInput
                     configKeys={configKeys}

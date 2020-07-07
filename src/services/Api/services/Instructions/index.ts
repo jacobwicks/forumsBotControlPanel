@@ -9,7 +9,6 @@ import {
     FrontEndThread,
 } from '../../../../types/types';
 import { reviver } from '../../../JSONParseRegExReviver';
-import authFetch from '../AuthFetch';
 
 interface InstructionsResponse {
     actions: string;

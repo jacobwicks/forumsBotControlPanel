@@ -140,6 +140,33 @@ export const reducer = (state: BotState, action: BotAction) => {
                 };
             } else return state;
         }
+        case 'setSigLinkInstructions': {
+            if (state.settings) {
+                const settings = { ...state.settings };
+                const { sigLinkInstructions } = action;
+                settings.sigLinkInstructions = sigLinkInstructions;
+
+                return { ...state, settings };
+            } else return state;
+        }
+        case 'setSigShowText': {
+            if (state.settings) {
+                const settings = { ...state.settings };
+                const { sigShowText } = action;
+                settings.sigShowText = sigShowText;
+
+                return { ...state, settings };
+            } else return state;
+        }
+        case 'setSigText': {
+            if (state.settings) {
+                const settings = { ...state.settings };
+                const { sigText } = action;
+                settings.sigText = sigText;
+
+                return { ...state, settings };
+            } else return state;
+        }
         //sets the timer display
         case 'setTimer': {
             const { timer } = action;

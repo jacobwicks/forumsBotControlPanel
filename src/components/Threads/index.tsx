@@ -51,7 +51,10 @@ const Threads = () => {
                         Threads{' '}
                         <Button
                             disabled={fetching}
-                            onClick={() => loadThreads(dispatch)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                loadThreads(dispatch);
+                            }}
                             floated="right"
                             icon="refresh"
                         />

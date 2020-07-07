@@ -11,6 +11,9 @@ export enum BotActionTypes {
     setBotName = 'setBotName',
     setCookies = 'setCookies',
     setInterval = 'setInterval',
+    setSigLinkInstructions = 'setSigLinkInstructions',
+    setSigShowText = 'setSigShowText',
+    setSigText = 'setSigText',
     setRunning = 'setRunning',
     setTimer = 'setTimer',
     setValueAttempt = 'setValueAttempt',
@@ -57,6 +60,18 @@ export type BotAction =
     //sets if the bot is currently running or not
     | { type: BotActionTypes.setRunning; running: boolean }
 
+    //link to instructions in the bot sig
+    | {
+          type: BotActionTypes.setSigLinkInstructions;
+          sigLinkInstructions: boolean;
+      }
+
+    //show custom text in the bot sig
+    | { type: BotActionTypes.setSigShowText; sigShowText: boolean }
+
+    //the text to show in the bot sig
+    | { type: BotActionTypes.setSigText; sigText: string }
+
     //sets the timer
     | { type: BotActionTypes.setTimer; timer: Timer }
 
@@ -98,6 +113,11 @@ export interface FrontEndBotSettings {
 
     //if the bot is currently running or not
     running: boolean;
+
+    //every time the bot posts
+    sigLinkInstructions: boolean;
+    sigShowText: boolean;
+    sigText: string;
 }
 
 export interface Timer {
