@@ -81,7 +81,8 @@ const getChildren = (object: KeyStringInterface, newest?: boolean) =>
 
             case LogEventTypes.threads: {
                 const threads: FrontEndThread[] = object[key];
-                const displayThreads = threads.map((thread) => {
+                const displayThreads = threads?.map((thread) => {
+                    if (!thread) return;
                     const { name, link, title } = thread;
 
                     return (
