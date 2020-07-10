@@ -21,7 +21,7 @@ const loadImageQueue = async (dispatch: React.Dispatch<AlbumsAction>) => {
 
     const imageQueue = await getImageQueue();
 
-    console.log('image queue', imageQueue);
+    //console.log('image queue', imageQueue);
 
     imageQueue &&
         dispatch({

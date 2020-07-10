@@ -13,6 +13,7 @@ export interface ActionInstruction {
 export interface AlbumInstruction {
     album: string;
     description?: string;
+    hash?: string;
 }
 
 export enum InstructionsActionTypes {

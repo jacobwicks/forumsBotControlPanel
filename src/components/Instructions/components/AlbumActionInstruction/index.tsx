@@ -10,11 +10,13 @@ const AlbumTriggersInstruction = ({
     album,
     description,
     example,
+    hash,
     triggers,
 }: {
     album: string;
     description?: string;
     example?: string;
+    hash?: string;
     triggers: Trigger[];
 }) => {
     const { botName } = useContext(InstructionsContext);
@@ -30,10 +32,22 @@ const AlbumTriggersInstruction = ({
             </Segment>
         ));
 
+    const text = `${album} ${description ? `- ${description}` : ''}`;
+
     return (
         <>
             <Header as="h4">
-                {album} {description ? `- ${description}` : ''}
+                {hash ? (
+                    <a
+                        href={`https://imgur.com/a/${hash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {text}
+                    </a>
+                ) : (
+                    text
+                )}
             </Header>
             {hasRegex && (
                 <RegexTriggerDisplay
@@ -58,10 +72,11 @@ const AlbumActionInstruction = ({
     const { example, instructions, key, name, triggers } = actionInstruction;
 
     const addChildren = !!albums.length
-        ? albums.map(({ album, description }, key) => (
+        ? albums.map(({ album, description, hash }, key) => (
               <AlbumTriggersInstruction
                   key={key}
                   album={album}
+                  hash={hash}
                   description={description}
                   example={example}
                   triggers={triggers}

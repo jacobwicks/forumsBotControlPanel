@@ -20,7 +20,7 @@ export const Instruction = ({
     const maxWidth = useResize(divRef);
 
     const markdownChild = (
-        <div onClick={(e) => !forceOpen && setOpen(false)}>
+        <div onClick={(e) => !forceOpen && setOpen(false)} key="mdchild">
             <ReactMarkdown
                 key="markdown"
                 escapeHtml={false}
@@ -34,6 +34,7 @@ export const Instruction = ({
 
     const child = (
         <div
+            key="child"
             onClick={(e) => {
                 e.preventDefault();
                 setOpen(true);

@@ -14,8 +14,11 @@ const ActionsInstructions = () => {
     return (
         <Segment>
             <Header as="h2">Actions - click for description</Header>
-            {albumActions.map((actionInstruction) => (
-                <AlbumActionInstruction actionInstruction={actionInstruction} />
+            {albumActions.map((actionInstruction, index) => (
+                <AlbumActionInstruction
+                    actionInstruction={actionInstruction}
+                    key={index}
+                />
             ))}
             {notAlbumActions?.map(
                 ({ example, instructions, key, name, triggers }) => (
